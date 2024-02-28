@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Ignore build artifacts
 build/
 
@@ -10,7 +9,6 @@ temp/
 
 # Ignore IDE-specific files
 .idea/
-=======
 # Prerequisites
 *.d
 
@@ -43,4 +41,3 @@ temp/
 *.exe
 *.out
 *.app
->>>>>>> fbf1140ff96027e0284ddafab9360dc781d3c42b
