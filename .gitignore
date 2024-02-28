@@ -1,0 +1,11 @@
+# Ignore build artifacts
+build/
+
+# Ignore logs
+*.log
+
+# Ignore temporary files
+temp/
+
+# Ignore IDE-specific files
+.idea/
