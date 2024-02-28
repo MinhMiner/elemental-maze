@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Ignore build artifacts
 build/
 
@@ -9,3 +10,37 @@ temp/
 
 # Ignore IDE-specific files
 .idea/
+=======
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+>>>>>>> fbf1140ff96027e0284ddafab9360dc781d3c42b
