@@ -73,27 +73,27 @@ void RenderWindow::render(int x, int y, SDL_Texture* p_tex)
     SDL_RenderCopy(renderer, p_tex, &src, &dest);
 }
 
-void RenderWindow::render(float p_x, float p_y, const char* p_text, TTF_Font* p_font, SDL_Color p_textColor)
-{
-    SDL_Surface* surfaceMessage = TTF_RenderText_Blended(p_font, p_text, p_textColor);
-    SDL_Texture* message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
+// void RenderWindow::render(float p_x, float p_y, const char* p_text, TTF_Font* p_font, SDL_Color p_textColor)
+// {
+//     SDL_Surface* surfaceMessage = TTF_RenderText_Blended(p_font, p_text, p_textColor);
+//     SDL_Texture* message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
 
-    SDL_Rect src;
-    src.x = 0;
-    src.y = 0;
-    src.w = surfaceMessage->w;
-    src.h = surfaceMessage->h; 
+//     SDL_Rect src;
+//     src.x = 0;
+//     src.y = 0;
+//     src.w = surfaceMessage->w;
+//     src.h = surfaceMessage->h; 
 
-    SDL_Rect dest;
-    dest.x = p_x;
-    dest.y = p_y;
-    dest.w = src.w;
-    dest.h = src.h;
+//     SDL_Rect dest;
+//     dest.x = p_x;
+//     dest.y = p_y;
+//     dest.w = src.w;
+//     dest.h = src.h;
 
-    SDL_RenderCopy(renderer, message, &src, &dest);
-    SDL_FreeSurface(surfaceMessage);
-	SDL_DestroyTexture(message);
-}
+//     SDL_RenderCopy(renderer, message, &src, &dest);
+//     SDL_FreeSurface(surfaceMessage);
+// 	SDL_DestroyTexture(message);
+// }
 
 void RenderWindow::display()
 {

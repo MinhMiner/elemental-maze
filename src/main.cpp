@@ -1,7 +1,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include <SDL2/SDL_ttf.h>
-#include <SDL2/SDL_mixer.h>
+// #include <SDL2/SDL_ttf.h>
+// #include <SDL2/SDL_mixer.h>
 
 #include "RenderWindow.h"
 #include "Entity.h"
@@ -13,9 +13,9 @@ bool init()
 		std::cout << "SDL_Init has failed. Error: " << SDL_GetError() << std::endl;
 	if (!(IMG_Init(IMG_INIT_PNG)))
 		std::cout << "IMG_init has failed. Error: " << SDL_GetError() << std::endl;
-	if (!(TTF_Init()))
-		std::cout << "TTF_init has failed. Error: " << SDL_GetError() << std::endl;
-	Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
+	// if (!(TTF_Init()))
+	// 	std::cout << "TTF_init has failed. Error: " << SDL_GetError() << std::endl;
+	// Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
 	return true;
 }
 
@@ -28,7 +28,7 @@ SDL_Texture *player_Texture = window.loadTexture("res/gfx/player.png");
 SDL_Texture *brick_wall_Texture = window.loadTexture("res/gfx/brick_wall.png");
 SDL_Texture *goal_Texture = window.loadTexture("res/gfx/goal.png");
 
-TTF_Font* font32 = TTF_OpenFont("res/font/font.ttf", 32);
+// TTF_Font* font32 = TTF_OpenFont("res/font/font.ttf", 32);
 
 SDL_Color white = {255, 255, 255};
 SDL_Color black = {0, 0, 0};
@@ -65,7 +65,7 @@ int main(int argc, char* args[]) {
 	window.cleanUp();
 
 	SDL_Quit();
-	TTF_Quit();
+	// TTF_Quit();
 	return 0;
 }
 
@@ -95,7 +95,7 @@ void titleScreen() {
 
     window.clear();
     window.render(0, 0, background_Texture);
-    window.render(150, 150, "Elemental Maze", font32, white);
+    // window.render(150, 150, "Elemental Maze", font32, white);
 
     window.display();
 }
