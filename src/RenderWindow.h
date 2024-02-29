@@ -15,8 +15,7 @@ public:
 	void clear();
 	void render(Entity& p_entity);
 	void render(int x, int y, SDL_Texture* p_tex);
-	void render(float p_x, float p_y, const char* p_text, TTF_Font* font, SDL_Color textColor);
-	void renderCenter(float p_x, float p_y, const char* p_text, TTF_Font* font, SDL_Color textColor);
+	void render(float p_x, float p_y, const char* p_text, TTF_Font* p_font, SDL_Color p_textColor);
 	void display();
 private:
 	SDL_Window* window;
