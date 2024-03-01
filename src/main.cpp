@@ -9,11 +9,11 @@
 
 bool init()
 {
-	if (SDL_Init(SDL_INIT_VIDEO) > 0)
+	if (SDL_Init(SDL_INIT_VIDEO) != 0)
 		std::cout << "SDL_Init has failed. Error: " << SDL_GetError() << std::endl;
-	if (!(IMG_Init(IMG_INIT_PNG)))
+	if (IMG_Init(IMG_INIT_PNG) == 0)
 		std::cout << "IMG_init has failed. Error: " << SDL_GetError() << std::endl;
-	if (!(TTF_Init()))
+	if (TTF_Init() != 0)
 		std::cout << "TTF_init has failed. Error: " << SDL_GetError() << std::endl;
 	Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
 	return true;
@@ -29,6 +29,7 @@ SDL_Texture *brick_wall_Texture = window.loadTexture("res/gfx/brick_wall.png");
 SDL_Texture *goal_Texture = window.loadTexture("res/gfx/goal.png");
 
 TTF_Font* font32 = TTF_OpenFont("res/font/font.ttf", 32);
+TTF_Font* font64 = TTF_OpenFont("res/font/font.ttf", 64);
 
 SDL_Color white = {255, 255, 255};
 SDL_Color black = {0, 0, 0};
@@ -95,7 +96,9 @@ void titleScreen() {
 
     window.clear();
     window.render(0, 0, background_Texture);
-    window.render(150, 150, "Elemental Maze", font32, white);
+    
+    window.render(155, 155, "Elemental Maze", font64, black);
+	window.render(150, 150, "Elemental Maze", font64, white);
 
     window.display();
 }
