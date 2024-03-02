@@ -76,6 +76,7 @@ int main(int argc, char* args[]) {
 
 	SDL_Quit();
 	TTF_Quit();
+	Mix_CloseAudio();
 	return 0;
 }
 
