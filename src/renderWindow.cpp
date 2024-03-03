@@ -1,4 +1,5 @@
 #include "RenderWindow.h"
+#include <vector>
 
 RenderWindow::RenderWindow()
 {}
@@ -71,6 +72,22 @@ void RenderWindow::render(int x, int y, SDL_Texture* p_tex)
     dest.h = src.h;
 
     SDL_RenderCopy(renderer, p_tex, &src, &dest);
+}
+
+void RenderWindow::renderArea(Area area)
+{
+    if (area.isValid())	// Check if that area exists
+    {
+        for (Wall &w : area.getWalls())	// Render all walls in that area
+        {
+            render(w);
+        }
+        for (Entity &e : area.getEntities())
+        {
+            render(e);
+        }
+        
+    }
 }
 
 void RenderWindow::render(float p_x, float p_y, const char* p_text, TTF_Font* p_font, SDL_Color p_textColor)

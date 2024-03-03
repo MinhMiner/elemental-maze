@@ -41,6 +41,9 @@ class Area {
         std::vector<Wall> getWalls() {
             return Walls;
         }
+        std::vector<Entity> getEntities() {
+            return Entities;
+        }
 
     private:
         std::vector<Wall> Walls;

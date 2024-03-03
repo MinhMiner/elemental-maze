@@ -7,6 +7,7 @@
 #include "Entity.h"
 #include "Math.h"
 #include "Map.h"
+#include "Player.h"
 
 bool init()
 {
@@ -138,23 +139,8 @@ void graphics() {
 	{
 		window.clear();
 		window.render(0, 0, background_Texture);
-		for (size_t i = 0; i < levels[level].size(); ++i)	// Check each row of areas of each level
-		{
-			/* std::vector<std::vector<std::vector<Area>>> &levels; */
-			for (size_t j = 0; j < levels[level][i].size(); j++)	// Check each area of each row
-			{
-				if (levels[level][i][j].isValid())	// Check if that area exists
-				{
-					for (Wall &w : levels[level][i][j].getWalls())	// Render all walls in that area
-					{
-						window.render(w);
-					}
-					
-				}
-				
-			}
-			
-		}
+		
+		window.renderArea(levels[level][0][0]);
 		
 		window.display();
 	}
@@ -167,20 +153,78 @@ void loadMaps(std::vector<std::vector<std::vector<Area>>> &levels) {
     std::vector<std::vector<Area>> level1;
     level1.push_back({});   // First row of Areas
     level1[0].push_back(Area({      // Area [0][0]
-        Wall({64, 64}, brick_wall_Texture), 
-        Wall({96, 64}, brick_wall_Texture), 
-        Wall({128, 64}, brick_wall_Texture), 
-        Wall({160, 64}, brick_wall_Texture), 
-        Wall({192, 64}, brick_wall_Texture), 
-        Wall({224, 64}, brick_wall_Texture), 
-        Wall({256, 64}, brick_wall_Texture), 
-        Wall({288, 64}, brick_wall_Texture), 
-        Wall({320, 64}, brick_wall_Texture), 
-        Wall({352, 64}, brick_wall_Texture), 
-        Wall({384, 64}, brick_wall_Texture), 
-        Wall({416, 64}, brick_wall_Texture)
+        Wall({32 * 2, 32 * 2}, brick_wall_Texture), 
+        Wall({32 * 3, 32 * 2}, brick_wall_Texture), 
+        Wall({32 * 4, 32 * 2}, brick_wall_Texture), 
+        Wall({32 * 5, 32 * 2}, brick_wall_Texture), 
+        Wall({32 * 6, 32 * 2}, brick_wall_Texture), 
+        Wall({32 * 7, 32 * 2}, brick_wall_Texture), 
+        Wall({32 * 8, 32 * 2}, brick_wall_Texture), 
+        Wall({32 * 9, 32 * 2}, brick_wall_Texture), 
+        Wall({32 * 10, 32 * 2}, brick_wall_Texture), 
+        Wall({32 * 11, 32 * 2}, brick_wall_Texture), 
+        Wall({32 * 12, 32 * 2}, brick_wall_Texture), 
+        Wall({32 * 13, 32 * 2}, brick_wall_Texture),
+        Wall({32 * 14, 32 * 2}, brick_wall_Texture),
+        Wall({32 * 15, 32 * 2}, brick_wall_Texture),
+        Wall({32 * 16, 32 * 2}, brick_wall_Texture),
+        Wall({32 * 17, 32 * 2}, brick_wall_Texture),
+        Wall({32 * 18, 32 * 2}, brick_wall_Texture),
+        Wall({32 * 19, 32 * 2}, brick_wall_Texture),
+        Wall({32 * 20, 32 * 2}, brick_wall_Texture),
+        Wall({32 * 21, 32 * 2}, brick_wall_Texture),
+        Wall({32 * 22, 32 * 2}, brick_wall_Texture),
+        Wall({32 * 22, 32 * 3}, brick_wall_Texture),
+        Wall({32 * 22, 32 * 4}, brick_wall_Texture),
+        Wall({32 * 22, 32 * 5}, brick_wall_Texture),
+        Wall({32 * 22, 32 * 6}, brick_wall_Texture),
+        Wall({32 * 22, 32 * 7}, brick_wall_Texture),
+        Wall({32 * 22, 32 * 8}, brick_wall_Texture),
+        Wall({32 * 22, 32 * 9}, brick_wall_Texture),
+        Wall({32 * 22, 32 * 10}, brick_wall_Texture),
+        Wall({32 * 22, 32 * 11}, brick_wall_Texture),
+        Wall({32 * 22, 32 * 12}, brick_wall_Texture),
+        Wall({32 * 22, 32 * 13}, brick_wall_Texture),
+        Wall({32 * 22, 32 * 14}, brick_wall_Texture),
+        Wall({32 * 22, 32 * 15}, brick_wall_Texture),
+        Wall({32 * 22, 32 * 16}, brick_wall_Texture),
+        Wall({32 * 22, 32 * 17}, brick_wall_Texture),
+		Wall({32 * 2, 32 * 3}, brick_wall_Texture),
+        Wall({32 * 2, 32 * 4}, brick_wall_Texture),
+        Wall({32 * 2, 32 * 5}, brick_wall_Texture),
+        Wall({32 * 2, 32 * 6}, brick_wall_Texture),
+        Wall({32 * 2, 32 * 7}, brick_wall_Texture),
+        Wall({32 * 2, 32 * 8}, brick_wall_Texture),
+        Wall({32 * 2, 32 * 9}, brick_wall_Texture),
+        Wall({32 * 2, 32 * 10}, brick_wall_Texture),
+        Wall({32 * 2, 32 * 11}, brick_wall_Texture),
+        Wall({32 * 2, 32 * 12}, brick_wall_Texture),
+        Wall({32 * 2, 32 * 13}, brick_wall_Texture),
+        Wall({32 * 2, 32 * 14}, brick_wall_Texture),
+        Wall({32 * 2, 32 * 15}, brick_wall_Texture),
+        Wall({32 * 2, 32 * 16}, brick_wall_Texture),
+        Wall({32 * 2, 32 * 17}, brick_wall_Texture),	
+        Wall({32 * 3, 32 * 17}, brick_wall_Texture), 
+        Wall({32 * 4, 32 * 17}, brick_wall_Texture), 
+        Wall({32 * 5, 32 * 17}, brick_wall_Texture), 
+        Wall({32 * 6, 32 * 17}, brick_wall_Texture), 
+        Wall({32 * 7, 32 * 17}, brick_wall_Texture), 
+        Wall({32 * 8, 32 * 17}, brick_wall_Texture), 
+        Wall({32 * 9, 32 * 17}, brick_wall_Texture), 
+        Wall({32 * 10, 32 * 17}, brick_wall_Texture), 
+        Wall({32 * 11, 32 * 17}, brick_wall_Texture), 
+        Wall({32 * 12, 32 * 17}, brick_wall_Texture), 
+        Wall({32 * 13, 32 * 17}, brick_wall_Texture),
+        Wall({32 * 14, 32 * 17}, brick_wall_Texture),
+        Wall({32 * 15, 32 * 17}, brick_wall_Texture),
+        Wall({32 * 16, 32 * 17}, brick_wall_Texture),
+        Wall({32 * 17, 32 * 17}, brick_wall_Texture),
+        Wall({32 * 18, 32 * 17}, brick_wall_Texture),
+        Wall({32 * 19, 32 * 17}, brick_wall_Texture),
+        Wall({32 * 20, 32 * 17}, brick_wall_Texture),
+        Wall({32 * 21, 32 * 17}, brick_wall_Texture),
     }, {
-        // vector of Entities
+        Player({32 * 4, 32 * 4}, player_Texture)
     }, true));
 
     levels.push_back(level1);
