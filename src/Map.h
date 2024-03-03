@@ -14,8 +14,8 @@ class Wall : public Entity {
         }
 
     private:
-        Vector2f pos;
-        SDL_Texture *tex;
+        // Vector2f pos;
+        // SDL_Texture *tex;
         SDL_Rect currentFrame;
 };
 

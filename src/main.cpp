@@ -56,6 +56,11 @@ Uint64 currentTick = SDL_GetPerformanceCounter();
 Uint64 lastTick = 0;
 double deltaTime = 0;
 
+bool keyWPressed = false;
+bool keyAPressed = false;
+bool keySPressed = false;
+bool keyDPressed = false;
+
 void loadMaps(std::vector<std::vector<std::vector<Area>>> &levels);
 void loadLevels(int &level);
 
@@ -65,6 +70,7 @@ void update();
 void graphics();
 
 std::vector<std::vector<std::vector<Area>>> levels;
+Player player = Player({32 * 4, 32 * 4}, player_Texture);
 
 int main(int argc, char* args[]) {
     std::cout << "Program started..." << std::endl;
@@ -74,7 +80,9 @@ int main(int argc, char* args[]) {
         return 1;
     }
 
+    
     loadMaps(levels);
+    
 
 	while (gameRunning)
 	{
@@ -134,8 +142,30 @@ void update() {
             case SDL_QUIT:
                 gameRunning = false;
                 break;
+            case SDL_KEYDOWN:
+                if (event.key.keysym.sym == SDLK_w)
+                    keyWPressed = true;
+                else if (event.key.keysym.sym == SDLK_a)
+                    keyAPressed = true;
+                else if (event.key.keysym.sym == SDLK_s)
+                    keySPressed = true;
+                else if (event.key.keysym.sym == SDLK_d)
+                    keyDPressed = true;
+                break;
+            case SDL_KEYUP:
+                if (event.key.keysym.sym == SDLK_w)
+                    keyWPressed = false;
+                else if (event.key.keysym.sym == SDLK_a)
+                    keyAPressed = false;
+                else if (event.key.keysym.sym == SDLK_s)
+                    keySPressed = false;
+                else if (event.key.keysym.sym == SDLK_d)
+                    keyDPressed = false;
+                break;
     	}
     }
+
+    player.update(deltaTime, keyWPressed, keyDPressed, keySPressed, keyAPressed);
 }
 
 void graphics() {
@@ -145,6 +175,7 @@ void graphics() {
 		window.render(0, 0, background_Texture);
 		
 		window.renderArea(levels[level][0][0]);
+        window.render(player);
 		
 		window.display();
 	}
@@ -228,8 +259,9 @@ void loadMaps(std::vector<std::vector<std::vector<Area>>> &levels) {
         Wall({32 * 20, 32 * 17}, brick_wall_Texture),
         Wall({32 * 21, 32 * 17}, brick_wall_Texture),
     }, {
-        Player({32 * 4, 32 * 4}, player_Texture)
+        
     }, true));
+    
 
     levels.push_back(level1);
 }

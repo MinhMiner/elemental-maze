@@ -22,13 +22,27 @@ Vector2f Entity::getPos()
     return pos;
 }
 
+void Entity::setVelocity(float x, float y)
+{
+    velocity.x = x;
+    velocity.y = y;
+}
+
+Vector2f Entity::getVelocity()
+{
+    return velocity;
+}
+
 SDL_Texture* Entity::getTex()
 {
     return tex;
 }
 
 void Entity::update(double deltaTime)
-{}
+{
+    pos.x += velocity.x * deltaTime;
+    pos.y += velocity.y * deltaTime;
+}
 
 SDL_Rect Entity::getCurrentFrame()
 {

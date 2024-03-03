@@ -13,12 +13,16 @@ public:
 	void setPos(float x, float y);
 	Vector2f getPos();
 
+	void setVelocity(float x, float y);
+	Vector2f getVelocity();
+
 	SDL_Texture* getTex();
 	void update(double deltaTime);
 	SDL_Rect getCurrentFrame();
 
 private:
 	Vector2f pos;
+	Vector2f velocity;
 	SDL_Rect currentFrame;
 	SDL_Texture* tex;
 };
