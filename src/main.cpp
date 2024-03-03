@@ -46,7 +46,7 @@ SDL_Color white = {255, 255, 255};
 SDL_Color black = {0, 0, 0};
 
 int level = 0;
-int state = 1;
+int state = 1;	// state 0: title screen; state 1: levels; state 2: end game
 
 bool gameRunning = true;
 
@@ -123,6 +123,10 @@ void titleScreen() {
 }
 
 void update() {
+	lastTick = currentTick;
+	currentTick = SDL_GetPerformanceCounter();
+	deltaTime = (double) ((currentTick - lastTick)*1000 / (double) SDL_GetPerformanceFrequency());
+
 	while (SDL_PollEvent(&event))
     {
     	switch(event.type)
