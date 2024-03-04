@@ -165,7 +165,7 @@ void update() {
     	}
     }
 
-    player.update(deltaTime, keyWPressed, keyDPressed, keySPressed, keyAPressed);
+    player.update(deltaTime, keyWPressed, keyDPressed, keySPressed, keyAPressed, levels[level][0][0]);
 }
 
 void graphics() {
