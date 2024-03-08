@@ -32,9 +32,9 @@ bool init()
 
 bool SDLinit = init();
 
+const int FPS = 120;
 
-
-RenderWindow window("Elemental Maze", WINDOW_WIDTH, WINDOW_HEIGHT);
+RenderWindow window("Bark 'n Bombs", WINDOW_WIDTH, WINDOW_HEIGHT);
 
 SDL_Texture *background_Texture = window.loadTexture("res/gfx/background.png");
 SDL_Texture *player_Texture = window.loadTexture("res/gfx/player.png");
@@ -88,6 +88,11 @@ int main(int argc, char* args[]) {
 	while (gameRunning)
 	{
 		game();
+        double targetFrameTime = 1000.0 / FPS;
+        if (deltaTime < targetFrameTime) {
+            Uint32 delayMilliseconds = (Uint32)(targetFrameTime - deltaTime);
+            SDL_Delay(delayMilliseconds);
+        }
 	}
 
 	window.cleanUp();
