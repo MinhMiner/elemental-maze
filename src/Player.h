@@ -10,7 +10,11 @@ class Player : public Entity {
         void update(double deltaTime, bool keyWPressed, bool keyDPressed, bool keySPressed, bool keyAPressed, std::vector<Wall> &walls);
         bool checkCollisions(float x, float y, std::vector<Wall> &walls);
 
+        bool isDead();
+        void setDead();
+
     private:
+        bool died;
         // Vector2f pos;
         // Vector2f velocity;
         // SDL_Texture *tex;

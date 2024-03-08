@@ -18,4 +18,3 @@ class Wall : public Entity {
         // SDL_Texture *tex;
         SDL_Rect currentFrame;
 };
-

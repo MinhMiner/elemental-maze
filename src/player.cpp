@@ -58,3 +58,13 @@ bool Player::checkCollisions(float x, float y, std::vector<Wall> &walls)
     }
     return collision;
 }
+
+bool Player::isDead()
+{
+    return died;
+}
+
+void Player::setDead()
+{
+    died = true;
+}
