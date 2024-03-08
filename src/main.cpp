@@ -2,6 +2,8 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_mixer.h>
+#include <random>
+#include <chrono>
 
 #include "RenderWindow.h"
 #include "Entity.h"
@@ -35,12 +37,14 @@ bool SDLinit = init();
 const int FPS = 120;
 double totalTime = 0.0;
 int score = 0;
+bool canSpawnBomb = false;
 
 RenderWindow window("Bark 'n Bombs", WINDOW_WIDTH, WINDOW_HEIGHT);
 
 SDL_Texture *background_Texture = window.loadTexture("res/gfx/background.png");
 SDL_Texture *player_Texture = window.loadTexture("res/gfx/player.png");
 SDL_Texture *brick_wall_Texture = window.loadTexture("res/gfx/brick_wall.png");
+SDL_Texture *bomb_Texture = window.loadTexture("res/gfx/bomb.png");
 
 TTF_Font* font32 = TTF_OpenFont("res/font/font.ttf", 32);
 TTF_Font* font64 = TTF_OpenFont("res/font/font.ttf", 64);
@@ -73,6 +77,7 @@ void update();
 void graphics();
 
 std::vector<Wall> walls;
+std::vector<Bomb*> bombs;
 Player player = Player({300, 300}, player_Texture);
 
 int main(int argc, char* args[]) {
@@ -148,6 +153,25 @@ void update() {
     totalTime += deltaTime;
     score = ((int) (totalTime / 1000)) * 10;
 
+    if (score % 20 == 0 && canSpawnBomb) {
+        std::chrono::system_clock::time_point tp = std::chrono::system_clock::now();
+        std::mt19937 gen(tp.time_since_epoch().count());
+
+        std::uniform_real_distribution<float> distributionX(0, WINDOW_WIDTH - 64);
+        float randomXVal = distributionX(gen);
+
+        std::uniform_real_distribution<float> distributionY(164, WINDOW_HEIGHT - 64);
+        float randomYVal = distributionY(gen);
+
+        Bomb *bomb = new Bomb({randomXVal, randomYVal}, bomb_Texture);
+        bombs.push_back(bomb);
+        
+        canSpawnBomb = false;
+    }
+    if (score % 20 != 0)
+        canSpawnBomb = true;
+    
+
 	while (SDL_PollEvent(&event))
     {
     	switch(event.type)
@@ -178,6 +202,16 @@ void update() {
     	}
     }
 
+    for (auto it = bombs.begin(); it != bombs.end(); ) {
+        (*it)->setAge(deltaTime);
+
+        if ((*it)->maxAgeReached()) {
+            delete *it;
+            it = bombs.erase(it);  // Iterator is updated to the next valid position
+        } else {
+            ++it;
+    }
+}
     player.update(deltaTime, keyWPressed, keyDPressed, keySPressed, keyAPressed, walls);
 }
 
@@ -195,6 +229,9 @@ void graphics() {
 		
         for (Wall &w: walls) {
             window.render(w);
+        }
+        for (Bomb* b: bombs) {
+            window.render(*b);
         }
 
         window.render(player);

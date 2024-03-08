@@ -48,3 +48,22 @@ SDL_Rect Entity::getCurrentFrame()
 {
     return currentFrame;
 }
+
+double Bomb::getAge()
+{
+    return age;
+}
+
+void Bomb::setAge(double &deltaTime)
+{
+    age += deltaTime;
+    std::cout << "age = " << age << '\n';
+    if (age >= 1000) {
+        std::cout << "destroying object" << '\n';
+    }
+}
+
+bool Bomb::maxAgeReached()
+{
+    return (age >= maxAge);
+}

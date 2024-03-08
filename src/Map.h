@@ -19,35 +19,3 @@ class Wall : public Entity {
         SDL_Rect currentFrame;
 };
 
-class Area {
-    public:
-        Area(std::vector<Wall> p_Walls, std::vector<Entity> p_Entities, bool p_valid)
-        :Walls(p_Walls), Entities(p_Entities), valid(p_valid)
-        {}
-        bool isValid() {
-            return valid;
-        }
-        bool checkCollisions(Entity &p_Entity) {
-            bool collision = false;
-            for (auto &it: Walls)
-            {
-                if (it.checkCollisions(p_Entity)) {
-                    collision = true;
-                    break;
-                }
-            }
-            return collision;
-        }
-        std::vector<Wall> getWalls() {
-            return Walls;
-        }
-        std::vector<Entity> getEntities() {
-            return Entities;
-        }
-
-    private:
-        std::vector<Wall> Walls;
-        std::vector<Entity> Entities;
-        bool valid;
-};
-
