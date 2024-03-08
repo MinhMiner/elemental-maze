@@ -74,8 +74,8 @@ void Bomb::explode()
     const int frameInterval = 50;
     const int maxFrames = 11;
 
-    int frameIndex = static_cast<int>((age - maxAge) / frameInterval);
-    frameIndex = std::max(0, std::min(frameIndex, maxFrames));
+    int frameIndex = (int) ((age - maxAge) / frameInterval);
+    frameIndex = std::min(frameIndex, maxFrames);
 
     int frameX = frameIndex * 300;
     setCurrentFrame(frameX, 0, getCurrentFrame().w, getCurrentFrame().h);

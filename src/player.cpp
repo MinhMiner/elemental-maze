@@ -7,6 +7,9 @@ void Player::update(double deltaTime, bool keyWPressed, bool keyDPressed, bool k
 {
     double speed = 0.25;
 
+    if (getVelocity().x != 0 || getVelocity().y != 0)
+        lastTurn += deltaTime;
+
     setVelocity(0, 0);
 
     if (keyWPressed)
@@ -34,6 +37,15 @@ void Player::update(double deltaTime, bool keyWPressed, bool keyDPressed, bool k
         setPos(WINDOW_WIDTH - getCurrentFrame().w, getPos().y);
     if (getPos().y + getCurrentFrame().h > WINDOW_HEIGHT)
         setPos(getPos().x, WINDOW_HEIGHT - getCurrentFrame().h);
+
+    const int frameInterval = 100;
+    const int maxFrames = 6;
+
+    int frameIndex = (int) (((int) lastTurn % (frameInterval * maxFrames)) / frameInterval);
+    frameIndex = std::min(frameIndex, maxFrames);
+
+    int frameX = frameIndex * 64;
+    setCurrentFrame(frameX, 0, getCurrentFrame().w, getCurrentFrame().h);
 }
 
 bool Player::checkCollisions(float x, float y, std::vector<Wall> &walls)
@@ -41,7 +53,8 @@ bool Player::checkCollisions(float x, float y, std::vector<Wall> &walls)
     SDL_Rect dest;
     dest.x = x;
     dest.y = y;
-    SDL_QueryTexture(getTex(), NULL, NULL, &dest.w, &dest.h);
+    dest.w = 64;
+    dest.h = 40;
 
     bool collision = false;
     for (Wall &w: walls)
@@ -64,7 +77,8 @@ bool Player::checkCollisions(float x, float y, std::vector<Bomb*> &bombs)
     SDL_Rect dest;
     dest.x = x;
     dest.y = y;
-    SDL_QueryTexture(getTex(), NULL, NULL, &dest.w, &dest.h);
+    dest.w = 64;
+    dest.h = 40;
 
     bool collision = false;
     for (auto &b: bombs)
@@ -94,4 +108,14 @@ bool Player::isDead()
 void Player::setDead()
 {
     died = true;
+}
+
+double Player::getLastTurn()
+{
+    return lastTurn;
+}
+
+void Player::resetLastTurn()
+{
+    lastTurn = 0;
 }
