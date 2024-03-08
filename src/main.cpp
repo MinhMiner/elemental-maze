@@ -54,9 +54,10 @@ SDL_Color white = {255, 255, 255};
 SDL_Color black = {0, 0, 0};
 
 int level = 0;
-int state = 1;	// state 0: title screen; state 1: play; state 2: end game
+int state = 0;	// state 0: title screen; state 1: play; state 2: end game
 
 bool gameRunning = true;
+bool startPlaying = false;
 
 SDL_Event event;
 
@@ -119,8 +120,6 @@ void game() {
 	if (state == 0)
 	{
 		titleScreen();
-        totalTime = 0.0;
-        score = 0;
 	}
 	else if (state == 1)
 	{
@@ -141,14 +140,27 @@ void titleScreen() {
             case SDL_QUIT:
                 gameRunning = false;
                 break;
+            case SDL_MOUSEBUTTONDOWN:
+                if (event.button.button == SDL_BUTTON_LEFT) {
+                    // int mouseX = event.button.x;
+                    // int mouseY = event.button.y;
+
+                    state = 1;
+                }
+                break;
     	}
     }
 
     window.clear();
     window.render(0, 0, background_Texture);
 
-    window.render(155, 155, "Bark 'n Bombs", font64, black);
-	window.render(150, 150, "Bark 'n Bombs", font64, white);
+    window.render(305, 305, "Bark 'n Bombs", font128, black);
+	window.render(300, 300, "Bark 'n Bombs", font128, white);
+
+    window.render(455, 435, "Click to start", font64, white);
+	window.render(450, 430, "Click to start", font64, black);
+
+    
 
     window.display();
 }
@@ -159,7 +171,18 @@ void update() {
 	deltaTime = (double) ((currentTick - lastTick)*1000 / (double) SDL_GetPerformanceFrequency());
 
     totalTime += deltaTime;
+
+    if (!startPlaying) {    // Reset điểm và thời gian lúc mới bắt đầu trò chơi
+        totalTime = 0.0;
+        lastBombSpawned = 0.0;
+        score = 0;
+        startPlaying = true;
+    }
+
     score = ((int) (totalTime / 1000)) * 10;
+
+    std::cout << "totalTime = " << totalTime << '\n';
+    std::cout << "lastBombSpawned = " << lastBombSpawned << '\n';
 
     if ((totalTime - lastBombSpawned) >= 300) {
         std::chrono::system_clock::time_point tp = std::chrono::system_clock::now();
@@ -225,6 +248,7 @@ void update() {
     if (player.checkCollisions(player.getPos().x, player.getPos().y, bombs)) {
         player.setDead();
         state = 2;
+        startPlaying = false;
         std::cout << "You died" << '\n';
     }
         
@@ -277,6 +301,10 @@ void graphics() {
         window.render(405, 305, "Game Over!", font128, black);
 	    window.render(400, 300, "Game Over!", font128, white);
 
+        window.render(455, 435, "Click to retry!", font64, white);
+	    window.render(450, 430, "Click to retry!", font64, black);
+
+
         window.display();
     }
 }
@@ -288,6 +316,23 @@ void endScreen() {
     	{
             case SDL_QUIT:
                 gameRunning = false;
+                break;
+            case SDL_MOUSEBUTTONDOWN:
+                if (event.button.button == SDL_BUTTON_LEFT) {
+                    // int mouseX = event.button.x;
+                    // int mouseY = event.button.y;
+                    for (auto it = bombs.begin(); it != bombs.end(); ++it) {
+                        delete *it;
+                        it = bombs.erase(it);
+                    }
+
+                    keyWPressed = false;
+                    keyAPressed = false;
+                    keySPressed = false;
+                    keyDPressed = false;
+
+                    state = 1;
+                }
                 break;
     	}
     }

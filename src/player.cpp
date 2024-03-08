@@ -70,9 +70,9 @@ bool Player::checkCollisions(float x, float y, std::vector<Wall> &walls)
 {
     SDL_Rect dest;
     dest.x = x;
-    dest.y = y;
+    dest.y = y + 8;
     dest.w = 64;
-    dest.h = 40;
+    dest.h = 32;
 
     bool collision = false;
     for (Wall &w: walls)
