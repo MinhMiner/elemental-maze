@@ -37,7 +37,6 @@ RenderWindow window("Elemental Maze", 1280, 720);
 SDL_Texture *background_Texture = window.loadTexture("res/gfx/background.png");
 SDL_Texture *player_Texture = window.loadTexture("res/gfx/player.png");
 SDL_Texture *brick_wall_Texture = window.loadTexture("res/gfx/brick_wall.png");
-SDL_Texture *goal_Texture = window.loadTexture("res/gfx/goal.png");
 
 TTF_Font* font32 = TTF_OpenFont("res/font/font.ttf", 32);
 TTF_Font* font64 = TTF_OpenFont("res/font/font.ttf", 64);
