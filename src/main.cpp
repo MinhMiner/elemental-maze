@@ -161,12 +161,12 @@ void update() {
     totalTime += deltaTime;
     score = ((int) (totalTime / 1000)) * 10;
 
-    if ((totalTime - lastBombSpawned) >= 400) {
+    if ((totalTime - lastBombSpawned) >= 300) {
         std::chrono::system_clock::time_point tp = std::chrono::system_clock::now();
         std::mt19937 gen(tp.time_since_epoch().count());
 
-        std::uniform_real_distribution<float> distributionX(0, WINDOW_WIDTH - 300);
-        std::uniform_real_distribution<float> distributionY(164, WINDOW_HEIGHT - 300);
+        std::uniform_real_distribution<float> distributionX(0, WINDOW_WIDTH - 200);
+        std::uniform_real_distribution<float> distributionY(164, WINDOW_HEIGHT - 200);
 
         for (int i = 0; i < 1; i++)
         {
@@ -268,6 +268,11 @@ void graphics() {
         for (Wall &w: walls) {
             window.render(w);
         }
+        
+        for (Bomb* b: bombs) {
+            window.render(*b);
+        }
+        window.render(player, player.isMovingLeft());
 
         window.render(405, 305, "Game Over!", font128, black);
 	    window.render(400, 300, "Game Over!", font128, white);

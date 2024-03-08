@@ -104,11 +104,13 @@ bool Player::checkCollisions(float x, float y, std::vector<Bomb*> &bombs)
         if (b->getAge() < 950 || b->getAge() > 1000)
             continue;
 
+        int outerSafeZone = 20;
+
         SDL_Rect temp;
-        temp.x = b->getPos().x;
-        temp.y = b->getPos().y;
-        temp.w = b->getCurrentFrame().w;
-        temp.h = b->getCurrentFrame().h;
+        temp.x = b->getPos().x + outerSafeZone;
+        temp.y = b->getPos().y + outerSafeZone;
+        temp.w = b->getCurrentFrame().w - outerSafeZone * 2;
+        temp.h = b->getCurrentFrame().h - outerSafeZone * 2;
 
         if (SDL_HasIntersection(&temp, &dest)) {
             collision = true;
