@@ -33,6 +33,8 @@ bool init()
 bool SDLinit = init();
 
 const int FPS = 120;
+double totalTime = 0.0;
+int score = 0;
 
 RenderWindow window("Bark 'n Bombs", WINDOW_WIDTH, WINDOW_HEIGHT);
 
@@ -108,6 +110,8 @@ void game() {
 	if (state == 0)
 	{
 		titleScreen();
+        totalTime = 0.0;
+        score = 0;
 	}
 	else
 	{
@@ -130,8 +134,8 @@ void titleScreen() {
     window.clear();
     window.render(0, 0, background_Texture);
 
-    window.render(155, 155, "Elemental Maze", font64, black);
-	window.render(150, 150, "Elemental Maze", font64, white);
+    window.render(155, 155, "Bark 'n Bombs", font64, black);
+	window.render(150, 150, "Bark 'n Bombs", font64, white);
 
     window.display();
 }
@@ -140,6 +144,9 @@ void update() {
 	lastTick = currentTick;
 	currentTick = SDL_GetPerformanceCounter();
 	deltaTime = (double) ((currentTick - lastTick)*1000 / (double) SDL_GetPerformanceFrequency());
+
+    totalTime += deltaTime;
+    score = ((int) (totalTime / 1000)) * 10;
 
 	while (SDL_PollEvent(&event))
     {
@@ -179,7 +186,12 @@ void graphics() {
 	{
 		window.clear();
 		window.render(0, 0, background_Texture);
-		
+
+        std::string scoreString = "Score: " + std::to_string(score);
+        const char* scoreCStr = scoreString.c_str();
+
+        window.render(15, 15, scoreCStr, font64, black);
+	    window.render(10, 10, scoreCStr, font64, white);
 		
         for (Wall &w: walls) {
             window.render(w);
