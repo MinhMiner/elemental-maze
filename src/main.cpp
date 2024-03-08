@@ -83,7 +83,7 @@ std::vector<Bomb*> bombs;
 Player player = Player({300, 300}, player_Texture);
 
 int main(int argc, char* args[]) {
-    std::cout << "Program started..." << std::endl;
+    std::cout << "Game started..." << std::endl;
 
     if (!init()) {
         std::cerr << "Initialization failed." << std::endl;
@@ -109,6 +109,8 @@ int main(int argc, char* args[]) {
 	SDL_Quit();
 	TTF_Quit();
 	Mix_CloseAudio();
+
+    std::cout << "Closed game successfully\n";
 	return 0;
 }
 
