@@ -250,7 +250,10 @@ void graphics() {
             window.render(*b);
         }
 
-        window.render(player);
+        if (player.getVelocity().x < 0)
+            window.render(player);
+        else
+            window.render(player, false);
 		
 		window.display();
 	} 

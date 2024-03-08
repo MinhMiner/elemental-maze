@@ -57,6 +57,30 @@ void RenderWindow::render(Entity& p_entity)
     SDL_RenderCopy(renderer, p_entity.getTex(), &src, &dest);
 }
 
+void RenderWindow::render(Player& p_player, bool movingLeft)
+{
+    SDL_Rect src;
+    src.x = p_player.getCurrentFrame().x;
+    src.y = p_player.getCurrentFrame().y;
+    src.w = p_player.getCurrentFrame().w;
+    src.h = p_player.getCurrentFrame().h;
+
+    SDL_Rect dest;
+    dest.x = p_player.getPos().x;
+    dest.y = p_player.getPos().y;
+    dest.w = src.w;
+    dest.h = src.h;
+
+    SDL_RendererFlip flipType = SDL_FLIP_NONE;
+
+    if (!movingLeft)
+    {
+        flipType = SDL_FLIP_HORIZONTAL;
+    }
+
+    SDL_RenderCopyEx(renderer, p_player.getTex(), &src, &dest, 0, NULL, flipType);
+}
+
 void RenderWindow::render(int x, int y, SDL_Texture* p_tex)
 {
     SDL_Rect src;
