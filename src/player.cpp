@@ -7,8 +7,26 @@ void Player::update(double deltaTime, bool keyWPressed, bool keyDPressed, bool k
 {
     double speed = 0.25;
 
-    if (getVelocity().x != 0 || getVelocity().y != 0)
+    // if (getVelocity().x != 0 || getVelocity().y != 0)
+    //     lastTurn += deltaTime;
+
+    if (getVelocity().x > 0) {
+        if (movingLeft == true) {
+            movingLeft = false;
+            lastTurn = 0;
+        } else {
+            lastTurn += deltaTime;
+        }
+    } else if (getVelocity().x < 0) {
+        if (movingLeft == false) {
+            movingLeft = true;
+            lastTurn = 0;
+        } else {
+            lastTurn += deltaTime;
+        }
+    } else if (getVelocity().y != 0) {
         lastTurn += deltaTime;
+    }
 
     setVelocity(0, 0);
 
@@ -83,7 +101,7 @@ bool Player::checkCollisions(float x, float y, std::vector<Bomb*> &bombs)
     bool collision = false;
     for (auto &b: bombs)
     {
-        if (b->getAge() < 1000)
+        if (b->getAge() < 950 || b->getAge() > 1000)
             continue;
 
         SDL_Rect temp;
@@ -110,12 +128,17 @@ void Player::setDead()
     died = true;
 }
 
-double Player::getLastTurn()
+bool Player::isMovingLeft()
 {
-    return lastTurn;
+    return movingLeft;
 }
 
-void Player::resetLastTurn()
-{
-    lastTurn = 0;
-}
+// double Player::getLastTurn()
+// {
+//     return lastTurn;
+// }
+
+// void Player::resetLastTurn()
+// {
+//     lastTurn = 0;
+// }

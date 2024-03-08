@@ -15,11 +15,13 @@ class Player : public Entity {
 
         bool isDead();
         void setDead();
-        double getLastTurn();
-        void resetLastTurn();
+        bool isMovingLeft();
+        // double getLastTurn();
+        // void resetLastTurn();
 
     private:
         bool died;
+        bool movingLeft;
         double lastTurn;
         // Vector2f pos;
         // Vector2f velocity;
