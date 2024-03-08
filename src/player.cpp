@@ -2,9 +2,9 @@
 #include "Map.h"
 #include "Math.h"
 
-void Player::update(double deltaTime, bool keyWPressed, bool keyDPressed, bool keySPressed, bool keyAPressed, Area area)
+void Player::update(double deltaTime, bool keyWPressed, bool keyDPressed, bool keySPressed, bool keyAPressed, std::vector<Wall> &walls)
 {
-    double speed = 0.2;
+    double speed = 0.4;
 
     setVelocity(0, 0);
 
@@ -17,12 +17,12 @@ void Player::update(double deltaTime, bool keyWPressed, bool keyDPressed, bool k
     if (keyAPressed)
         setVelocity(- speed * deltaTime, getVelocity().y);
 
-    if (!checkCollisions(getPos().x + getVelocity().x, getPos().y + getVelocity().y, area))
+    if (!checkCollisions(getPos().x + getVelocity().x, getPos().y + getVelocity().y, walls))
         setPos(getPos().x + getVelocity().x, getPos().y + getVelocity().y);
 
 }
 
-bool Player::checkCollisions(float x, float y, Area area)
+bool Player::checkCollisions(float x, float y, std::vector<Wall> &walls)
 {
     SDL_Rect dest;
     dest.x = x;
@@ -30,7 +30,7 @@ bool Player::checkCollisions(float x, float y, Area area)
     SDL_QueryTexture(getTex(), NULL, NULL, &dest.w, &dest.h);
 
     bool collision = false;
-    for (Wall &w: area.getWalls())
+    for (Wall &w: walls)
     {
         SDL_Rect temp;
         temp.x = w.getPos().x;

@@ -60,7 +60,7 @@ bool keyAPressed = false;
 bool keySPressed = false;
 bool keyDPressed = false;
 
-void loadMaps(std::vector<std::vector<std::vector<Area>>> &levels);
+void loadMaps(std::vector<Wall> &walls);
 void loadLevels(int &level);
 
 void game();
@@ -68,7 +68,7 @@ void titleScreen();
 void update();
 void graphics();
 
-std::vector<std::vector<std::vector<Area>>> levels;
+std::vector<Wall> walls;
 Player player = Player({32 * 4, 32 * 4}, player_Texture);
 
 int main(int argc, char* args[]) {
@@ -80,7 +80,7 @@ int main(int argc, char* args[]) {
     }
 
     
-    loadMaps(levels);
+    loadMaps(walls);
     
 
 	while (gameRunning)
@@ -164,7 +164,7 @@ void update() {
     	}
     }
 
-    player.update(deltaTime, keyWPressed, keyDPressed, keySPressed, keyAPressed, levels[level][0][0]);
+    player.update(deltaTime, keyWPressed, keyDPressed, keySPressed, keyAPressed, walls);
 }
 
 void graphics() {
@@ -173,96 +173,20 @@ void graphics() {
 		window.clear();
 		window.render(0, 0, background_Texture);
 		
-		window.renderArea(levels[level][0][0]);
+		
+        for (Wall &w: walls) {
+            window.render(w);
+        }
+
         window.render(player);
 		
 		window.display();
 	}
 }
 
-
-
-void loadMaps(std::vector<std::vector<std::vector<Area>>> &levels) {
+void loadMaps(std::vector<Wall> &walls) {
     // Level 1
-    std::vector<std::vector<Area>> level1;
-    level1.push_back({});   // First row of Areas
-    level1[0].push_back(Area({      // Area [0][0]
-        Wall({32 * 2, 32 * 2}, brick_wall_Texture), 
-        Wall({32 * 3, 32 * 2}, brick_wall_Texture), 
-        Wall({32 * 4, 32 * 2}, brick_wall_Texture), 
-        Wall({32 * 5, 32 * 2}, brick_wall_Texture), 
-        Wall({32 * 6, 32 * 2}, brick_wall_Texture), 
-        Wall({32 * 7, 32 * 2}, brick_wall_Texture), 
-        Wall({32 * 8, 32 * 2}, brick_wall_Texture), 
-        Wall({32 * 9, 32 * 2}, brick_wall_Texture), 
-        Wall({32 * 10, 32 * 2}, brick_wall_Texture), 
-        Wall({32 * 11, 32 * 2}, brick_wall_Texture), 
-        Wall({32 * 12, 32 * 2}, brick_wall_Texture), 
-        Wall({32 * 13, 32 * 2}, brick_wall_Texture),
-        Wall({32 * 14, 32 * 2}, brick_wall_Texture),
-        Wall({32 * 15, 32 * 2}, brick_wall_Texture),
-        Wall({32 * 16, 32 * 2}, brick_wall_Texture),
-        Wall({32 * 17, 32 * 2}, brick_wall_Texture),
-        Wall({32 * 18, 32 * 2}, brick_wall_Texture),
-        Wall({32 * 19, 32 * 2}, brick_wall_Texture),
-        Wall({32 * 20, 32 * 2}, brick_wall_Texture),
-        Wall({32 * 21, 32 * 2}, brick_wall_Texture),
-        Wall({32 * 22, 32 * 2}, brick_wall_Texture),
-        Wall({32 * 22, 32 * 3}, brick_wall_Texture),
-        Wall({32 * 22, 32 * 4}, brick_wall_Texture),
-        Wall({32 * 22, 32 * 5}, brick_wall_Texture),
-        Wall({32 * 22, 32 * 6}, brick_wall_Texture),
-        Wall({32 * 22, 32 * 7}, brick_wall_Texture),
-        Wall({32 * 22, 32 * 8}, brick_wall_Texture),
-        Wall({32 * 22, 32 * 9}, brick_wall_Texture),
-        Wall({32 * 22, 32 * 10}, brick_wall_Texture),
-        Wall({32 * 22, 32 * 11}, brick_wall_Texture),
-        Wall({32 * 22, 32 * 12}, brick_wall_Texture),
-        Wall({32 * 22, 32 * 13}, brick_wall_Texture),
-        Wall({32 * 22, 32 * 14}, brick_wall_Texture),
-        Wall({32 * 22, 32 * 15}, brick_wall_Texture),
-        Wall({32 * 22, 32 * 16}, brick_wall_Texture),
-        Wall({32 * 22, 32 * 17}, brick_wall_Texture),
-		Wall({32 * 2, 32 * 3}, brick_wall_Texture),
-        Wall({32 * 2, 32 * 4}, brick_wall_Texture),
-        Wall({32 * 2, 32 * 5}, brick_wall_Texture),
-        Wall({32 * 2, 32 * 6}, brick_wall_Texture),
-        Wall({32 * 2, 32 * 7}, brick_wall_Texture),
-        Wall({32 * 2, 32 * 8}, brick_wall_Texture),
-        Wall({32 * 2, 32 * 9}, brick_wall_Texture),
-        Wall({32 * 2, 32 * 10}, brick_wall_Texture),
-        Wall({32 * 2, 32 * 11}, brick_wall_Texture),
-        Wall({32 * 2, 32 * 12}, brick_wall_Texture),
-        Wall({32 * 2, 32 * 13}, brick_wall_Texture),
-        Wall({32 * 2, 32 * 14}, brick_wall_Texture),
-        Wall({32 * 2, 32 * 15}, brick_wall_Texture),
-        Wall({32 * 2, 32 * 16}, brick_wall_Texture),
-        Wall({32 * 2, 32 * 17}, brick_wall_Texture),	
-        Wall({32 * 3, 32 * 17}, brick_wall_Texture), 
-        Wall({32 * 4, 32 * 17}, brick_wall_Texture), 
-        Wall({32 * 5, 32 * 17}, brick_wall_Texture), 
-        Wall({32 * 6, 32 * 17}, brick_wall_Texture), 
-        Wall({32 * 7, 32 * 17}, brick_wall_Texture), 
-        Wall({32 * 8, 32 * 17}, brick_wall_Texture), 
-        Wall({32 * 9, 32 * 17}, brick_wall_Texture), 
-        Wall({32 * 10, 32 * 17}, brick_wall_Texture), 
-        Wall({32 * 11, 32 * 17}, brick_wall_Texture), 
-        Wall({32 * 12, 32 * 17}, brick_wall_Texture), 
-        Wall({32 * 13, 32 * 17}, brick_wall_Texture),
-        Wall({32 * 14, 32 * 17}, brick_wall_Texture),
-        Wall({32 * 15, 32 * 17}, brick_wall_Texture),
-        Wall({32 * 16, 32 * 17}, brick_wall_Texture),
-        Wall({32 * 17, 32 * 17}, brick_wall_Texture),
-        Wall({32 * 18, 32 * 17}, brick_wall_Texture),
-        Wall({32 * 19, 32 * 17}, brick_wall_Texture),
-        Wall({32 * 20, 32 * 17}, brick_wall_Texture),
-        Wall({32 * 21, 32 * 17}, brick_wall_Texture),
-    }, {
-        
-    }, true));
-    
-
-    levels.push_back(level1);
+    walls.push_back(Wall({0, 100}, brick_wall_Texture));
 }
 
 void loadLevel(int &level) {

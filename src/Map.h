@@ -50,3 +50,4 @@ class Area {
         std::vector<Entity> Entities;
         bool valid;
 };
+
