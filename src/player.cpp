@@ -28,8 +28,8 @@ void Player::update(double deltaTime, bool keyWPressed, bool keyDPressed, bool k
 
     if (getPos().x < 0)
         setPos(0, getPos().y);
-    if (getPos().y < 0)
-        setPos(getPos().x, 0);
+    if (getPos().y < 164)
+        setPos(getPos().x, 164);
     if (getPos().x + getCurrentFrame().w > WINDOW_WIDTH)
         setPos(WINDOW_WIDTH - getCurrentFrame().w, getPos().y);
     if (getPos().y + getCurrentFrame().h > WINDOW_HEIGHT)

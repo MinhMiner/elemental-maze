@@ -47,7 +47,7 @@ SDL_Color white = {255, 255, 255};
 SDL_Color black = {0, 0, 0};
 
 int level = 0;
-int state = 1;	// state 0: title screen; state 1: levels; state 2: end game
+int state = 1;	// state 0: title screen; state 1: play; state 2: end game
 
 bool gameRunning = true;
 
@@ -71,7 +71,7 @@ void update();
 void graphics();
 
 std::vector<Wall> walls;
-Player player = Player({32 * 4, 32 * 4}, player_Texture);
+Player player = Player({300, 300}, player_Texture);
 
 int main(int argc, char* args[]) {
     std::cout << "Program started..." << std::endl;
@@ -193,7 +193,7 @@ void graphics() {
 
 void loadMaps(std::vector<Wall> &walls) {
     // Level 1
-    walls.push_back(Wall({0, 100}, brick_wall_Texture));
+    // walls.push_back(Wall({0, 100}, brick_wall_Texture));
 }
 
 void loadLevel(int &level) {
