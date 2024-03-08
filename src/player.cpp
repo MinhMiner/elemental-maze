@@ -1,10 +1,11 @@
 #include "Player.h"
 #include "Map.h"
 #include "Math.h"
+#include "RenderWindow.h"
 
 void Player::update(double deltaTime, bool keyWPressed, bool keyDPressed, bool keySPressed, bool keyAPressed, std::vector<Wall> &walls)
 {
-    double speed = 0.4;
+    double speed = 0.5;
 
     setVelocity(0, 0);
 
@@ -25,6 +26,14 @@ void Player::update(double deltaTime, bool keyWPressed, bool keyDPressed, bool k
     if (!checkCollisions(getPos().x, getPos().y + getVelocity().y, walls))
         setPos(getPos().x, getPos().y + getVelocity().y);
 
+    if (getPos().x < 0)
+        setPos(0, getPos().y);
+    if (getPos().y < 0)
+        setPos(getPos().x, 0);
+    if (getPos().x + getCurrentFrame().w > WINDOW_WIDTH)
+        setPos(WINDOW_WIDTH - getCurrentFrame().w, getPos().y);
+    if (getPos().y + getCurrentFrame().h > WINDOW_HEIGHT)
+        setPos(getPos().x, WINDOW_HEIGHT - getCurrentFrame().h);
 }
 
 bool Player::checkCollisions(float x, float y, std::vector<Wall> &walls)

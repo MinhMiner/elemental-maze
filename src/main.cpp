@@ -32,7 +32,9 @@ bool init()
 
 bool SDLinit = init();
 
-RenderWindow window("Elemental Maze", 1280, 720);
+
+
+RenderWindow window("Elemental Maze", WINDOW_WIDTH, WINDOW_HEIGHT);
 
 SDL_Texture *background_Texture = window.loadTexture("res/gfx/background.png");
 SDL_Texture *player_Texture = window.loadTexture("res/gfx/player.png");
