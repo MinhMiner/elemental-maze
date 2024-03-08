@@ -31,14 +31,18 @@ class Bomb : public Entity {
         Bomb(Vector2f p_pos, SDL_Texture *p_tex) : Entity(p_pos, p_tex)
         {
 			age = 0;
+			destroyed = false;
 		}
 		~Bomb() {};
 
         double getAge();
 		void setAge(double &deltaTime);
+		void explode();
 		bool maxAgeReached();
+		bool shouldDestroy();
 
     private:
 		double age;
+		bool destroyed;
 		const double maxAge = 1000.0;
 };

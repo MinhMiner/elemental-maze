@@ -158,14 +158,18 @@ void update() {
         std::mt19937 gen(tp.time_since_epoch().count());
 
         std::uniform_real_distribution<float> distributionX(0, WINDOW_WIDTH - 64);
-        float randomXVal = distributionX(gen);
-
         std::uniform_real_distribution<float> distributionY(164, WINDOW_HEIGHT - 64);
-        float randomYVal = distributionY(gen);
 
-        Bomb *bomb = new Bomb({randomXVal, randomYVal}, bomb_Texture);
-        bombs.push_back(bomb);
-        
+        for (int i = 0; i < 5; i++)
+        {
+            
+            float randomXVal = distributionX(gen);
+            float randomYVal = distributionY(gen);
+
+            Bomb *bomb = new Bomb({randomXVal, randomYVal}, bomb_Texture);
+            bombs.push_back(bomb);
+        }
+
         canSpawnBomb = false;
     }
     if (score % 20 != 0)

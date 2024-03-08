@@ -57,13 +57,21 @@ double Bomb::getAge()
 void Bomb::setAge(double &deltaTime)
 {
     age += deltaTime;
-    std::cout << "age = " << age << '\n';
-    if (age >= 1000) {
-        std::cout << "destroying object" << '\n';
-    }
+    if (maxAgeReached())
+        explode();
+}
+
+void Bomb::explode()
+{
+    // need more thinking
 }
 
 bool Bomb::maxAgeReached()
 {
     return (age >= maxAge);
+}
+
+bool Bomb::shouldDestroy()
+{
+    return destroyed;
 }

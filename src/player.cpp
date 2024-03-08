@@ -5,7 +5,7 @@
 
 void Player::update(double deltaTime, bool keyWPressed, bool keyDPressed, bool keySPressed, bool keyAPressed, std::vector<Wall> &walls)
 {
-    double speed = 0.5;
+    double speed = 0.25;
 
     setVelocity(0, 0);
 
