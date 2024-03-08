@@ -18,6 +18,7 @@ class Entity {
 		SDL_Texture* getTex();
 		void update(double deltaTime);
 		SDL_Rect getCurrentFrame();
+		void setCurrentFrame(int x, int y, int w, int h);
 
 	private:
 		Vector2f pos;
@@ -32,6 +33,7 @@ class Bomb : public Entity {
         {
 			age = 0;
 			destroyed = false;
+			setCurrentFrame(0, 0, 300, 300);
 		}
 		~Bomb() {};
 
@@ -44,5 +46,5 @@ class Bomb : public Entity {
     private:
 		double age;
 		bool destroyed;
-		const double maxAge = 1000.0;
+		const double maxAge = 750.0;
 };

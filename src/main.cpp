@@ -157,8 +157,8 @@ void update() {
         std::chrono::system_clock::time_point tp = std::chrono::system_clock::now();
         std::mt19937 gen(tp.time_since_epoch().count());
 
-        std::uniform_real_distribution<float> distributionX(0, WINDOW_WIDTH - 64);
-        std::uniform_real_distribution<float> distributionY(164, WINDOW_HEIGHT - 64);
+        std::uniform_real_distribution<float> distributionX(0, WINDOW_WIDTH - 300);
+        std::uniform_real_distribution<float> distributionY(164, WINDOW_HEIGHT - 300);
 
         for (int i = 0; i < 5; i++)
         {
@@ -209,7 +209,7 @@ void update() {
     for (auto it = bombs.begin(); it != bombs.end(); ) {
         (*it)->setAge(deltaTime);
 
-        if ((*it)->maxAgeReached()) {
+        if ((*it)->shouldDestroy()) {
             delete *it;
             it = bombs.erase(it);  // Iterator is updated to the next valid position
         } else {

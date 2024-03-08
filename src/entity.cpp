@@ -49,6 +49,14 @@ SDL_Rect Entity::getCurrentFrame()
     return currentFrame;
 }
 
+void Entity::setCurrentFrame(int x, int y, int w, int h)
+{
+    currentFrame.x = x;
+    currentFrame.y = y;
+    currentFrame.w = w;
+    currentFrame.h = h;
+}
+
 double Bomb::getAge()
 {
     return age;
@@ -63,7 +71,16 @@ void Bomb::setAge(double &deltaTime)
 
 void Bomb::explode()
 {
-    // need more thinking
+    const int frameInterval = 50;
+    const int maxFrames = 11;
+
+    int frameIndex = static_cast<int>((age - maxAge) / frameInterval);
+    frameIndex = std::max(0, std::min(frameIndex, maxFrames));
+
+    int frameX = frameIndex * 300;
+    setCurrentFrame(frameX, 0, getCurrentFrame().w, getCurrentFrame().h);
+
+    destroyed = (age >= maxAge + frameInterval * (maxFrames - 1));
 }
 
 bool Bomb::maxAgeReached()
