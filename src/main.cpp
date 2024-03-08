@@ -48,6 +48,7 @@ SDL_Texture *bomb_Texture = window.loadTexture("res/gfx/bomb.png");
 
 TTF_Font* font32 = TTF_OpenFont("res/font/font.ttf", 32);
 TTF_Font* font64 = TTF_OpenFont("res/font/font.ttf", 64);
+TTF_Font* font128 = TTF_OpenFont("res/font/font.ttf", 128);
 
 SDL_Color white = {255, 255, 255};
 SDL_Color black = {0, 0, 0};
@@ -75,6 +76,7 @@ void game();
 void titleScreen();
 void update();
 void graphics();
+void endScreen();
 
 std::vector<Wall> walls;
 std::vector<Bomb*> bombs;
@@ -118,11 +120,15 @@ void game() {
         totalTime = 0.0;
         score = 0;
 	}
-	else
+	else if (state == 1)
 	{
 		update();
 		graphics();
-	}
+	} 
+    else 
+    {
+        endScreen();
+    }
 }
 
 void titleScreen() {
@@ -208,11 +214,18 @@ void update() {
 
         if ((*it)->shouldDestroy()) {
             delete *it;
-            it = bombs.erase(it);  // Iterator is updated to the next valid position
+            it = bombs.erase(it);
         } else {
             ++it;
+        }
     }
-}
+
+    if (player.checkCollisions(player.getPos().x, player.getPos().y, bombs)) {
+        player.setDead();
+        state = 2;
+        std::cout << "You died" << '\n';
+    }
+        
     player.update(deltaTime, keyWPressed, keyDPressed, keySPressed, keyAPressed, walls);
 }
 
@@ -238,7 +251,41 @@ void graphics() {
         window.render(player);
 		
 		window.display();
-	}
+	} 
+    else if (state == 2)
+    {
+        window.clear();
+		window.render(0, 0, background_Texture);
+
+        std::string scoreString = "Score: " + std::to_string(score);
+        const char* scoreCStr = scoreString.c_str();
+
+        window.render(15, 15, scoreCStr, font64, black);
+	    window.render(10, 10, scoreCStr, font64, white);
+		
+        for (Wall &w: walls) {
+            window.render(w);
+        }
+
+        window.render(405, 305, "Game Over!", font128, black);
+	    window.render(400, 300, "Game Over!", font128, white);
+
+        window.display();
+    }
+}
+
+void endScreen() {
+    while (SDL_PollEvent(&event))
+    {
+    	switch(event.type)
+    	{
+            case SDL_QUIT:
+                gameRunning = false;
+                break;
+    	}
+    }
+
+    graphics();
 }
 
 void loadMaps(std::vector<Wall> &walls) {

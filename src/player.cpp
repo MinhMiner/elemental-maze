@@ -59,6 +59,33 @@ bool Player::checkCollisions(float x, float y, std::vector<Wall> &walls)
     return collision;
 }
 
+bool Player::checkCollisions(float x, float y, std::vector<Bomb*> &bombs)
+{
+    SDL_Rect dest;
+    dest.x = x;
+    dest.y = y;
+    SDL_QueryTexture(getTex(), NULL, NULL, &dest.w, &dest.h);
+
+    bool collision = false;
+    for (auto &b: bombs)
+    {
+        if (b->getAge() < 1000)
+            continue;
+
+        SDL_Rect temp;
+        temp.x = b->getPos().x;
+        temp.y = b->getPos().y;
+        temp.w = b->getCurrentFrame().w;
+        temp.h = b->getCurrentFrame().h;
+
+        if (SDL_HasIntersection(&temp, &dest)) {
+            collision = true;
+            break;
+        }
+    }
+    return collision;
+}
+
 bool Player::isDead()
 {
     return died;

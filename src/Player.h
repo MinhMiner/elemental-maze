@@ -9,6 +9,7 @@ class Player : public Entity {
 
         void update(double deltaTime, bool keyWPressed, bool keyDPressed, bool keySPressed, bool keyAPressed, std::vector<Wall> &walls);
         bool checkCollisions(float x, float y, std::vector<Wall> &walls);
+        bool checkCollisions(float x, float y, std::vector<Bomb*> &bombs);
 
         bool isDead();
         void setDead();
