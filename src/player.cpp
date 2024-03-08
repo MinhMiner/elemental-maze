@@ -17,8 +17,13 @@ void Player::update(double deltaTime, bool keyWPressed, bool keyDPressed, bool k
     if (keyAPressed)
         setVelocity(- speed * deltaTime, getVelocity().y);
 
-    if (!checkCollisions(getPos().x + getVelocity().x, getPos().y + getVelocity().y, walls))
-        setPos(getPos().x + getVelocity().x, getPos().y + getVelocity().y);
+    // if (!checkCollisions(getPos().x + getVelocity().x, getPos().y + getVelocity().y, walls))
+    //     setPos(getPos().x + getVelocity().x, getPos().y + getVelocity().y);
+
+    if (!checkCollisions(getPos().x + getVelocity().x, getPos().y, walls))
+        setPos(getPos().x + getVelocity().x, getPos().y);
+    if (!checkCollisions(getPos().x, getPos().y + getVelocity().y, walls))
+        setPos(getPos().x, getPos().y + getVelocity().y);
 
 }
 
