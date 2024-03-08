@@ -37,7 +37,7 @@ bool SDLinit = init();
 const int FPS = 120;
 double totalTime = 0.0;
 int score = 0;
-bool canSpawnBomb = false;
+double lastBombSpawned = 0;
 
 RenderWindow window("Bark 'n Bombs", WINDOW_WIDTH, WINDOW_HEIGHT);
 
@@ -153,14 +153,14 @@ void update() {
     totalTime += deltaTime;
     score = ((int) (totalTime / 1000)) * 10;
 
-    if (score % 20 == 0 && canSpawnBomb) {
+    if ((totalTime - lastBombSpawned) >= 400) {
         std::chrono::system_clock::time_point tp = std::chrono::system_clock::now();
         std::mt19937 gen(tp.time_since_epoch().count());
 
         std::uniform_real_distribution<float> distributionX(0, WINDOW_WIDTH - 300);
         std::uniform_real_distribution<float> distributionY(164, WINDOW_HEIGHT - 300);
 
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 1; i++)
         {
             
             float randomXVal = distributionX(gen);
@@ -170,11 +170,8 @@ void update() {
             bombs.push_back(bomb);
         }
 
-        canSpawnBomb = false;
+        lastBombSpawned = totalTime;
     }
-    if (score % 20 != 0)
-        canSpawnBomb = true;
-    
 
 	while (SDL_PollEvent(&event))
     {
