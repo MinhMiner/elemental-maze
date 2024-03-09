@@ -176,7 +176,7 @@ void update() {
 
 
     if (!startPlaying) {    // Reset điểm và thời gian lúc mới bắt đầu trò chơi
-        std::cout << "START PLAYING-----------------------\n\n\n";
+        // std::cout << "START PLAYING-----------------------\n\n\n";
         totalTime = 0.0;
         lastBombSpawned = 0.0;
         score = 0;
@@ -185,9 +185,9 @@ void update() {
 
     score = ((int) (totalTime / 1000)) * 10;
 
-    std::cout << "bombs.size() = " << bombs.size() << '\n';
-    std::cout << "totalTime = " << totalTime << '\n';
-    std::cout << "lastBombSpawned = " << lastBombSpawned << '\n';
+    // std::cout << "bombs.size() = " << bombs.size() << '\n';
+    // std::cout << "totalTime = " << totalTime << '\n';
+    // std::cout << "lastBombSpawned = " << lastBombSpawned << '\n';
 
     if ((totalTime - lastBombSpawned) >= 300) {
         std::chrono::system_clock::time_point tp = std::chrono::system_clock::now();
@@ -205,7 +205,7 @@ void update() {
             Bomb *bomb = new Bomb({randomXVal, randomYVal}, bomb_Texture);
             bombs.push_back(bomb);
 
-            std::cout << "bomb spawned" << '\n';
+            // std::cout << "bomb spawned" << '\n';
         }
 
         lastBombSpawned = totalTime;
@@ -257,7 +257,7 @@ void update() {
     if (player.checkCollisions(player.getPos().x, player.getPos().y, bombs)) {
         player.setDead();
         state = 2;
-        std::cout << "You died" << '\n';
+        // std::cout << "You died" << '\n';
     }
         
     player.update(deltaTime, keyWPressed, keyDPressed, keySPressed, keyAPressed, walls);
@@ -319,11 +319,11 @@ void endScreen() {
         for (auto it = bombs.begin(); it != bombs.end(); ++it) {
             delete *it;
             it = bombs.erase(it);
-            std::cout << "success deleted bomb" << '\n';
+            // std::cout << "success deleted bomb" << '\n';
         }
         bombs.clear();
         startPlaying = false;
-        std::cout << "deleted all bombs" << '\n';
+        // std::cout << "deleted all bombs" << '\n';
     } else
         while (SDL_PollEvent(&event))
         {
