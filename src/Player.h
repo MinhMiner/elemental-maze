@@ -15,6 +15,7 @@ class Player : public Entity {
 
         bool isDead();
         void setDead();
+        void setAlive();
         bool isMovingLeft();
         // double getLastTurn();
         // void resetLastTurn();

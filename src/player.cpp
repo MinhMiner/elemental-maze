@@ -130,6 +130,11 @@ void Player::setDead()
     died = true;
 }
 
+void Player::setAlive()
+{
+    died = false;
+}
+
 bool Player::isMovingLeft()
 {
     return movingLeft;

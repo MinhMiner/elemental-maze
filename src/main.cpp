@@ -148,6 +148,8 @@ void titleScreen() {
                     state = 1;
                 }
                 break;
+            default:
+                break;
     	}
     }
 
@@ -172,7 +174,9 @@ void update() {
 
     totalTime += deltaTime;
 
+
     if (!startPlaying) {    // Reset điểm và thời gian lúc mới bắt đầu trò chơi
+        std::cout << "START PLAYING-----------------------\n\n\n";
         totalTime = 0.0;
         lastBombSpawned = 0.0;
         score = 0;
@@ -181,6 +185,7 @@ void update() {
 
     score = ((int) (totalTime / 1000)) * 10;
 
+    std::cout << "bombs.size() = " << bombs.size() << '\n';
     std::cout << "totalTime = " << totalTime << '\n';
     std::cout << "lastBombSpawned = " << lastBombSpawned << '\n';
 
@@ -199,6 +204,8 @@ void update() {
 
             Bomb *bomb = new Bomb({randomXVal, randomYVal}, bomb_Texture);
             bombs.push_back(bomb);
+
+            std::cout << "bomb spawned" << '\n';
         }
 
         lastBombSpawned = totalTime;
@@ -231,6 +238,8 @@ void update() {
                 else if (event.key.keysym.sym == SDLK_d)
                     keyDPressed = false;
                 break;
+            default:
+                break;
     	}
     }
 
@@ -248,7 +257,6 @@ void update() {
     if (player.checkCollisions(player.getPos().x, player.getPos().y, bombs)) {
         player.setDead();
         state = 2;
-        startPlaying = false;
         std::cout << "You died" << '\n';
     }
         
@@ -293,10 +301,7 @@ void graphics() {
             window.render(w);
         }
         
-        for (Bomb* b: bombs) {
-            window.render(*b);
-        }
-        window.render(player, player.isMovingLeft());
+        // window.render(player, player.isMovingLeft());
 
         window.render(405, 305, "Game Over!", font128, black);
 	    window.render(400, 300, "Game Over!", font128, white);
@@ -310,32 +315,41 @@ void graphics() {
 }
 
 void endScreen() {
-    while (SDL_PollEvent(&event))
-    {
-    	switch(event.type)
-    	{
-            case SDL_QUIT:
-                gameRunning = false;
-                break;
-            case SDL_MOUSEBUTTONDOWN:
-                if (event.button.button == SDL_BUTTON_LEFT) {
-                    // int mouseX = event.button.x;
-                    // int mouseY = event.button.y;
-                    for (auto it = bombs.begin(); it != bombs.end(); ++it) {
-                        delete *it;
-                        it = bombs.erase(it);
+    if (startPlaying == true) {
+        for (auto it = bombs.begin(); it != bombs.end(); ++it) {
+            delete *it;
+            it = bombs.erase(it);
+            std::cout << "success deleted bomb" << '\n';
+        }
+        bombs.clear();
+        startPlaying = false;
+        std::cout << "deleted all bombs" << '\n';
+    } else
+        while (SDL_PollEvent(&event))
+        {
+            switch(event.type)
+            {
+                case SDL_QUIT:
+                    gameRunning = false;
+                    break;
+                case SDL_MOUSEBUTTONDOWN:
+                    if (event.button.button == SDL_BUTTON_LEFT) {
+                        // int mouseX = event.button.x;
+                        // int mouseY = event.button.y;
+                        
+
+                        keyWPressed = false;
+                        keyAPressed = false;
+                        keySPressed = false;
+                        keyDPressed = false;
+
+                        state = 1;
                     }
-
-                    keyWPressed = false;
-                    keyAPressed = false;
-                    keySPressed = false;
-                    keyDPressed = false;
-
-                    state = 1;
-                }
-                break;
-    	}
-    }
+                    break;
+                default:
+                    break;
+            }
+        }
 
     graphics();
 }
