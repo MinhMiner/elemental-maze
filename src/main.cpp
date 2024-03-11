@@ -5,26 +5,30 @@
 #include <random>
 #include <chrono>
 
+#include <fstream>
+
 #include "RenderWindow.h"
 #include "Entity.h"
 #include "Math.h"
 #include "Map.h"
 #include "Player.h"
 
+std::ofstream fout("console.log");
+
 bool init()
 {
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) {
-		std::cout << "SDL_Init has failed. Error: " << SDL_GetError() << std::endl;
+		fout << "SDL_Init has failed. Error: " << SDL_GetError() << std::endl;
 		return false;
 	}	
 
 	if (IMG_Init(IMG_INIT_PNG) == 0) {
-		std::cout << "IMG_init has failed. Error: " << SDL_GetError() << std::endl;
+		fout << "IMG_init has failed. Error: " << SDL_GetError() << std::endl;
 		return false;
 	}
 		
 	if (TTF_Init() != 0) {
-		std::cout << "TTF_init has failed. Error: " << SDL_GetError() << std::endl;
+		fout << "TTF_init has failed. Error: " << SDL_GetError() << std::endl;
 		return false;
 	}
 		
@@ -38,6 +42,7 @@ const int FPS = 120;
 double totalTime = 0.0;
 int score = 0;
 double lastBombSpawned = 0;
+double lastFoodSpawned = 0;
 
 RenderWindow window("Bark 'n Bombs", WINDOW_WIDTH, WINDOW_HEIGHT);
 
@@ -45,6 +50,7 @@ SDL_Texture *background_Texture = window.loadTexture("res/gfx/background.png");
 SDL_Texture *player_Texture = window.loadTexture("res/gfx/player.png");
 SDL_Texture *brick_wall_Texture = window.loadTexture("res/gfx/brick_wall.png");
 SDL_Texture *bomb_Texture = window.loadTexture("res/gfx/bomb.png");
+SDL_Texture *bone_Texture = window.loadTexture("res/gfx/bone.png");
 
 TTF_Font* font32 = TTF_OpenFont("res/font/font.ttf", 32);
 TTF_Font* font64 = TTF_OpenFont("res/font/font.ttf", 64);
@@ -81,10 +87,12 @@ void endScreen();
 
 std::vector<Wall> walls;
 std::vector<Bomb*> bombs;
+std::vector<Food*> foods;
 Player player = Player({300, 300}, player_Texture);
 
 int main(int argc, char* args[]) {
-    std::cout << "Game started..." << std::endl;
+    
+    fout << "Game started..." << std::endl;
 
     if (!init()) {
         std::cerr << "Initialization failed." << std::endl;
@@ -111,7 +119,8 @@ int main(int argc, char* args[]) {
 	TTF_Quit();
 	Mix_CloseAudio();
 
-    std::cout << "Closed game successfully\n";
+    fout << "Closed game successfully\n";
+    fout.close();
 	return 0;
 }
 
@@ -176,18 +185,22 @@ void update() {
 
 
     if (!startPlaying) {    // Reset điểm và thời gian lúc mới bắt đầu trò chơi
-        // std::cout << "START PLAYING-----------------------\n\n\n";
+        fout << "START PLAYING-----------------------\n\n";
+        player.setAlive();
         totalTime = 0.0;
         lastBombSpawned = 0.0;
+        lastFoodSpawned = 0.0;
         score = 0;
         startPlaying = true;
     }
 
     score = ((int) (totalTime / 1000)) * 10;
 
-    // std::cout << "bombs.size() = " << bombs.size() << '\n';
-    // std::cout << "totalTime = " << totalTime << '\n';
-    // std::cout << "lastBombSpawned = " << lastBombSpawned << '\n';
+    // fout << "bombs.size() = " << bombs.size() << '\n';
+    // fout << "totalTime = " << totalTime << '\n';
+    // fout << "lastBombSpawned = " << lastBombSpawned << '\n';
+
+
 
     if ((totalTime - lastBombSpawned) >= 300) {
         std::chrono::system_clock::time_point tp = std::chrono::system_clock::now();
@@ -196,20 +209,36 @@ void update() {
         std::uniform_real_distribution<float> distributionX(0, WINDOW_WIDTH - 200);
         std::uniform_real_distribution<float> distributionY(164, WINDOW_HEIGHT - 200);
 
-        for (int i = 0; i < 1; i++)
-        {
-            
-            float randomXVal = distributionX(gen);
-            float randomYVal = distributionY(gen);
 
-            Bomb *bomb = new Bomb({randomXVal, randomYVal}, bomb_Texture);
-            bombs.push_back(bomb);
+        float randomXVal = distributionX(gen);
+        float randomYVal = distributionY(gen);
 
-            // std::cout << "bomb spawned" << '\n';
-        }
+        Bomb *bomb = new Bomb({randomXVal, randomYVal}, bomb_Texture);
+        bombs.push_back(bomb);
 
         lastBombSpawned = totalTime;
     }
+    if ((totalTime - lastFoodSpawned) >= 5000) {
+        std::chrono::system_clock::time_point tp = std::chrono::system_clock::now();
+        std::mt19937 gen(tp.time_since_epoch().count());
+
+        std::uniform_real_distribution<float> distributionX(0, WINDOW_WIDTH - 64);
+        std::uniform_real_distribution<float> distributionY(164, WINDOW_HEIGHT - 64);
+
+
+        float randomXVal = distributionX(gen);
+        float randomYVal = distributionY(gen);
+
+        Food *food = new Food({randomXVal, randomYVal}, bone_Texture, BONE);
+        foods.push_back(food);
+
+        fout << "foods.size() = " << foods.size() << '\n';
+        fout << "totalTime = " << totalTime << '\n';
+        fout << "lastFoodSpawned = " << lastFoodSpawned << "\n\n";
+
+        lastFoodSpawned = totalTime;
+    }
+    
 
 	while (SDL_PollEvent(&event))
     {
@@ -254,12 +283,25 @@ void update() {
         }
     }
 
+    for (auto it = foods.begin(); it != foods.end(); ) {
+        (*it)->setAge(deltaTime);
+
+        if ((*it)->shouldDestroy()) {
+            delete *it;
+            it = foods.erase(it);
+        } else {
+            ++it;
+        }
+    }
+
     if (player.checkCollisions(player.getPos().x, player.getPos().y, bombs)) {
         player.setDead();
         state = 2;
-        // std::cout << "You died" << '\n';
+        fout << "You died" << '\n';
+        std::cout << "You died" << '\n';
     }
         
+    
     player.update(deltaTime, keyWPressed, keyDPressed, keySPressed, keyAPressed, walls);
 }
 
@@ -280,6 +322,9 @@ void graphics() {
         }
         for (Bomb* b: bombs) {
             window.render(*b);
+        }
+        for (Food* f: foods) {
+            window.render(*f);
         }
 
         window.render(player, player.isMovingLeft());
@@ -316,14 +361,23 @@ void graphics() {
 
 void endScreen() {
     if (startPlaying == true) {
-        for (auto it = bombs.begin(); it != bombs.end(); ++it) {
+        for (auto it = bombs.begin(); it != bombs.end(); ) {
             delete *it;
             it = bombs.erase(it);
-            // std::cout << "success deleted bomb" << '\n';
+            // fout << "success deleted bomb" << '\n';
         }
         bombs.clear();
-        startPlaying = false;
         // std::cout << "deleted all bombs" << '\n';
+
+        for (auto it = foods.begin(); it != foods.end(); ) {
+            delete *it;
+            it = foods.erase(it);
+        }
+        foods.clear();
+        
+        startPlaying = false;
+        // fout << "deleted all foods" << '\n';
+        // std::cout << "deleted all foods" << '\n';
     } else
         while (SDL_PollEvent(&event))
         {
