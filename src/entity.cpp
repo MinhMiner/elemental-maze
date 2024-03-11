@@ -92,3 +92,30 @@ bool Bomb::shouldDestroy()
 {
     return destroyed;
 }
+
+foodType Food::getFoodType()
+{
+    return type;
+}
+
+double Food::getAge()
+{
+    return age;
+}
+
+void Food::setAge(double &deltaTime)
+{
+    age += deltaTime;
+    if (maxAgeReached())
+        destroyed = true;
+}
+
+bool Food::maxAgeReached()
+{
+    return (age >= maxAge);
+}
+
+bool Food::shouldDestroy()
+{
+    return destroyed;
+}

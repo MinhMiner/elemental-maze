@@ -4,6 +4,12 @@
 
 #include "Math.h"
 
+enum foodType {
+	BONE,
+	FISH,
+	STEAK
+};
+
 class Entity {
 	public:
 		Entity();
@@ -48,3 +54,26 @@ class Bomb : public Entity {
 		bool destroyed;
 		const double maxAge = 750.0;
 };
+
+class Food : public Entity {
+	public:
+        Food(Vector2f p_pos, SDL_Texture *p_tex, foodType p_type) : Entity(p_pos, p_tex)
+        {
+			type = p_type;
+			age = 0;
+			destroyed = false;
+		}
+		~Food() {};
+		foodType getFoodType();
+        double getAge();
+		void setAge(double &deltaTime);
+		bool maxAgeReached();
+		bool shouldDestroy();
+
+	private:
+		foodType type;
+		double age;
+		bool destroyed;
+		const double maxAge = 7500.0;
+};
+
