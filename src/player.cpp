@@ -120,6 +120,35 @@ bool Player::checkCollisions(float x, float y, std::vector<Bomb*> &bombs)
     return collision;
 }
 
+bool Player::checkCollisions(float x, float y, std::vector<Food*> &foods, Food* &returnFood)
+{
+    SDL_Rect dest;
+    dest.x = x;
+    dest.y = y;
+    dest.w = 64;
+    dest.h = 40;
+
+    bool collision = false;
+    for (auto &f: foods)
+    {
+        // if (f->getAge() < 950 || f->getAge() > 1000)
+        //     continue;
+
+        SDL_Rect temp;
+        temp.x = f->getPos().x;
+        temp.y = f->getPos().y;
+        temp.w = f->getCurrentFrame().w;
+        temp.h = f->getCurrentFrame().h;
+
+        if (SDL_HasIntersection(&temp, &dest)) {
+            collision = true;
+            returnFood = f;
+            break;
+        }
+    }
+    return collision;
+}
+
 bool Player::isDead()
 {
     return died;

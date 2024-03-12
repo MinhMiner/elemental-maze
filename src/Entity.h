@@ -66,7 +66,7 @@ class Food : public Entity {
 		~Food() {};
 		foodType getFoodType();
         double getAge();
-		void setAge(double &deltaTime);
+		void setAge(double deltaTime);
 		bool maxAgeReached();
 		bool shouldDestroy();
 

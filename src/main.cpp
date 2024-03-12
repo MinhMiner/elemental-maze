@@ -41,6 +41,7 @@ bool SDLinit = init();
 const int FPS = 120;
 double totalTime = 0.0;
 int score = 0;
+int foodScore = 0;
 double lastBombSpawned = 0;
 double lastFoodSpawned = 0;
 
@@ -191,10 +192,11 @@ void update() {
         lastBombSpawned = 0.0;
         lastFoodSpawned = 0.0;
         score = 0;
+        foodScore = 0;
         startPlaying = true;
     }
 
-    score = ((int) (totalTime / 1000)) * 10;
+    score = ((int) (totalTime / 1000)) * 10 + foodScore;
 
     // fout << "bombs.size() = " << bombs.size() << '\n';
     // fout << "totalTime = " << totalTime << '\n';
@@ -218,7 +220,7 @@ void update() {
 
         lastBombSpawned = totalTime;
     }
-    if ((totalTime - lastFoodSpawned) >= 5000) {
+    if ((totalTime - lastFoodSpawned) >= 3000) {
         std::chrono::system_clock::time_point tp = std::chrono::system_clock::now();
         std::mt19937 gen(tp.time_since_epoch().count());
 
@@ -300,6 +302,14 @@ void update() {
         fout << "You died" << '\n';
         std::cout << "You died" << '\n';
     }
+
+    Food *foodCollected = nullptr;
+    if (player.checkCollisions(player.getPos().x, player.getPos().y, foods, foodCollected)) {
+        // fout << "You ate a food!" << '\n';
+        // std::cout << "You ate a food!" << '\n';
+        foodScore += 10;
+        foodCollected->setAge(15000);
+    }
         
     
     player.update(deltaTime, keyWPressed, keyDPressed, keySPressed, keyAPressed, walls);
@@ -336,7 +346,7 @@ void graphics() {
         window.clear();
 		window.render(0, 0, background_Texture);
 
-        std::string scoreString = "Score: " + std::to_string(score);
+        std::string scoreString = "Score: " + std::to_string(score + foodScore);
         const char* scoreCStr = scoreString.c_str();
 
         window.render(15, 15, scoreCStr, font64, black);

@@ -103,7 +103,7 @@ double Food::getAge()
     return age;
 }
 
-void Food::setAge(double &deltaTime)
+void Food::setAge(double deltaTime)
 {
     age += deltaTime;
     if (maxAgeReached())
