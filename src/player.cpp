@@ -188,6 +188,21 @@ double Player::getMaxEnergy()
     return maxEnergy;
 }
 
+void Player::collectedFood()
+{
+    ++foodCollected;
+}
+
+void Player::resetFoodCount()
+{
+    foodCollected = 0;
+}
+
+int Player::getFoodCount()
+{
+    return foodCollected;
+}
+
 // double Player::getLastTurn()
 // {
 //     return lastTurn;

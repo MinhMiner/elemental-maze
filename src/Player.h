@@ -8,6 +8,7 @@ class Player : public Entity {
         {
             setCurrentFrame(0, 0, 64, 40);
             energy = 15000;
+            foodCollected = 0;
         }
 
         void update(double deltaTime, bool keyWPressed, bool keyDPressed, bool keySPressed, bool keyAPressed, std::vector<Wall> &walls);
@@ -22,6 +23,9 @@ class Player : public Entity {
         double getEnergy();
         void setEnergy(double deltaTime);
         double getMaxEnergy();
+        void collectedFood();
+        void resetFoodCount();
+        int getFoodCount();
         // double getLastTurn();
         // void resetLastTurn();
 
@@ -31,6 +35,7 @@ class Player : public Entity {
         double lastTurn;
         double energy;
         const double maxEnergy = 15000;
+        int foodCollected;
         // Vector2f pos;
         // Vector2f velocity;
         // SDL_Texture *tex;

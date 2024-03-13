@@ -195,6 +195,7 @@ void update() {
         score = 0;
         foodScore = 0;
         player.setEnergy(-20000);
+        player.resetFoodCount();
         startPlaying = true;
     }
 
@@ -303,7 +304,8 @@ void update() {
         // fout << "You ate a food!" << '\n';
         // std::cout << "You ate a food!" << '\n';
         foodScore += 10;
-        player.setEnergy(-10000);
+        player.setEnergy(-7000);
+        player.collectedFood();
         foodCollected->setAge(15000);
     }
 
@@ -367,6 +369,12 @@ void graphics() {
         }
         
         // window.render(player, player.isMovingLeft());
+
+        std::string foodCountString = "Food collected: " + std::to_string(player.getFoodCount());
+        const char* foodCountCStr = foodCountString.c_str();
+
+        window.render(405, 205, foodCountCStr, font64, white);
+	    window.render(400, 200, foodCountCStr, font64, black);
 
         window.render(405, 305, "Game Over!", font128, black);
 	    window.render(400, 300, "Game Over!", font128, white);
