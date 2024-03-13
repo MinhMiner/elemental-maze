@@ -169,6 +169,21 @@ bool Player::isMovingLeft()
     return movingLeft;
 }
 
+double Player::getEnergy()
+{
+    return energy;
+}
+
+void Player::setEnergy(double deltaTime)
+{
+    energy -= deltaTime;
+}
+
+double Player::getMaxEnergy()
+{
+    return maxEnergy;
+}
+
 // double Player::getLastTurn()
 // {
 //     return lastTurn;

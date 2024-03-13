@@ -18,6 +18,9 @@ class Player : public Entity {
         void setDead();
         void setAlive();
         bool isMovingLeft();
+        double getEnergy();
+        void setEnergy(double deltaTime);
+        double getMaxEnergy();
         // double getLastTurn();
         // void resetLastTurn();
 
@@ -25,6 +28,8 @@ class Player : public Entity {
         bool died;
         bool movingLeft;
         double lastTurn;
+        double energy;
+        const double maxEnergy = 10000;
         // Vector2f pos;
         // Vector2f velocity;
         // SDL_Texture *tex;
