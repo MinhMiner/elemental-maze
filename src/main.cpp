@@ -55,6 +55,7 @@ SDL_Texture *bone_Texture = window.loadTexture("res/gfx/bone.png");
 SDL_Texture *energy_bar_Texture = window.loadTexture("res/gfx/energy_bar.png");
 SDL_Texture *energy_bar_outline_Texture = window.loadTexture("res/gfx/energy_bar_outline.png");
 SDL_Texture *fish_Texture = window.loadTexture("res/gfx/fish.png");
+SDL_Texture *steak_Texture = window.loadTexture("res/gfx/steak.png");
 
 
 TTF_Font* font32 = TTF_OpenFont("res/font/font.ttf", 32);
@@ -241,10 +242,12 @@ void update() {
         int randomFoodSeed = generateFoodSeed(gen);
 
         Food *food = nullptr;
-        if (randomFoodSeed <= 80) {
+        if (randomFoodSeed <= 70) {
             food = new Food({randomXVal, randomYVal}, bone_Texture, BONE);
-        } else if (randomFoodSeed <= 100) {
+        } else if (randomFoodSeed <= 90) {
             food = new Food({randomXVal, randomYVal}, fish_Texture, FISH);
+        } else if (randomFoodSeed <= 100) {
+            food = new Food({randomXVal, randomYVal}, steak_Texture, STEAK);
         }
 
         foods.push_back(food);
@@ -319,10 +322,15 @@ void update() {
             foodScore += 10;
             player.setEnergy(-5000);
         } else if (foodCollected->getFoodType() == FISH) {
-            foodScore += 20;
+            foodScore += 50;
             player.setEnergy(-7500);
             player.setSpeedDuration(2000);
             player.setSpeed(0.4);
+        } else if (foodCollected->getFoodType() == STEAK) {
+            foodScore += 75;
+            player.setEnergy(-10000);
+            // player.setSpeedDuration(2000);
+            // player.setSpeed(0.4);
         }
             player.collectedFood();
             foodCollected->setAge(15000);
