@@ -13,16 +13,34 @@ void Player::setSpeedDuration(double p_duration)
     speedDuration = p_duration;
 }
 
+void Player::setShieldDuration(double p_duration)
+{
+    shieldDuration = p_duration;
+}
+
+double Player::getShieldDuration()
+{
+    return shieldDuration;
+}
+
+double Player::getMaxShieldDuration()
+{
+    return 10000;
+}
+
 void Player::update(double deltaTime, bool keyWPressed, bool keyDPressed, bool keySPressed, bool keyAPressed, std::vector<Wall> &walls)
 {
-    // if (getVelocity().x != 0 || getVelocity().y != 0)
-    //     lastTurn += deltaTime;
+    if (energy > 0)
+        energy -= deltaTime;
+
     if (speedDuration > 0)
         speedDuration -= deltaTime;
 
+    if (shieldDuration > 0)
+        shieldDuration -= deltaTime;
+
     if (speedDuration <= 0) {
         speed = 0.25;
-        speedDuration = 99999999;
     }
 
     if (getVelocity().x > 0) {

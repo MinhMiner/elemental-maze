@@ -132,6 +132,10 @@ int main(int argc, char* args[]) {
 
 
 void game() {
+    lastTick = currentTick;
+	currentTick = SDL_GetPerformanceCounter();
+	deltaTime = (double) ((currentTick - lastTick)*1000 / (double) SDL_GetPerformanceFrequency());
+
 	if (state == 0)
 	{
 		titleScreen();
@@ -183,9 +187,9 @@ void titleScreen() {
 }
 
 void update() {
-	lastTick = currentTick;
-	currentTick = SDL_GetPerformanceCounter();
-	deltaTime = (double) ((currentTick - lastTick)*1000 / (double) SDL_GetPerformanceFrequency());
+	// lastTick = currentTick;
+	// currentTick = SDL_GetPerformanceCounter();
+	// deltaTime = (double) ((currentTick - lastTick)*1000 / (double) SDL_GetPerformanceFrequency());
 
     totalTime += deltaTime;
 
@@ -199,6 +203,10 @@ void update() {
         score = 0;
         foodScore = 0;
         player.setEnergy(-20000);
+        std::cout << "player.getEnergy() = " << player.getEnergy() << '\n';
+        fout << "player.getEnergy() = " << player.getEnergy() << '\n';
+        fout << "deltaTime = " << deltaTime << '\n';
+        fout << "----------------------------------\n\n";
         player.resetFoodCount();
         startPlaying = true;
     }
@@ -329,20 +337,24 @@ void update() {
         } else if (foodCollected->getFoodType() == STEAK) {
             foodScore += 75;
             player.setEnergy(-10000);
-            // player.setSpeedDuration(2000);
-            // player.setSpeed(0.4);
+            player.setShieldDuration(10000);
         }
             player.collectedFood();
             foodCollected->setAge(15000);
     }
 
-    player.setEnergy(deltaTime);
+    std::cout << "player.getEnergy() = " << player.getEnergy() << '\n';
+    fout << "player.getEnergy() = " << player.getEnergy() << '\n';
 
     if (player.checkCollisions(player.getPos().x, player.getPos().y, bombs) || player.getEnergy() <= 0) {
-        player.setDead();
-        state = 2;
-        fout << "You died" << '\n';
-        std::cout << "You died" << '\n';
+        if (player.getShieldDuration() <= 0) {
+            player.setDead();
+            state = 2;
+            fout << "You died" << '\n';
+            std::cout << "You died" << '\n';
+        } else {
+            player.setShieldDuration(50);
+        }
     }
         
     
@@ -363,6 +375,9 @@ void graphics() {
 
         window.render(700, 25, energy_bar_Texture, player.getEnergy() * 1.0/player.getMaxEnergy());
         window.render(700, 25, energy_bar_outline_Texture);
+
+        if (player.getShieldDuration() > 0)
+            window.render(500, 25, steak_Texture, player.getShieldDuration() * 1.0/player.getMaxShieldDuration());
 		
         for (Wall &w: walls) {
             window.render(w);

@@ -11,6 +11,7 @@ class Player : public Entity {
             foodCollected = 0;
             speed = 0.25;
             speedDuration = 0;
+            shieldDuration = 0;
         }
 
         void update(double deltaTime, bool keyWPressed, bool keyDPressed, bool keySPressed, bool keyAPressed, std::vector<Wall> &walls);
@@ -19,6 +20,9 @@ class Player : public Entity {
         bool checkCollisions(float x, float y, std::vector<Food*> &foods, Food* &returnFood);
         void setSpeed(double p_speed);
         void setSpeedDuration(double p_duration);
+        void setShieldDuration(double p_duration);
+        double getShieldDuration();
+        double getMaxShieldDuration();
         bool isDead();
         void setDead();
         void setAlive();
@@ -41,6 +45,7 @@ class Player : public Entity {
         int foodCollected;
         double speed;
         double speedDuration;
+        double shieldDuration;
         // Vector2f pos;
         // Vector2f velocity;
         // SDL_Texture *tex;
