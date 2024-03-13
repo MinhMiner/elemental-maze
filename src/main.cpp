@@ -187,12 +187,7 @@ void titleScreen() {
 }
 
 void update() {
-	// lastTick = currentTick;
-	// currentTick = SDL_GetPerformanceCounter();
-	// deltaTime = (double) ((currentTick - lastTick)*1000 / (double) SDL_GetPerformanceFrequency());
-
     totalTime += deltaTime;
-
 
     if (!startPlaying) {    // Reset điểm và thời gian lúc mới bắt đầu trò chơi
         fout << "START PLAYING-----------------------\n\n";
@@ -203,10 +198,8 @@ void update() {
         score = 0;
         foodScore = 0;
         player.setEnergy(-20000);
-        std::cout << "player.getEnergy() = " << player.getEnergy() << '\n';
-        fout << "player.getEnergy() = " << player.getEnergy() << '\n';
-        fout << "deltaTime = " << deltaTime << '\n';
-        fout << "----------------------------------\n\n";
+        player.setSpeedDuration(0);
+        player.setShieldDuration(0);
         player.resetFoodCount();
         startPlaying = true;
     }
@@ -216,8 +209,6 @@ void update() {
     // fout << "bombs.size() = " << bombs.size() << '\n';
     // fout << "totalTime = " << totalTime << '\n';
     // fout << "lastBombSpawned = " << lastBombSpawned << '\n';
-
-
 
     if ((totalTime - lastBombSpawned) >= 300) {
         std::chrono::system_clock::time_point tp = std::chrono::system_clock::now();
@@ -343,8 +334,8 @@ void update() {
             foodCollected->setAge(15000);
     }
 
-    std::cout << "player.getEnergy() = " << player.getEnergy() << '\n';
-    fout << "player.getEnergy() = " << player.getEnergy() << '\n';
+    // std::cout << "player.getEnergy() = " << player.getEnergy() << '\n';
+    // fout << "player.getEnergy() = " << player.getEnergy() << '\n';
 
     if (player.checkCollisions(player.getPos().x, player.getPos().y, bombs) || player.getEnergy() <= 0) {
         if (player.getShieldDuration() <= 0) {
