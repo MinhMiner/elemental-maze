@@ -54,6 +54,8 @@ SDL_Texture *bomb_Texture = window.loadTexture("res/gfx/bomb.png");
 SDL_Texture *bone_Texture = window.loadTexture("res/gfx/bone.png");
 SDL_Texture *energy_bar_Texture = window.loadTexture("res/gfx/energy_bar.png");
 SDL_Texture *energy_bar_outline_Texture = window.loadTexture("res/gfx/energy_bar_outline.png");
+SDL_Texture *fish_Texture = window.loadTexture("res/gfx/fish.png");
+
 
 TTF_Font* font32 = TTF_OpenFont("res/font/font.ttf", 32);
 TTF_Font* font64 = TTF_OpenFont("res/font/font.ttf", 64);
@@ -235,12 +237,21 @@ void update() {
         float randomXVal = distributionX(gen);
         float randomYVal = distributionY(gen);
 
-        Food *food = new Food({randomXVal, randomYVal}, bone_Texture, BONE);
+        std::uniform_int_distribution<int> generateFoodSeed(1, 100);
+        int randomFoodSeed = generateFoodSeed(gen);
+
+        Food *food = nullptr;
+        if (randomFoodSeed <= 20) {
+            food = new Food({randomXVal, randomYVal}, bone_Texture, BONE);
+        } else if (randomFoodSeed <= 100) {
+            food = new Food({randomXVal, randomYVal}, fish_Texture, FISH);
+        }
+
         foods.push_back(food);
 
-        fout << "foods.size() = " << foods.size() << '\n';
-        fout << "totalTime = " << totalTime << '\n';
-        fout << "lastFoodSpawned = " << lastFoodSpawned << "\n\n";
+        // fout << "foods.size() = " << foods.size() << '\n';
+        // fout << "totalTime = " << totalTime << '\n';
+        // fout << "lastFoodSpawned = " << lastFoodSpawned << "\n\n";
 
         lastFoodSpawned = totalTime;
     }

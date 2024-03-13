@@ -62,6 +62,10 @@ class Food : public Entity {
 			type = p_type;
 			age = 0;
 			destroyed = false;
+			if (p_type == FISH) {
+				int variation = (int) (p_pos.x * p_pos.y) % 6;
+				setCurrentFrame(variation * 48, 0, 48, 48);
+			}
 		}
 		~Food() {};
 		foodType getFoodType();
