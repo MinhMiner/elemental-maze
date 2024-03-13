@@ -3,12 +3,27 @@
 #include "Math.h"
 #include "RenderWindow.h"
 
+void Player::setSpeed(double p_speed)
+{
+    speed = p_speed;
+}
+
+void Player::setSpeedDuration(double p_duration)
+{
+    speedDuration = p_duration;
+}
+
 void Player::update(double deltaTime, bool keyWPressed, bool keyDPressed, bool keySPressed, bool keyAPressed, std::vector<Wall> &walls)
 {
-    double speed = 0.25;
-
     // if (getVelocity().x != 0 || getVelocity().y != 0)
     //     lastTurn += deltaTime;
+    if (speedDuration > 0)
+        speedDuration -= deltaTime;
+
+    if (speedDuration <= 0) {
+        speed = 0.25;
+        speedDuration = 99999999;
+    }
 
     if (getVelocity().x > 0) {
         if (movingLeft == true) {
@@ -56,7 +71,7 @@ void Player::update(double deltaTime, bool keyWPressed, bool keyDPressed, bool k
     if (getPos().y + getCurrentFrame().h > WINDOW_HEIGHT)
         setPos(getPos().x, WINDOW_HEIGHT - getCurrentFrame().h);
 
-    const int frameInterval = 100;
+    const int frameInterval = (int) 25.0 / speed;
     const int maxFrames = 6;
 
     int frameIndex = (int) (((int) lastTurn % (frameInterval * maxFrames)) / frameInterval);

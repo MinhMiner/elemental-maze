@@ -241,7 +241,7 @@ void update() {
         int randomFoodSeed = generateFoodSeed(gen);
 
         Food *food = nullptr;
-        if (randomFoodSeed <= 20) {
+        if (randomFoodSeed <= 80) {
             food = new Food({randomXVal, randomYVal}, bone_Texture, BONE);
         } else if (randomFoodSeed <= 100) {
             food = new Food({randomXVal, randomYVal}, fish_Texture, FISH);
@@ -315,10 +315,17 @@ void update() {
     if (player.checkCollisions(player.getPos().x, player.getPos().y, foods, foodCollected)) {
         // fout << "You ate a food!" << '\n';
         // std::cout << "You ate a food!" << '\n';
-        foodScore += 10;
-        player.setEnergy(-7000);
-        player.collectedFood();
-        foodCollected->setAge(15000);
+        if (foodCollected->getFoodType() == BONE) {
+            foodScore += 10;
+            player.setEnergy(-5000);
+        } else if (foodCollected->getFoodType() == FISH) {
+            foodScore += 20;
+            player.setEnergy(-7500);
+            player.setSpeedDuration(2000);
+            player.setSpeed(0.4);
+        }
+            player.collectedFood();
+            foodCollected->setAge(15000);
     }
 
     player.setEnergy(deltaTime);
