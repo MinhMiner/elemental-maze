@@ -98,6 +98,25 @@ void RenderWindow::render(int x, int y, SDL_Texture* p_tex)
     SDL_RenderCopy(renderer, p_tex, &src, &dest);
 }
 
+void RenderWindow::render(int x, int y, SDL_Texture* p_tex, double percent_w)
+{
+    SDL_Rect src;
+    src.x = 0;
+    src.y = 0;
+    
+    SDL_QueryTexture(p_tex, NULL, NULL, &src.w, &src.h);
+
+    src.w = src.w * percent_w;
+
+    SDL_Rect dest;
+    dest.x = x;
+    dest.y = y;
+    dest.w = src.w;
+    dest.h = src.h;
+
+    SDL_RenderCopy(renderer, p_tex, &src, &dest);
+}
+
 void RenderWindow::render(float p_x, float p_y, const char* p_text, TTF_Font* p_font, SDL_Color p_textColor)
 {
     SDL_Surface* surfaceMessage = TTF_RenderText_Blended(p_font, p_text, p_textColor);

@@ -21,6 +21,7 @@ public:
 	void render(Entity& p_entity);
 	void render(Player& p_player, bool movingLeft);
 	void render(int x, int y, SDL_Texture* p_tex);
+	void render(int x, int y, SDL_Texture* p_tex, double percent_w);
 	void render(float p_x, float p_y, const char* p_text, TTF_Font* p_font, SDL_Color p_textColor);
 	void display();
 private:

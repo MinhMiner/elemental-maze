@@ -52,6 +52,7 @@ SDL_Texture *player_Texture = window.loadTexture("res/gfx/player.png");
 SDL_Texture *brick_wall_Texture = window.loadTexture("res/gfx/brick_wall.png");
 SDL_Texture *bomb_Texture = window.loadTexture("res/gfx/bomb.png");
 SDL_Texture *bone_Texture = window.loadTexture("res/gfx/bone.png");
+SDL_Texture *energy_bar_Texture = window.loadTexture("res/gfx/energy_bar.png");
 
 TTF_Font* font32 = TTF_OpenFont("res/font/font.ttf", 32);
 TTF_Font* font64 = TTF_OpenFont("res/font/font.ttf", 64);
@@ -193,6 +194,7 @@ void update() {
         lastFoodSpawned = 0.0;
         score = 0;
         foodScore = 0;
+        player.setEnergy(-20000);
         startPlaying = true;
     }
 
@@ -296,19 +298,25 @@ void update() {
         }
     }
 
-    if (player.checkCollisions(player.getPos().x, player.getPos().y, bombs)) {
-        player.setDead();
-        state = 2;
-        fout << "You died" << '\n';
-        std::cout << "You died" << '\n';
-    }
-
     Food *foodCollected = nullptr;
     if (player.checkCollisions(player.getPos().x, player.getPos().y, foods, foodCollected)) {
         // fout << "You ate a food!" << '\n';
         // std::cout << "You ate a food!" << '\n';
         foodScore += 10;
+        player.setEnergy(-10000);
         foodCollected->setAge(15000);
+    }
+
+    player.setEnergy(deltaTime);
+
+    std::cout << "player.getEnergy() = " << player.getEnergy() << '\n';
+    fout << "player.getEnergy() = " << player.getEnergy() << '\n';
+
+    if (player.checkCollisions(player.getPos().x, player.getPos().y, bombs) || player.getEnergy() <= 0) {
+        player.setDead();
+        state = 2;
+        fout << "You died" << '\n';
+        std::cout << "You died" << '\n';
     }
         
     
@@ -326,6 +334,8 @@ void graphics() {
 
         window.render(15, 15, scoreCStr, font64, black);
 	    window.render(10, 10, scoreCStr, font64, white);
+
+        window.render(700, 25, energy_bar_Texture, player.getEnergy() * 1.0/player.getMaxEnergy());
 		
         for (Wall &w: walls) {
             window.render(w);

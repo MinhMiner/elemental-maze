@@ -177,6 +177,10 @@ double Player::getEnergy()
 void Player::setEnergy(double deltaTime)
 {
     energy -= deltaTime;
+    if (energy > maxEnergy)
+        energy = maxEnergy;
+    if (energy < 0)
+        energy = 0;
 }
 
 double Player::getMaxEnergy()
