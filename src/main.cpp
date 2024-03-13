@@ -53,6 +53,7 @@ SDL_Texture *brick_wall_Texture = window.loadTexture("res/gfx/brick_wall.png");
 SDL_Texture *bomb_Texture = window.loadTexture("res/gfx/bomb.png");
 SDL_Texture *bone_Texture = window.loadTexture("res/gfx/bone.png");
 SDL_Texture *energy_bar_Texture = window.loadTexture("res/gfx/energy_bar.png");
+SDL_Texture *energy_bar_outline_Texture = window.loadTexture("res/gfx/energy_bar_outline.png");
 
 TTF_Font* font32 = TTF_OpenFont("res/font/font.ttf", 32);
 TTF_Font* font64 = TTF_OpenFont("res/font/font.ttf", 64);
@@ -335,6 +336,7 @@ void graphics() {
 	    window.render(10, 10, scoreCStr, font64, white);
 
         window.render(700, 25, energy_bar_Texture, player.getEnergy() * 1.0/player.getMaxEnergy());
+        window.render(700, 25, energy_bar_outline_Texture);
 		
         for (Wall &w: walls) {
             window.render(w);
