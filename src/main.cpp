@@ -311,9 +311,6 @@ void update() {
 
     player.setEnergy(deltaTime);
 
-    std::cout << "player.getEnergy() = " << player.getEnergy() << '\n';
-    fout << "player.getEnergy() = " << player.getEnergy() << '\n';
-
     if (player.checkCollisions(player.getPos().x, player.getPos().y, bombs) || player.getEnergy() <= 0) {
         player.setDead();
         state = 2;
@@ -358,7 +355,7 @@ void graphics() {
         window.clear();
 		window.render(0, 0, background_Texture);
 
-        std::string scoreString = "Score: " + std::to_string(score + foodScore);
+        std::string scoreString = "Score: " + std::to_string(score);
         const char* scoreCStr = scoreString.c_str();
 
         window.render(15, 15, scoreCStr, font64, black);
