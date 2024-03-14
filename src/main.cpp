@@ -56,6 +56,7 @@ SDL_Texture *energy_bar_Texture = window.loadTexture("res/gfx/energy_bar.png");
 SDL_Texture *energy_bar_outline_Texture = window.loadTexture("res/gfx/energy_bar_outline.png");
 SDL_Texture *fish_Texture = window.loadTexture("res/gfx/fish.png");
 SDL_Texture *steak_Texture = window.loadTexture("res/gfx/steak.png");
+SDL_Texture *chicken_Texture = window.loadTexture("res/gfx/chicken.png");
 
 
 TTF_Font* font32 = TTF_OpenFont("res/font/font.ttf", 32);
@@ -241,12 +242,14 @@ void update() {
         int randomFoodSeed = generateFoodSeed(gen);
 
         Food *food = nullptr;
-        if (randomFoodSeed <= 70) {
+        if (randomFoodSeed <= 10) {
             food = new Food({randomXVal, randomYVal}, bone_Texture, BONE);
-        } else if (randomFoodSeed <= 90) {
+        } else if (randomFoodSeed <= 20) {
             food = new Food({randomXVal, randomYVal}, fish_Texture, FISH);
-        } else if (randomFoodSeed <= 100) {
+        } else if (randomFoodSeed <= 30) {
             food = new Food({randomXVal, randomYVal}, steak_Texture, STEAK);
+        } else if (randomFoodSeed <= 100) {
+            food = new Food({randomXVal, randomYVal}, chicken_Texture, CHICKEN);
         }
 
         foods.push_back(food);
@@ -319,16 +322,23 @@ void update() {
         // std::cout << "You ate a food!" << '\n';
         if (foodCollected->getFoodType() == BONE) {
             foodScore += 10;
-            player.setEnergy(-5000);
+            player.setEnergy(-3500);
         } else if (foodCollected->getFoodType() == FISH) {
             foodScore += 50;
-            player.setEnergy(-7500);
+            player.setEnergy(-7000);
             player.setSpeedDuration(2000);
             player.setSpeed(0.4);
         } else if (foodCollected->getFoodType() == STEAK) {
             foodScore += 75;
             player.setEnergy(-10000);
             player.setShieldDuration(10000);
+        } else if (foodCollected->getFoodType() == CHICKEN) {
+            foodScore += 60;
+            player.setEnergy(-8000);
+            player.setSpeedDuration(200);
+            player.setSpeed(1);
+            if (player.getShieldDuration() < 2000)  // Need to fix shield texture and conflict between speed & shield from other food
+                player.setShieldDuration(2000);
         }
             player.collectedFood();
             foodCollected->setAge(15000);

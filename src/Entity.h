@@ -7,7 +7,8 @@
 enum foodType {
 	BONE,
 	FISH,
-	STEAK
+	STEAK,
+	CHICKEN
 };
 
 class Entity {
@@ -65,6 +66,9 @@ class Food : public Entity {
 			if (p_type == FISH) {
 				int variation = (int) (p_pos.x * p_pos.y) % 6;
 				setCurrentFrame(variation * 48, 0, 48, 48);
+			} else if (p_type == CHICKEN) {
+				int variation = (int) (p_pos.x * p_pos.y) % 3;
+				setCurrentFrame(variation * 45, 0, 45, 45);
 			}
 		}
 		~Food() {};
