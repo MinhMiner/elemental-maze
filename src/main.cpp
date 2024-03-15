@@ -97,6 +97,9 @@ std::vector<Bomb*> bombs;
 std::vector<Food*> foods;
 Player player = Player({300, 300}, player_Texture);
 
+std::chrono::system_clock::time_point tp = std::chrono::system_clock::now();
+std::mt19937 gen(tp.time_since_epoch().count());
+
 int main(int argc, char* args[]) {
     
     fout << "Game started..." << std::endl;
@@ -213,9 +216,6 @@ void update() {
     // fout << "lastBombSpawned = " << lastBombSpawned << '\n';
 
     if ((totalTime - lastBombSpawned) >= 300) {
-        std::chrono::system_clock::time_point tp = std::chrono::system_clock::now();
-        std::mt19937 gen(tp.time_since_epoch().count());
-
         std::uniform_real_distribution<float> distributionX(0, WINDOW_WIDTH - 200);
         std::uniform_real_distribution<float> distributionY(164, WINDOW_HEIGHT - 200);
 
@@ -229,8 +229,7 @@ void update() {
         lastBombSpawned = totalTime;
     }
     if ((totalTime - lastFoodSpawned) >= 3000) {
-        std::chrono::system_clock::time_point tp = std::chrono::system_clock::now();
-        std::mt19937 gen(tp.time_since_epoch().count());
+
 
         std::uniform_real_distribution<float> distributionX(0, WINDOW_WIDTH - 64);
         std::uniform_real_distribution<float> distributionY(164, WINDOW_HEIGHT - 64);
