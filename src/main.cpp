@@ -82,6 +82,7 @@ bool keyWPressed = false;
 bool keyAPressed = false;
 bool keySPressed = false;
 bool keyDPressed = false;
+bool keyMousePressed = false;
 
 void loadMaps(std::vector<Wall> &walls);
 void loadLevels(int &level);
@@ -288,6 +289,14 @@ void update() {
                     keySPressed = false;
                 else if (event.key.keysym.sym == SDLK_d)
                     keyDPressed = false;
+                break;
+            case SDL_MOUSEBUTTONDOWN:
+                // int mouseX = event.button.x;
+                // int mouseY = event.button.y;
+                keyMousePressed = true;
+                break;
+            case SDL_MOUSEBUTTONUP:
+                keyMousePressed = false;
                 break;
             default:
                 break;
