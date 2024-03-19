@@ -108,7 +108,7 @@ void Player::update(double deltaTime, bool keyWPressed, bool keyDPressed, bool k
             if (it->effectName == SPEED && it->amplifier > highestSpeed)
                 highestSpeed = it->amplifier;
             else if (it->effectName == SHIELD) {
-                std::cout << "it->duration = " << it->duration << '\n';
+                // std::cout << "it->duration = " << it->duration << '\n';
                 // if (it->duration > highestShieldDuration)
                 //     highestShieldDuration = it->duration;
                 shield = true;

@@ -358,6 +358,13 @@ void update() {
     
     player.update(deltaTime, keyWPressed, keyDPressed, keySPressed, keyAPressed, walls);
 
+    if (player.hasEffect(DASH) && keyMousePressed) {
+        player.setEnergy(-200);
+        player.addEffect({SPEED, 1, 150});
+        player.addEffect({INVINCIBLE, 1, 250});
+        player.removeEffect(DASH);
+    }
+
     // std::cout << "player.getEnergy() = " << player.getEnergy() << '\n';
     // fout << "player.getEnergy() = " << player.getEnergy() << '\n';
     if (!player.isInvincible())
@@ -411,7 +418,7 @@ void graphics() {
             window.render(500, 25, steak_Texture, player.getEffectDuration(SHIELD)/player.getMaxShieldDuration());
 		
         if (player.getEffectDuration(DASH) > 0)
-            window.render(400, 25, chicken_Texture, player.getEffectDuration(DASH)/player.getMaxDashDuration());
+            window.render(400, 25, chicken_Texture, player.getEffectDuration(DASH)/player.getMaxDashDuration()/3);
 
 
         for (Wall &w: walls) {
