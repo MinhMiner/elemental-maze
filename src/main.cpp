@@ -247,7 +247,7 @@ void update() {
             food = new Food({randomXVal, randomYVal}, bone_Texture, BONE);
         } else if (randomFoodSeed <= 30) {
             food = new Food({randomXVal, randomYVal}, fish_Texture, FISH);
-        } else if (randomFoodSeed <= 85) {
+        } else if (randomFoodSeed <= 65) {
             food = new Food({randomXVal, randomYVal}, steak_Texture, STEAK);
         } else if (randomFoodSeed <= 100) {
             food = new Food({randomXVal, randomYVal}, chicken_Texture, CHICKEN);
@@ -403,13 +403,17 @@ void graphics() {
         window.render(15, 15, scoreCStr, font64, black);
 	    window.render(10, 10, scoreCStr, font64, white);
 
-        window.render(700, 25, energy_bar_Texture, player.getEnergy() * 1.0/player.getMaxEnergy());
+        window.render(700, 25, energy_bar_Texture, player.getEnergy()/player.getMaxEnergy());
         window.render(700, 25, energy_bar_outline_Texture);
 
-        std::cout << "player.getShieldDuration() = " << player.getEffectDuration(SHIELD) << '\n';
+        // std::cout << "player.getShieldDuration() = " << player.getEffectDuration(SHIELD) << '\n';
         if (player.getEffectDuration(SHIELD) > 0)
             window.render(500, 25, steak_Texture, player.getEffectDuration(SHIELD)/player.getMaxShieldDuration());
 		
+        if (player.getEffectDuration(DASH) > 0)
+            window.render(400, 25, chicken_Texture, player.getEffectDuration(DASH)/player.getMaxDashDuration());
+
+
         for (Wall &w: walls) {
             window.render(w);
         }

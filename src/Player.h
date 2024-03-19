@@ -21,8 +21,9 @@ class Player : public Entity {
         // void setSpeedDuration(double p_duration);
         // void setShieldDuration(double p_duration);
         // void setDashDuration(double p_duration);
-        double getShieldDuration();
+        // double getShieldDuration();
         double getMaxShieldDuration();
+        double getMaxDashDuration();
         bool isDead();
         void setDead();
         void setAlive();
@@ -56,8 +57,8 @@ class Player : public Entity {
         double speed;
         std::vector<Effect> effects;
         double speedDuration;
-        double highestShieldDuration;
-        double highestDashDuration;
+        // double highestShieldDuration;
+        // double highestDashDuration;
         bool shield;
         bool invincible;
         double dashDuration;

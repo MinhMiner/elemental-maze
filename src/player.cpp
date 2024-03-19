@@ -23,14 +23,19 @@
 //     dashDuration = p_duration;
 // }
 
-double Player::getShieldDuration()
-{
-    return highestShieldDuration;
-}
+// double Player::getShieldDuration()
+// {
+//     return highestShieldDuration;
+// }
 
 double Player::getMaxShieldDuration()
 {
     return 10000;
+}
+
+double Player::getMaxDashDuration()
+{
+    return 30000;
 }
 
 std::vector<Effect> Player::getEffects()
@@ -93,8 +98,8 @@ void Player::update(double deltaTime, bool keyWPressed, bool keyDPressed, bool k
     invincible = false;
 
     double highestSpeed = 0.25;
-    highestShieldDuration = 0;
-    highestDashDuration = 0;
+    // highestShieldDuration = 0;
+    // highestDashDuration = 0;
     for (auto it = effects.begin(); it != effects.end(); ) {
         it->duration -= deltaTime;
         if (it->duration <= 0) {
@@ -104,13 +109,13 @@ void Player::update(double deltaTime, bool keyWPressed, bool keyDPressed, bool k
                 highestSpeed = it->amplifier;
             else if (it->effectName == SHIELD) {
                 std::cout << "it->duration = " << it->duration << '\n';
-                if (it->duration > highestShieldDuration)
-                    highestShieldDuration = it->duration;
+                // if (it->duration > highestShieldDuration)
+                //     highestShieldDuration = it->duration;
                 shield = true;
             }
             else if (it->effectName == DASH) {
-                if (it->duration > highestDashDuration)
-                    highestDashDuration = it->duration;
+                // if (it->duration > highestDashDuration)
+                //     highestDashDuration = it->duration;
                 // dash = true;
             }
             else if (it->effectName == INVINCIBLE) {
@@ -120,7 +125,7 @@ void Player::update(double deltaTime, bool keyWPressed, bool keyDPressed, bool k
             ++it;
         }
     }
-    std::cout << "highestShieldDuration = " << highestShieldDuration << '\n';
+    // std::cout << "highestShieldDuration = " << highestShieldDuration << '\n';
     speed = highestSpeed;
 
     if (energy > 0)
