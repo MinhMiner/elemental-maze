@@ -48,6 +48,18 @@ void Player::setEffects(std::vector<Effect> p_effects)
     effects = p_effects;
 }
 
+bool Player::hasEffect(effectType p_effectType)
+{
+    bool result = false;
+    for (auto &e : effects) {
+        if (e.effectName == p_effectType) {
+            result = true;
+            break;
+        }
+    }
+    return result;
+}
+
 void Player::resetEffects()
 {
     effects.clear();
