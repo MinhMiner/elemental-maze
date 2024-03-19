@@ -38,8 +38,9 @@ class Player : public Entity {
 
         std::vector<Effect> getEffects();
         void addEffect(Effect p_effect);
+        void removeEffect(effectType p_effectName);
         void setEffects(std::vector<Effect> p_effects);
-        bool hasEffect(effectType p_effectType);
+        bool hasEffect(effectType p_effectName);
         void resetEffects();
         // double getLastTurn();
         // void resetLastTurn();

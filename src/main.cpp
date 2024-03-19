@@ -243,9 +243,9 @@ void update() {
         int randomFoodSeed = generateFoodSeed(gen);
 
         Food *food = nullptr;
-        if (randomFoodSeed <= 40) {
+        if (randomFoodSeed <= 10) {
             food = new Food({randomXVal, randomYVal}, bone_Texture, BONE);
-        } else if (randomFoodSeed <= 60) {
+        } else if (randomFoodSeed <= 30) {
             food = new Food({randomXVal, randomYVal}, fish_Texture, FISH);
         } else if (randomFoodSeed <= 85) {
             food = new Food({randomXVal, randomYVal}, steak_Texture, STEAK);
@@ -366,17 +366,19 @@ void update() {
                 // player.setShieldDuration(50);
                 fout << "You got exploded by a bomb!\n";
                 std::cout << "You got exploded by a bomb!\n";
-                auto effects = player.getEffects();
-                for (auto it = effects.begin(); it != effects.end(); ++it) {
-                    fout << "Entered the loop!\n";
-                    if (it->effectName == SHIELD) {
-                        fout << "Condition checking...\n";
-                        fout << "effects.size() = " << effects.size() << '\n';
-                        it->duration = 0;
-                    }
-                }
-                fout << "Out of loop!\n";
-                player.setEffects(effects);
+                // auto effects = player.getEffects();
+                // for (auto it = effects.begin(); it != effects.end(); ++it) {
+                //     fout << "Entered the loop!\n";
+                //     if (it->effectName == SHIELD) {
+                //         fout << "Condition checking...\n";
+                //         fout << "effects.size() = " << effects.size() << '\n';
+                //         it->duration = 0;
+                //     }
+                // }
+                // fout << "Out of loop!\n";
+                // player.setEffects(effects);
+                player.removeEffect(SHIELD);
+                // std::cout << "Shields removed!" << std::endl;
                 player.addEffect({INVINCIBLE, 1, 50});
             } else {
                 player.setDead();

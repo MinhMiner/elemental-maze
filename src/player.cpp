@@ -43,16 +43,27 @@ void Player::addEffect(Effect p_effect)
     effects.push_back(p_effect);
 }
 
+void Player::removeEffect(effectType p_effectName)
+{
+    for (size_t i = 0; i < effects.size(); ) {
+        if (effects[i].effectName == p_effectName) {
+            effects.erase(effects.begin() + i);
+        } else {
+            ++i;
+        }
+    }
+}
+
 void Player::setEffects(std::vector<Effect> p_effects)
 {
     effects = p_effects;
 }
 
-bool Player::hasEffect(effectType p_effectType)
+bool Player::hasEffect(effectType p_effectName)
 {
     bool result = false;
     for (auto &e : effects) {
-        if (e.effectName == p_effectType) {
+        if (e.effectName == p_effectName) {
             result = true;
             break;
         }
