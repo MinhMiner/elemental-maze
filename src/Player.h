@@ -37,6 +37,7 @@ class Player : public Entity {
         bool isInvincible();
 
         std::vector<Effect> getEffects();
+        double getEffectDuration(effectType p_effectName);
         void addEffect(Effect p_effect);
         void removeEffect(effectType p_effectName);
         void setEffects(std::vector<Effect> p_effects);

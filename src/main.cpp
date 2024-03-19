@@ -406,9 +406,9 @@ void graphics() {
         window.render(700, 25, energy_bar_Texture, player.getEnergy() * 1.0/player.getMaxEnergy());
         window.render(700, 25, energy_bar_outline_Texture);
 
-        std::cout << "player.getShieldDuration() = " << player.getShieldDuration() << '\n';
-        if (player.getShieldDuration() > 0)
-            window.render(500, 25, steak_Texture, player.getShieldDuration() * 1.0/player.getMaxShieldDuration());
+        std::cout << "player.getShieldDuration() = " << player.getEffectDuration(SHIELD) << '\n';
+        if (player.getEffectDuration(SHIELD) > 0)
+            window.render(500, 25, steak_Texture, player.getEffectDuration(SHIELD)/player.getMaxShieldDuration());
 		
         for (Wall &w: walls) {
             window.render(w);

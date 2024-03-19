@@ -38,6 +38,17 @@ std::vector<Effect> Player::getEffects()
     return effects;
 }
 
+double Player::getEffectDuration(effectType p_effectName)
+{
+    double highestDuration = 0;
+    for (auto &e: effects) {
+        if (e.effectName == p_effectName && e.duration > highestDuration) {
+            highestDuration = e.duration;
+        }
+    }
+    return highestDuration;
+}
+
 void Player::addEffect(Effect p_effect)
 {
     effects.push_back(p_effect);
