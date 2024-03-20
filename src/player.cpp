@@ -94,8 +94,8 @@ void Player::resetEffects()
 
 void Player::update(double deltaTime, bool keyWPressed, bool keyDPressed, bool keySPressed, bool keyAPressed, std::vector<Wall> &walls)
 {
-    shield = false;
-    invincible = false;
+    // shield = false;
+    // invincible = false;
 
     double highestSpeed = 0.25;
     // highestShieldDuration = 0;
@@ -111,7 +111,7 @@ void Player::update(double deltaTime, bool keyWPressed, bool keyDPressed, bool k
                 // std::cout << "it->duration = " << it->duration << '\n';
                 // if (it->duration > highestShieldDuration)
                 //     highestShieldDuration = it->duration;
-                shield = true;
+                // shield = true;
             }
             else if (it->effectName == DASH) {
                 // if (it->duration > highestDashDuration)
@@ -119,9 +119,8 @@ void Player::update(double deltaTime, bool keyWPressed, bool keyDPressed, bool k
                 // dash = true;
             }
             else if (it->effectName == INVINCIBLE) {
-                invincible = true;
+                // invincible = true;
             }
-
             ++it;
         }
     }
@@ -308,7 +307,7 @@ double Player::getEnergy()
     return energy;
 }
 
-void Player::setEnergy(double deltaTime)
+void Player::updateEnergy(double deltaTime)
 {
     energy -= deltaTime;
     if (energy > getMaxEnergy())
@@ -337,15 +336,15 @@ int Player::getFoodCount()
     return foodCollected;
 }
 
-bool Player::hasShield()
-{
-    return shield;
-}
+// bool Player::hasShield()
+// {
+//     return shield;
+// }
 
-bool Player::isInvincible()
-{
-    return invincible;
-}
+// bool Player::isInvincible()
+// {
+//     return invincible;
+// }
 
 // double Player::getLastTurn()
 // {

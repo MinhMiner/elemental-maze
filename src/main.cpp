@@ -202,7 +202,7 @@ void update() {
         lastFoodSpawned = 0.0;
         score = 0;
         foodScore = 0;
-        player.setEnergy(-20000);
+        player.updateEnergy(-20000);
         player.resetEffects();
         // player.setSpeedDuration(0);
         // player.setShieldDuration(0);
@@ -245,9 +245,9 @@ void update() {
         Food *food = nullptr;
         if (randomFoodSeed <= 10) {
             food = new Food({randomXVal, randomYVal}, bone_Texture, BONE);
-        } else if (randomFoodSeed <= 30) {
+        } else if (randomFoodSeed <= 40) {
             food = new Food({randomXVal, randomYVal}, fish_Texture, FISH);
-        } else if (randomFoodSeed <= 65) {
+        } else if (randomFoodSeed <= 70) {
             food = new Food({randomXVal, randomYVal}, steak_Texture, STEAK);
         } else if (randomFoodSeed <= 100) {
             food = new Food({randomXVal, randomYVal}, chicken_Texture, CHICKEN);
@@ -331,21 +331,21 @@ void update() {
         // std::cout << "You ate a food!" << '\n';
         if (foodCollected->getFoodType() == BONE) {
             foodScore += 10;
-            player.setEnergy(-3500);
+            player.updateEnergy(-3500);
         } else if (foodCollected->getFoodType() == FISH) {
             foodScore += 50;
-            player.setEnergy(-7000);
+            player.updateEnergy(-7000);
             player.addEffect({SPEED, 0.35, 2000});
             // player.setSpeedDuration(2000);
             // player.setSpeed(0.4);
         } else if (foodCollected->getFoodType() == STEAK) {
             foodScore += 75;
-            player.setEnergy(-10000);
+            player.updateEnergy(-10000);
             player.addEffect({SHIELD, 1, 10000});
             // player.setShieldDuration(10000);
         } else if (foodCollected->getFoodType() == CHICKEN) {
             foodScore += 60;
-            player.setEnergy(-8000);
+            player.updateEnergy(-8000);
             player.addEffect({DASH, 1, 30000});
             // player.setSpeedDuration(200);
             // player.setSpeed(1);
@@ -359,7 +359,7 @@ void update() {
     player.update(deltaTime, keyWPressed, keyDPressed, keySPressed, keyAPressed, walls);
 
     if (player.hasEffect(DASH) && keyMousePressed) {
-        player.setEnergy(-200);
+        player.updateEnergy(-200);
         player.addEffect({SPEED, 1, 150});
         player.addEffect({INVINCIBLE, 1, 250});
         player.removeEffect(DASH);
@@ -367,9 +367,9 @@ void update() {
 
     // std::cout << "player.getEnergy() = " << player.getEnergy() << '\n';
     // fout << "player.getEnergy() = " << player.getEnergy() << '\n';
-    if (!player.isInvincible())
+    if (!player.hasEffect(INVINCIBLE))
         if (player.checkCollisions(player.getPos().x, player.getPos().y, bombs) || player.getEnergy() <= 0) {
-            if (player.hasShield() && player.getEnergy() > 0) {
+            if (player.hasEffect(SHIELD) && player.getEnergy() > 0) {
                 // player.setShieldDuration(50);
                 fout << "You got exploded by a bomb!\n";
                 std::cout << "You got exploded by a bomb!\n";
@@ -394,8 +394,6 @@ void update() {
                 std::cout << "You died" << '\n';            
             }
         }
-        
-
 }
 
 void graphics() {

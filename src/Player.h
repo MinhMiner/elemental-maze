@@ -10,7 +10,7 @@ class Player : public Entity {
             energy = 15000;
             foodCollected = 0;
             speed = 0.25;
-            speedDuration = 0;
+            // speedDuration = 0;
         }
 
         void update(double deltaTime, bool keyWPressed, bool keyDPressed, bool keySPressed, bool keyAPressed, std::vector<Wall> &walls);
@@ -29,13 +29,13 @@ class Player : public Entity {
         void setAlive();
         bool isMovingLeft();
         double getEnergy();
-        void setEnergy(double deltaTime);
+        void updateEnergy(double deltaTime);
         double getMaxEnergy();
         void collectedFood();
         void resetFoodCount();
         int getFoodCount();
-        bool hasShield();
-        bool isInvincible();
+        // bool hasShield();
+        // bool isInvincible();
 
         std::vector<Effect> getEffects();
         double getEffectDuration(effectType p_effectName);
@@ -56,12 +56,12 @@ class Player : public Entity {
         int foodCollected;
         double speed;
         std::vector<Effect> effects;
-        double speedDuration;
+        // double speedDuration;
         // double highestShieldDuration;
         // double highestDashDuration;
-        bool shield;
-        bool invincible;
-        double dashDuration;
+        // bool shield;
+        // bool invincible;
+        // double dashDuration;
         // Vector2f pos;
         // Vector2f velocity;
         // SDL_Texture *tex;
