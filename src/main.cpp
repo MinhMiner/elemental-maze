@@ -245,9 +245,9 @@ void update() {
         Food *food = nullptr;
         if (randomFoodSeed <= 10) {
             food = new Food({randomXVal, randomYVal}, bone_Texture, BONE);
-        } else if (randomFoodSeed <= 40) {
+        } else if (randomFoodSeed <= 20) {
             food = new Food({randomXVal, randomYVal}, fish_Texture, FISH);
-        } else if (randomFoodSeed <= 70) {
+        } else if (randomFoodSeed <= 30) {
             food = new Food({randomXVal, randomYVal}, steak_Texture, STEAK);
         } else if (randomFoodSeed <= 100) {
             food = new Food({randomXVal, randomYVal}, chicken_Texture, CHICKEN);
@@ -363,6 +363,7 @@ void update() {
         player.addEffect({SPEED, 1, 150});
         player.addEffect({INVINCIBLE, 1, 250});
         player.removeEffect(DASH);
+        keyMousePressed = false;
     }
 
     // std::cout << "player.getEnergy() = " << player.getEnergy() << '\n';
@@ -497,8 +498,7 @@ void endScreen() {
                 case SDL_MOUSEBUTTONDOWN:
                     if (event.button.button == SDL_BUTTON_LEFT) {
                         // int mouseX = event.button.x;
-                        // int mouseY = event.button.y;
-                        
+                        // int mouseY = event.button.y;                     
 
                         keyWPressed = false;
                         keyAPressed = false;
