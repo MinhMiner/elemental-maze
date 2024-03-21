@@ -204,17 +204,11 @@ void update() {
         foodScore = 0;
         player.updateEnergy(-20000);
         player.resetEffects();
-        // player.setSpeedDuration(0);
-        // player.setShieldDuration(0);
         player.resetFoodCount();
         startPlaying = true;
     }
 
     score = ((int) (totalTime / 1000)) * 10 + foodScore;
-
-    // fout << "bombs.size() = " << bombs.size() << '\n';
-    // fout << "totalTime = " << totalTime << '\n';
-    // fout << "lastBombSpawned = " << lastBombSpawned << '\n';
 
     if ((totalTime - lastBombSpawned) >= 300) {
         std::uniform_real_distribution<float> distributionX(0, WINDOW_WIDTH - 200);
@@ -230,11 +224,8 @@ void update() {
         lastBombSpawned = totalTime;
     }
     if ((totalTime - lastFoodSpawned) >= 3000) {
-
-
         std::uniform_real_distribution<float> distributionX(0, WINDOW_WIDTH - 64);
         std::uniform_real_distribution<float> distributionY(164, WINDOW_HEIGHT - 64);
-
 
         float randomXVal = distributionX(gen);
         float randomYVal = distributionY(gen);
@@ -243,11 +234,11 @@ void update() {
         int randomFoodSeed = generateFoodSeed(gen);
 
         Food *food = nullptr;
-        if (randomFoodSeed <= 10) {
+        if (randomFoodSeed <= 70) {
             food = new Food({randomXVal, randomYVal}, bone_Texture, BONE);
-        } else if (randomFoodSeed <= 20) {
+        } else if (randomFoodSeed <= 80) {
             food = new Food({randomXVal, randomYVal}, fish_Texture, FISH);
-        } else if (randomFoodSeed <= 30) {
+        } else if (randomFoodSeed <= 90) {
             food = new Food({randomXVal, randomYVal}, steak_Texture, STEAK);
         } else if (randomFoodSeed <= 100) {
             food = new Food({randomXVal, randomYVal}, chicken_Texture, CHICKEN);
@@ -255,14 +246,9 @@ void update() {
 
         foods.push_back(food);
 
-        // fout << "foods.size() = " << foods.size() << '\n';
-        // fout << "totalTime = " << totalTime << '\n';
-        // fout << "lastFoodSpawned = " << lastFoodSpawned << "\n\n";
-
         lastFoodSpawned = totalTime;
     }
     
-
 	while (SDL_PollEvent(&event))
     {
     	switch(event.type)
@@ -327,8 +313,6 @@ void update() {
 
     Food *foodCollected = nullptr;
     if (player.checkCollisions(player.getPos().x, player.getPos().y, foods, foodCollected)) {
-        // fout << "You ate a food!" << '\n';
-        // std::cout << "You ate a food!" << '\n';
         if (foodCollected->getFoodType() == BONE) {
             foodScore += 10;
             player.updateEnergy(-3500);
@@ -336,21 +320,14 @@ void update() {
             foodScore += 50;
             player.updateEnergy(-7000);
             player.addEffect({SPEED, 0.35, 2000});
-            // player.setSpeedDuration(2000);
-            // player.setSpeed(0.4);
         } else if (foodCollected->getFoodType() == STEAK) {
             foodScore += 75;
             player.updateEnergy(-10000);
             player.addEffect({SHIELD, 1, 10000});
-            // player.setShieldDuration(10000);
         } else if (foodCollected->getFoodType() == CHICKEN) {
             foodScore += 60;
             player.updateEnergy(-8000);
             player.addEffect({DASH, 1, 30000});
-            // player.setSpeedDuration(200);
-            // player.setSpeed(1);
-            // if (player.getShieldDuration() < 2000)  // Need to fix shield texture and conflict between speed & shield from other food
-            //     player.setShieldDuration(2000);
         }
             player.collectedFood();
             foodCollected->setAge(15000);
@@ -366,27 +343,10 @@ void update() {
         keyMousePressed = false;
     }
 
-    // std::cout << "player.getEnergy() = " << player.getEnergy() << '\n';
-    // fout << "player.getEnergy() = " << player.getEnergy() << '\n';
     if (!player.hasEffect(INVINCIBLE))
         if (player.checkCollisions(player.getPos().x, player.getPos().y, bombs) || player.getEnergy() <= 0) {
             if (player.hasEffect(SHIELD) && player.getEnergy() > 0) {
-                // player.setShieldDuration(50);
-                fout << "You got exploded by a bomb!\n";
-                std::cout << "You got exploded by a bomb!\n";
-                // auto effects = player.getEffects();
-                // for (auto it = effects.begin(); it != effects.end(); ++it) {
-                //     fout << "Entered the loop!\n";
-                //     if (it->effectName == SHIELD) {
-                //         fout << "Condition checking...\n";
-                //         fout << "effects.size() = " << effects.size() << '\n';
-                //         it->duration = 0;
-                //     }
-                // }
-                // fout << "Out of loop!\n";
-                // player.setEffects(effects);
                 player.removeEffect(SHIELD);
-                // std::cout << "Shields removed!" << std::endl;
                 player.addEffect({INVINCIBLE, 1, 50});
             } else {
                 player.setDead();
@@ -412,13 +372,11 @@ void graphics() {
         window.render(700, 25, energy_bar_Texture, player.getEnergy()/player.getMaxEnergy());
         window.render(700, 25, energy_bar_outline_Texture);
 
-        // std::cout << "player.getShieldDuration() = " << player.getEffectDuration(SHIELD) << '\n';
         if (player.getEffectDuration(SHIELD) > 0)
             window.render(500, 25, steak_Texture, player.getEffectDuration(SHIELD)/player.getMaxShieldDuration());
 		
         if (player.getEffectDuration(DASH) > 0)
             window.render(400, 25, chicken_Texture, player.getEffectDuration(DASH)/player.getMaxDashDuration()/3);
-
 
         for (Wall &w: walls) {
             window.render(w);
@@ -448,8 +406,6 @@ void graphics() {
         for (Wall &w: walls) {
             window.render(w);
         }
-        
-        // window.render(player, player.isMovingLeft());
 
         std::string foodCountString = "Food collected: " + std::to_string(player.getFoodCount());
         const char* foodCountCStr = foodCountString.c_str();
@@ -473,10 +429,8 @@ void endScreen() {
         for (auto it = bombs.begin(); it != bombs.end(); ) {
             delete *it;
             it = bombs.erase(it);
-            // fout << "success deleted bomb" << '\n';
         }
         bombs.clear();
-        // std::cout << "deleted all bombs" << '\n';
 
         for (auto it = foods.begin(); it != foods.end(); ) {
             delete *it;
@@ -485,8 +439,6 @@ void endScreen() {
         foods.clear();
         
         startPlaying = false;
-        // fout << "deleted all foods" << '\n';
-        // std::cout << "deleted all foods" << '\n';
     } else
         while (SDL_PollEvent(&event))
         {

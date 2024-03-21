@@ -3,31 +3,6 @@
 #include "Math.h"
 #include "RenderWindow.h"
 
-// void Player::setSpeed(double p_speed)
-// {
-//     speed = p_speed;
-// }
-
-// void Player::setSpeedDuration(double p_duration)
-// {
-//     speedDuration = p_duration;
-// }
-
-// void Player::setShieldDuration(double p_duration)
-// {
-//     shieldDuration = p_duration;
-// }
-
-// void Player::setDashDuration(double p_duration)
-// {
-//     dashDuration = p_duration;
-// }
-
-// double Player::getShieldDuration()
-// {
-//     return highestShieldDuration;
-// }
-
 double Player::getMaxShieldDuration()
 {
     return 10000;
@@ -94,12 +69,7 @@ void Player::resetEffects()
 
 void Player::update(double deltaTime, bool keyWPressed, bool keyDPressed, bool keySPressed, bool keyAPressed, std::vector<Wall> &walls)
 {
-    // shield = false;
-    // invincible = false;
-
     double highestSpeed = 0.25;
-    // highestShieldDuration = 0;
-    // highestDashDuration = 0;
     for (auto it = effects.begin(); it != effects.end(); ) {
         it->duration -= deltaTime;
         if (it->duration <= 0) {
@@ -107,41 +77,13 @@ void Player::update(double deltaTime, bool keyWPressed, bool keyDPressed, bool k
         } else {
             if (it->effectName == SPEED && it->amplifier > highestSpeed)
                 highestSpeed = it->amplifier;
-            else if (it->effectName == SHIELD) {
-                // std::cout << "it->duration = " << it->duration << '\n';
-                // if (it->duration > highestShieldDuration)
-                //     highestShieldDuration = it->duration;
-                // shield = true;
-            }
-            else if (it->effectName == DASH) {
-                // if (it->duration > highestDashDuration)
-                //     highestDashDuration = it->duration;
-                // dash = true;
-            }
-            else if (it->effectName == INVINCIBLE) {
-                // invincible = true;
-            }
             ++it;
         }
     }
-    // std::cout << "highestShieldDuration = " << highestShieldDuration << '\n';
     speed = highestSpeed;
 
     if (energy > 0)
         energy -= deltaTime;
-
-    // if (speedDuration > 0)
-    //     speedDuration -= deltaTime;
-
-    // if (shieldDuration > 0)
-    //     shieldDuration -= deltaTime;
-
-    // if (dashDuration > 0)
-    //     dashDuration -= deltaTime;
-
-    // if (speedDuration <= 0) {
-    //     speed = 0.25;
-    // }
 
     if (getVelocity().x > 0) {
         if (movingLeft == true) {
@@ -171,9 +113,6 @@ void Player::update(double deltaTime, bool keyWPressed, bool keyDPressed, bool k
         setVelocity(getVelocity().x, speed * deltaTime);
     if (keyAPressed)
         setVelocity(- speed * deltaTime, getVelocity().y);
-
-    // if (!checkCollisions(getPos().x + getVelocity().x, getPos().y + getVelocity().y, walls))
-    //     setPos(getPos().x + getVelocity().x, getPos().y + getVelocity().y);
 
     if (!checkCollisions(getPos().x + getVelocity().x, getPos().y, walls))
         setPos(getPos().x + getVelocity().x, getPos().y);
@@ -264,9 +203,6 @@ bool Player::checkCollisions(float x, float y, std::vector<Food*> &foods, Food* 
     bool collision = false;
     for (auto &f: foods)
     {
-        // if (f->getAge() < 950 || f->getAge() > 1000)
-        //     continue;
-
         SDL_Rect temp;
         temp.x = f->getPos().x;
         temp.y = f->getPos().y;
@@ -335,23 +271,3 @@ int Player::getFoodCount()
 {
     return foodCollected;
 }
-
-// bool Player::hasShield()
-// {
-//     return shield;
-// }
-
-// bool Player::isInvincible()
-// {
-//     return invincible;
-// }
-
-// double Player::getLastTurn()
-// {
-//     return lastTurn;
-// }
-
-// void Player::resetLastTurn()
-// {
-//     lastTurn = 0;
-// }
