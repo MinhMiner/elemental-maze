@@ -67,7 +67,7 @@ void Player::resetEffects()
     effects.clear();
 }
 
-void Player::update(double deltaTime, bool keyWPressed, bool keyDPressed, bool keySPressed, bool keyAPressed, std::vector<Wall> &walls)
+void Player::update(double deltaTime, bool keyWPressed, bool keyDPressed, bool keySPressed, bool keyAPressed, std::vector<Wall*> &walls)
 {
     double highestSpeed = 0.25;
     for (auto it = effects.begin(); it != effects.end(); ) {
@@ -138,7 +138,7 @@ void Player::update(double deltaTime, bool keyWPressed, bool keyDPressed, bool k
     setCurrentFrame(frameX, 0, getCurrentFrame().w, getCurrentFrame().h);
 }
 
-bool Player::checkCollisions(float x, float y, std::vector<Wall> &walls)
+bool Player::checkCollisions(float x, float y, std::vector<Wall*> &walls)
 {
     SDL_Rect dest;
     dest.x = x;
@@ -147,12 +147,12 @@ bool Player::checkCollisions(float x, float y, std::vector<Wall> &walls)
     dest.h = 32;
 
     bool collision = false;
-    for (Wall &w: walls)
+    for (Wall* &w: walls)
     {
         SDL_Rect temp;
-        temp.x = w.getPos().x;
-        temp.y = w.getPos().y;
-        SDL_QueryTexture(w.getTex(), NULL, NULL, &temp.w, &temp.h);
+        temp.x = w->getPos().x;
+        temp.y = w->getPos().y;
+        SDL_QueryTexture(w->getTex(), NULL, NULL, &temp.w, &temp.h);
 
         if (SDL_HasIntersection(&temp, &dest)) {
             collision = true;

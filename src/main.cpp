@@ -84,8 +84,7 @@ bool keySPressed = false;
 bool keyDPressed = false;
 bool keyMousePressed = false;
 
-void loadMaps(std::vector<Wall> &walls);
-void loadLevels(int &level);
+void loadMaps();
 
 void game();
 void titleScreen();
@@ -93,7 +92,7 @@ void update();
 void graphics();
 void endScreen();
 
-std::vector<Wall> walls;
+std::vector<Wall*> walls;
 std::vector<Bomb*> bombs;
 std::vector<Food*> foods;
 Player player = Player({300, 300}, player_Texture);
@@ -111,7 +110,7 @@ int main(int argc, char* args[]) {
     }
 
     
-    loadMaps(walls);
+    loadMaps();
     
 
 	while (gameRunning)
@@ -378,8 +377,8 @@ void graphics() {
         if (player.getEffectDuration(DASH) > 0)
             window.render(400, 25, chicken_Texture, player.getEffectDuration(DASH)/player.getMaxDashDuration()/3);
 
-        for (Wall &w: walls) {
-            window.render(w);
+        for (Wall* &w: walls) {
+            window.render(*w);
         }
         for (Bomb* b: bombs) {
             window.render(*b);
@@ -403,8 +402,8 @@ void graphics() {
         window.render(15, 15, scoreCStr, font64, black);
 	    window.render(10, 10, scoreCStr, font64, white);
 		
-        for (Wall &w: walls) {
-            window.render(w);
+        for (Wall* &w: walls) {
+            window.render(*w);
         }
 
         std::string foodCountString = "Food collected: " + std::to_string(player.getFoodCount());
@@ -468,19 +467,7 @@ void endScreen() {
     graphics();
 }
 
-void loadMaps(std::vector<Wall> &walls) {
+void loadMaps() {
     // Level 1
     // walls.push_back(Wall({0, 100}, brick_wall_Texture));
-}
-
-void loadLevel(int &level) {
-    switch (level)
-    {
-    case 0:
-        /* code */
-        break;
-    
-    default:
-        break;
-    }
 }

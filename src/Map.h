@@ -7,6 +7,7 @@ class Wall : public Entity {
     public:
         Wall(Vector2f p_pos, SDL_Texture *p_tex) : Entity(p_pos, p_tex)
         {}
+        ~Wall() {};
 
         bool checkCollisions(Entity &p_Entity) {
             SDL_Rect temp = p_Entity.getCurrentFrame();
