@@ -95,7 +95,7 @@ void endScreen();
 std::vector<Wall*> walls;
 std::vector<Bomb*> bombs;
 std::vector<Food*> foods;
-Player player = Player({300, 300}, player_Texture);
+Player player = Player({200, 200}, player_Texture);
 
 std::chrono::system_clock::time_point tp = std::chrono::system_clock::now();
 std::mt19937 gen(tp.time_since_epoch().count());
@@ -436,6 +436,12 @@ void endScreen() {
             it = foods.erase(it);
         }
         foods.clear();
+
+        for (auto it = walls.begin(); it != walls.end(); ) {
+            delete *it;
+            it = walls.erase(it);
+        }
+        walls.clear();
         
         startPlaying = false;
     } else
@@ -468,6 +474,16 @@ void endScreen() {
 }
 
 void loadMaps() {
-    // Level 1
-    // walls.push_back(Wall({0, 100}, brick_wall_Texture));
+    // Wall *temp = nullptr;
+
+    switch (level)
+    {
+    case 0:
+        // temp = new Wall({320, 320}, brick_wall_Texture);
+        // walls.push_back(temp);
+        walls.emplace_back(new Wall({320, 320}, brick_wall_Texture));
+        break;
+    default:
+        break;
+    }
 }
