@@ -100,6 +100,8 @@ Player player = Player({200, 200}, player_Texture);
 std::chrono::system_clock::time_point tp = std::chrono::system_clock::now();
 std::mt19937 gen(tp.time_since_epoch().count());
 
+bool checkCollisions(float x, float y, float w, float h, std::vector<Wall*> &walls);
+
 int main(int argc, char* args[]) {
     
     fout << "Game started..." << std::endl;
@@ -210,14 +212,16 @@ void update() {
         std::uniform_real_distribution<float> distributionX(0, WINDOW_WIDTH - 200);
         std::uniform_real_distribution<float> distributionY(164, WINDOW_HEIGHT - 200);
 
-
         float randomXVal = distributionX(gen);
         float randomYVal = distributionY(gen);
 
-        Bomb *bomb = new Bomb({randomXVal, randomYVal}, bomb_Texture);
-        bombs.push_back(bomb);
+        if (!checkCollisions(randomXVal + 100, randomYVal + 100, 100, 100, walls)) {
+            Bomb *bomb = new Bomb({randomXVal, randomYVal}, bomb_Texture);
+            bombs.push_back(bomb);
+            // bombs.emplace_back(new Bomb({randomXVal, randomYVal}, bomb_Texture))
 
-        lastBombSpawned = totalTime;
+            lastBombSpawned = totalTime;
+        } 
     }
     if ((totalTime - lastFoodSpawned) >= 3000) {
         std::uniform_real_distribution<float> distributionX(0, WINDOW_WIDTH - 64);
@@ -468,6 +472,30 @@ void endScreen() {
         }
 
     graphics();
+}
+
+bool checkCollisions(float x, float y, float w, float h, std::vector<Wall*> &walls)
+{
+    SDL_Rect dest;
+    dest.x = x;
+    dest.y = y;
+    dest.w = w;
+    dest.h = h;
+
+    bool collision = false;
+    for (Wall* &w: walls)
+    {
+        SDL_Rect temp;
+        temp.x = w->getPos().x;
+        temp.y = w->getPos().y;
+        SDL_QueryTexture(w->getTex(), NULL, NULL, &temp.w, &temp.h);
+
+        if (SDL_HasIntersection(&temp, &dest)) {
+            collision = true;
+            break;
+        }
+    }
+    return collision;
 }
 
 void loadMaps() {
