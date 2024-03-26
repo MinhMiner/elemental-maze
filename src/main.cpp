@@ -216,9 +216,7 @@ void update() {
         float randomYVal = distributionY(gen);
 
         if (!checkCollisions(randomXVal + 100, randomYVal + 100, 100, 100, walls)) {
-            Bomb *bomb = new Bomb({randomXVal, randomYVal}, bomb_Texture);
-            bombs.push_back(bomb);
-            // bombs.emplace_back(new Bomb({randomXVal, randomYVal}, bomb_Texture))
+            bombs.emplace_back(new Bomb({randomXVal, randomYVal}, bomb_Texture));
 
             lastBombSpawned = totalTime;
         } 
@@ -233,18 +231,15 @@ void update() {
         std::uniform_int_distribution<int> generateFoodSeed(1, 100);
         int randomFoodSeed = generateFoodSeed(gen);
 
-        Food *food = nullptr;
         if (randomFoodSeed <= 70) {
-            food = new Food({randomXVal, randomYVal}, bone_Texture, BONE);
+            foods.emplace_back(new Food({randomXVal, randomYVal}, bone_Texture, BONE));
         } else if (randomFoodSeed <= 80) {
-            food = new Food({randomXVal, randomYVal}, fish_Texture, FISH);
+            foods.emplace_back(new Food({randomXVal, randomYVal}, bone_Texture, FISH));
         } else if (randomFoodSeed <= 90) {
-            food = new Food({randomXVal, randomYVal}, steak_Texture, STEAK);
+            foods.emplace_back(new Food({randomXVal, randomYVal}, bone_Texture, STEAK));
         } else if (randomFoodSeed <= 100) {
-            food = new Food({randomXVal, randomYVal}, chicken_Texture, CHICKEN);
+            foods.emplace_back(new Food({randomXVal, randomYVal}, bone_Texture, CHICKEN));
         }
-
-        foods.push_back(food);
 
         lastFoodSpawned = totalTime;
     }
