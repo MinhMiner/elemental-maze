@@ -482,6 +482,16 @@ void loadMaps() {
         walls.emplace_back(new Wall({384, 378}, brick_wall_Texture));
         walls.emplace_back(new Wall({384, 442}, brick_wall_Texture));
         walls.emplace_back(new Wall({384, 506}, brick_wall_Texture));
+
+        walls.emplace_back(new Wall({832, 314}, brick_wall_Texture));
+        walls.emplace_back(new Wall({832, 378}, brick_wall_Texture));
+        walls.emplace_back(new Wall({832, 442}, brick_wall_Texture));
+        walls.emplace_back(new Wall({832, 506}, brick_wall_Texture));
+        walls.emplace_back(new Wall({896, 314}, brick_wall_Texture));
+        walls.emplace_back(new Wall({896, 378}, brick_wall_Texture));
+        walls.emplace_back(new Wall({896, 442}, brick_wall_Texture));
+        walls.emplace_back(new Wall({896, 506}, brick_wall_Texture));
+
         break;
     default:
         break;
