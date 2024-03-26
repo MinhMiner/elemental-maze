@@ -231,17 +231,19 @@ void update() {
         std::uniform_int_distribution<int> generateFoodSeed(1, 100);
         int randomFoodSeed = generateFoodSeed(gen);
 
-        if (randomFoodSeed <= 70) {
-            foods.emplace_back(new Food({randomXVal, randomYVal}, bone_Texture, BONE));
-        } else if (randomFoodSeed <= 80) {
-            foods.emplace_back(new Food({randomXVal, randomYVal}, bone_Texture, FISH));
-        } else if (randomFoodSeed <= 90) {
-            foods.emplace_back(new Food({randomXVal, randomYVal}, bone_Texture, STEAK));
-        } else if (randomFoodSeed <= 100) {
-            foods.emplace_back(new Food({randomXVal, randomYVal}, bone_Texture, CHICKEN));
-        }
+        if (!checkCollisions(randomXVal, randomYVal, 50, 50, walls)) {
+            if (randomFoodSeed <= 70) {
+                foods.emplace_back(new Food({randomXVal, randomYVal}, bone_Texture, BONE));
+            } else if (randomFoodSeed <= 80) {
+                foods.emplace_back(new Food({randomXVal, randomYVal}, bone_Texture, FISH));
+            } else if (randomFoodSeed <= 90) {
+                foods.emplace_back(new Food({randomXVal, randomYVal}, bone_Texture, STEAK));
+            } else if (randomFoodSeed <= 100) {
+                foods.emplace_back(new Food({randomXVal, randomYVal}, bone_Texture, CHICKEN));
+            }
 
-        lastFoodSpawned = totalTime;
+            lastFoodSpawned = totalTime;
+        }
     }
     
 	while (SDL_PollEvent(&event))
