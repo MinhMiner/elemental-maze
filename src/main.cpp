@@ -201,7 +201,7 @@ void update() {
         player.resetEffects();
         player.resetFoodCount();
         startPlaying = true;
-        // loadMaps();
+        loadMaps();
     }
 
     score = ((int) (totalTime / 1000)) * 10 + foodScore;
@@ -471,13 +471,9 @@ void endScreen() {
 }
 
 void loadMaps() {
-    // Wall *temp = nullptr;
-
     switch (level)
     {
     case 0:
-        // temp = new Wall({320, 320}, brick_wall_Texture);
-        // walls.push_back(temp);
         walls.emplace_back(new Wall({320, 314}, brick_wall_Texture));
         walls.emplace_back(new Wall({320, 378}, brick_wall_Texture));
         walls.emplace_back(new Wall({320, 442}, brick_wall_Texture));
