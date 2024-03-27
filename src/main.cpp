@@ -236,11 +236,11 @@ void update() {
             if (randomFoodSeed <= 70) {
                 foods.emplace_back(new Food({randomXVal, randomYVal}, bone_Texture, BONE));
             } else if (randomFoodSeed <= 80) {
-                foods.emplace_back(new Food({randomXVal, randomYVal}, bone_Texture, FISH));
+                foods.emplace_back(new Food({randomXVal, randomYVal}, fish_Texture, FISH));
             } else if (randomFoodSeed <= 90) {
-                foods.emplace_back(new Food({randomXVal, randomYVal}, bone_Texture, STEAK));
+                foods.emplace_back(new Food({randomXVal, randomYVal}, steak_Texture, STEAK));
             } else if (randomFoodSeed <= 100) {
-                foods.emplace_back(new Food({randomXVal, randomYVal}, bone_Texture, CHICKEN));
+                foods.emplace_back(new Food({randomXVal, randomYVal}, chicken_Texture, CHICKEN));
             }
 
             lastFoodSpawned = totalTime;
