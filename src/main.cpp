@@ -4,6 +4,7 @@
 #include <SDL2/SDL_mixer.h>
 #include <random>
 #include <chrono>
+#include <cmath>
 
 #include <fstream>
 
@@ -231,7 +232,7 @@ void update() {
         std::uniform_int_distribution<int> generateFoodSeed(1, 100);
         int randomFoodSeed = generateFoodSeed(gen);
 
-        if (!checkCollisions(randomXVal, randomYVal, 50, 50, walls)) {
+        if (!checkCollisions(randomXVal, randomYVal, 50, 50, walls) && sqrt(pow(player.getPos().x - randomXVal, 2) + pow(player.getPos().y - randomYVal, 2)) > 200) {
             if (randomFoodSeed <= 70) {
                 foods.emplace_back(new Food({randomXVal, randomYVal}, bone_Texture, BONE));
             } else if (randomFoodSeed <= 80) {
