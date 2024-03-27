@@ -232,7 +232,7 @@ void update() {
         std::uniform_int_distribution<int> generateFoodSeed(1, 100);
         int randomFoodSeed = generateFoodSeed(gen);
 
-        if (!checkCollisions(randomXVal, randomYVal, 50, 50, walls) && sqrt(pow(player.getPos().x - randomXVal, 2) + pow(player.getPos().y - randomYVal, 2)) > 200) {
+        if (!checkCollisions(randomXVal, randomYVal, 50, 50, walls) && sqrt(pow(player.getPos().x - randomXVal, 2) + pow(player.getPos().y - randomYVal, 2)) > 400) {
             if (randomFoodSeed <= 70) {
                 foods.emplace_back(new Food({randomXVal, randomYVal}, bone_Texture, BONE));
             } else if (randomFoodSeed <= 80) {
@@ -500,6 +500,8 @@ void loadMaps() {
     switch (level)
     {
     case 0:
+        player.setPos(200, 200);
+        
         walls.emplace_back(new Wall({320, 314}, brick_wall_Texture));
         walls.emplace_back(new Wall({320, 378}, brick_wall_Texture));
         walls.emplace_back(new Wall({320, 442}, brick_wall_Texture));
