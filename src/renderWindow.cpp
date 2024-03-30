@@ -81,7 +81,7 @@ void RenderWindow::render(Player& p_player, bool movingLeft)
     SDL_RenderCopyEx(renderer, p_player.getTex(), &src, &dest, 0, NULL, flipType);
 }
 
-void RenderWindow::render(int x, int y, SDL_Texture* p_tex)
+void RenderWindow::render(float p_x, float p_y, SDL_Texture* p_tex)
 {
     SDL_Rect src;
     src.x = 0;
@@ -90,15 +90,15 @@ void RenderWindow::render(int x, int y, SDL_Texture* p_tex)
     SDL_QueryTexture(p_tex, NULL, NULL, &src.w, &src.h);
 
     SDL_Rect dest;
-    dest.x = x;
-    dest.y = y;
+    dest.x = p_x;
+    dest.y = p_y;
     dest.w = src.w;
     dest.h = src.h;
 
     SDL_RenderCopy(renderer, p_tex, &src, &dest);
 }
 
-void RenderWindow::render(int x, int y, SDL_Texture* p_tex, double percent_w)
+void RenderWindow::render(float p_x, float p_y, SDL_Texture* p_tex, double percent_w)
 {
     SDL_Rect src;
     src.x = 0;
@@ -109,8 +109,8 @@ void RenderWindow::render(int x, int y, SDL_Texture* p_tex, double percent_w)
     src.w = src.w * percent_w;
 
     SDL_Rect dest;
-    dest.x = x;
-    dest.y = y;
+    dest.x = p_x;
+    dest.y = p_y;
     dest.w = src.w;
     dest.h = src.h;
 
