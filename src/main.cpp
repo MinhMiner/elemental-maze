@@ -252,6 +252,7 @@ void update() {
     
 	while (SDL_PollEvent(&event))
     {
+        int mouseX, mouseY;
     	switch(event.type)
     	{
             case SDL_QUIT:
@@ -278,9 +279,12 @@ void update() {
                     keyDPressed = false;
                 break;
             case SDL_MOUSEBUTTONDOWN:
-                // int mouseX = event.button.x;
-                // int mouseY = event.button.y;
+                mouseX = event.button.x;
+                mouseY = event.button.y;
                 keyMousePressed = true;
+
+                std::cout << "Mouse click at (" << mouseX << ", " << mouseY << ")\n";
+                fout << "Mouse click at (" << mouseX << ", " << mouseY << ")\n";
                 break;
             case SDL_MOUSEBUTTONUP:
                 keyMousePressed = false;
@@ -530,7 +534,7 @@ void loadMaps() {
 
         break;
     case 1:
-        player.setPos(300, 300);
+        player.setPos(608, 422);
 
         walls.emplace_back(new Wall({0, 164}, brick_wall_Texture));
         walls.emplace_back(new Wall({64, 164}, brick_wall_Texture));
@@ -560,7 +564,13 @@ void loadMaps() {
         walls.emplace_back(new Wall({1152, 656}, brick_wall_Texture));
         walls.emplace_back(new Wall({1088, 656}, brick_wall_Texture));
 
-        
+        walls.emplace_back(new Wall({300, 410}, brick_wall_Texture));
+        walls.emplace_back(new Wall({364, 410}, brick_wall_Texture));
+        walls.emplace_back(new Wall({428, 410}, brick_wall_Texture));
+        walls.emplace_back(new Wall({788, 410}, brick_wall_Texture));
+        walls.emplace_back(new Wall({852, 410}, brick_wall_Texture));
+        walls.emplace_back(new Wall({916, 410}, brick_wall_Texture));
+
     default:
         break;
     }
