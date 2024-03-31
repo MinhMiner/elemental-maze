@@ -28,11 +28,11 @@ struct Vector2f {
 
 struct Effect {
     Effect()
-    :effectName(SPEED), amplifier(0.25f), duration(0.0f)
+    :effectName(SPEED), amplifier(0.25f), duration(0.0f), maxDuration(0.0f)
     {}
 
     Effect(effectType p_effectName, double p_amplifier, double p_duration)
-    :effectName(p_effectName), amplifier(p_amplifier), duration(p_duration)
+    :effectName(p_effectName), amplifier(p_amplifier), duration(p_duration), maxDuration(p_duration)
     {}
 
     void print()
@@ -43,5 +43,6 @@ struct Effect {
     effectType effectName;
     double amplifier;
     double duration;
+    double maxDuration;
 };
 

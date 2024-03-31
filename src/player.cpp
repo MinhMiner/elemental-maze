@@ -3,16 +3,6 @@
 #include "Math.h"
 #include "RenderWindow.h"
 
-double Player::getMaxShieldDuration()
-{
-    return 10000;
-}
-
-double Player::getMaxDashDuration()
-{
-    return 30000;
-}
-
 std::vector<Effect> Player::getEffects()
 {
     return effects;
@@ -24,6 +14,17 @@ double Player::getEffectDuration(effectType p_effectName)
     for (auto &e: effects) {
         if (e.effectName == p_effectName && e.duration > highestDuration) {
             highestDuration = e.duration;
+        }
+    }
+    return highestDuration;
+}
+
+double Player::getEffectMaxDuration(effectType p_effectName)
+{
+    double highestDuration = 0;
+    for (auto &e: effects) {
+        if (e.effectName == p_effectName && e.maxDuration > highestDuration) {
+            highestDuration = e.maxDuration;
         }
     }
     return highestDuration;

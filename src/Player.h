@@ -16,8 +16,7 @@ class Player : public Entity {
         bool checkCollisions(float x, float y, std::vector<Wall*> &walls);
         bool checkCollisions(float x, float y, std::vector<Bomb*> &bombs);
         bool checkCollisions(float x, float y, std::vector<Food*> &foods, Food* &returnFood);
-        double getMaxShieldDuration();
-        double getMaxDashDuration();
+
         bool isDead();
         void setDead();
         void setAlive();
@@ -31,6 +30,7 @@ class Player : public Entity {
 
         std::vector<Effect> getEffects();
         double getEffectDuration(effectType p_effectName);
+        double getEffectMaxDuration(effectType p_effectName);
         void addEffect(Effect p_effect);
         void removeEffect(effectType p_effectName);
         void setEffects(std::vector<Effect> p_effects);

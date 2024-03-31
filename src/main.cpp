@@ -59,6 +59,9 @@ SDL_Texture *fish_Texture = window.loadTexture("res/gfx/fish.png");
 SDL_Texture *steak_Texture = window.loadTexture("res/gfx/steak.png");
 SDL_Texture *chicken_Texture = window.loadTexture("res/gfx/chicken.png");
 SDL_Texture *gift_Texture = window.loadTexture("res/gfx/gift.png");
+SDL_Texture *speed_Texture = window.loadTexture("res/gfx/speed.png");
+SDL_Texture *dash_Texture = window.loadTexture("res/gfx/dash.png");
+SDL_Texture *shield_Texture = window.loadTexture("res/gfx/shield.png");
 
 
 TTF_Font* font32 = TTF_OpenFont("res/font/font.ttf", 32);
@@ -68,7 +71,7 @@ TTF_Font* font128 = TTF_OpenFont("res/font/font.ttf", 128);
 SDL_Color white = {255, 255, 255};
 SDL_Color black = {0, 0, 0};
 
-int level = 1;
+int level = 0;
 int state = 0;	// state 0: title screen; state 1: play; state 2: end game
 
 bool gameRunning = true;
@@ -234,11 +237,11 @@ void update() {
         int randomFoodSeed = generateFoodSeed(gen);
 
         if (!checkCollisions(randomXVal, randomYVal, 50, 50, walls) && sqrt(pow(player.getPos().x - randomXVal, 2) + pow(player.getPos().y - randomYVal, 2)) > 400) {
-            if (randomFoodSeed <= 65) {
+            if (randomFoodSeed <= 10) {
                 foods.emplace_back(new Food({randomXVal, randomYVal}, bone_Texture, BONE));
-            } else if (randomFoodSeed <= 80) {
+            } else if (randomFoodSeed <= 50) {
                 foods.emplace_back(new Food({randomXVal, randomYVal}, fish_Texture, FISH));
-            } else if (randomFoodSeed <= 85) {
+            } else if (randomFoodSeed <= 55) {
                 foods.emplace_back(new Food({randomXVal, randomYVal}, steak_Texture, STEAK));
             } else if (randomFoodSeed <= 95) {
                 foods.emplace_back(new Food({randomXVal, randomYVal}, chicken_Texture, CHICKEN));
@@ -383,10 +386,13 @@ void graphics() {
         window.render(700, 25, energy_bar_outline_Texture);
 
         if (player.getEffectDuration(SHIELD) > 0)
-            window.render(500, 25, steak_Texture, player.getEffectDuration(SHIELD)/player.getMaxShieldDuration());
+            window.render(500, 25, shield_Texture, player.getEffectDuration(SHIELD)/player.getEffectMaxDuration(SHIELD));
 		
         if (player.getEffectDuration(DASH) > 0)
-            window.render(400, 25, chicken_Texture, player.getEffectDuration(DASH)/player.getMaxDashDuration()/3);
+            window.render(400, 25, dash_Texture, player.getEffectDuration(DASH)/player.getEffectMaxDuration(DASH));
+
+        if (player.getEffectDuration(SPEED) > 0)
+            window.render(300, 25, speed_Texture, player.getEffectDuration(SPEED)/player.getEffectMaxDuration(SPEED));
 
         for (Wall* &w: walls) {
             window.render(*w);
@@ -512,6 +518,9 @@ void loadMaps() {
     switch (level)
     {
     case 0:
+        player.setPos(608, 422);
+        break;
+    case 1:
         player.setPos(200, 200);
         
         walls.emplace_back(new Wall({320, 314}, brick_wall_Texture));
@@ -533,7 +542,7 @@ void loadMaps() {
         walls.emplace_back(new Wall({896, 506}, brick_wall_Texture));
 
         break;
-    case 1:
+    case 2:
         player.setPos(608, 422);
 
         walls.emplace_back(new Wall({0, 164}, brick_wall_Texture));
@@ -571,6 +580,7 @@ void loadMaps() {
         walls.emplace_back(new Wall({852, 410}, brick_wall_Texture));
         walls.emplace_back(new Wall({916, 410}, brick_wall_Texture));
 
+        break;
     default:
         break;
     }
