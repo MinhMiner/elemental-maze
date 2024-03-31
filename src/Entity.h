@@ -9,7 +9,8 @@ enum foodType {
 	BONE,
 	FISH,
 	STEAK,
-	CHICKEN
+	CHICKEN,
+	GIFT
 };
 
 class Entity {

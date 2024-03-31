@@ -58,6 +58,7 @@ SDL_Texture *energy_bar_outline_Texture = window.loadTexture("res/gfx/energy_bar
 SDL_Texture *fish_Texture = window.loadTexture("res/gfx/fish.png");
 SDL_Texture *steak_Texture = window.loadTexture("res/gfx/steak.png");
 SDL_Texture *chicken_Texture = window.loadTexture("res/gfx/chicken.png");
+SDL_Texture *gift_Texture = window.loadTexture("res/gfx/gift.png");
 
 
 TTF_Font* font32 = TTF_OpenFont("res/font/font.ttf", 32);
@@ -233,14 +234,16 @@ void update() {
         int randomFoodSeed = generateFoodSeed(gen);
 
         if (!checkCollisions(randomXVal, randomYVal, 50, 50, walls) && sqrt(pow(player.getPos().x - randomXVal, 2) + pow(player.getPos().y - randomYVal, 2)) > 400) {
-            if (randomFoodSeed <= 70) {
+            if (randomFoodSeed <= 10) {
                 foods.emplace_back(new Food({randomXVal, randomYVal}, bone_Texture, BONE));
-            } else if (randomFoodSeed <= 80) {
+            } else if (randomFoodSeed <= 20) {
                 foods.emplace_back(new Food({randomXVal, randomYVal}, fish_Texture, FISH));
-            } else if (randomFoodSeed <= 90) {
+            } else if (randomFoodSeed <= 30) {
                 foods.emplace_back(new Food({randomXVal, randomYVal}, steak_Texture, STEAK));
-            } else if (randomFoodSeed <= 100) {
+            } else if (randomFoodSeed <= 40) {
                 foods.emplace_back(new Food({randomXVal, randomYVal}, chicken_Texture, CHICKEN));
+            } else if (randomFoodSeed <= 100) {
+                foods.emplace_back(new Food({randomXVal, randomYVal}, gift_Texture, GIFT));
             }
 
             lastFoodSpawned = totalTime;
@@ -326,6 +329,9 @@ void update() {
             foodScore += 60;
             player.updateEnergy(-8000);
             player.addEffect({DASH, 1, 30000});
+        } else if (foodCollected->getFoodType() == GIFT) {
+            foodScore += 150;
+            player.updateEnergy(-20000);
         }
             player.collectedFood();
             foodCollected->setAge(15000);
