@@ -68,7 +68,7 @@ TTF_Font* font128 = TTF_OpenFont("res/font/font.ttf", 128);
 SDL_Color white = {255, 255, 255};
 SDL_Color black = {0, 0, 0};
 
-int level = 0;
+int level = 1;
 int state = 0;	// state 0: title screen; state 1: play; state 2: end game
 
 bool gameRunning = true;
@@ -234,13 +234,13 @@ void update() {
         int randomFoodSeed = generateFoodSeed(gen);
 
         if (!checkCollisions(randomXVal, randomYVal, 50, 50, walls) && sqrt(pow(player.getPos().x - randomXVal, 2) + pow(player.getPos().y - randomYVal, 2)) > 400) {
-            if (randomFoodSeed <= 10) {
+            if (randomFoodSeed <= 65) {
                 foods.emplace_back(new Food({randomXVal, randomYVal}, bone_Texture, BONE));
-            } else if (randomFoodSeed <= 20) {
+            } else if (randomFoodSeed <= 80) {
                 foods.emplace_back(new Food({randomXVal, randomYVal}, fish_Texture, FISH));
-            } else if (randomFoodSeed <= 30) {
+            } else if (randomFoodSeed <= 85) {
                 foods.emplace_back(new Food({randomXVal, randomYVal}, steak_Texture, STEAK));
-            } else if (randomFoodSeed <= 40) {
+            } else if (randomFoodSeed <= 95) {
                 foods.emplace_back(new Food({randomXVal, randomYVal}, chicken_Texture, CHICKEN));
             } else if (randomFoodSeed <= 100) {
                 foods.emplace_back(new Food({randomXVal, randomYVal}, gift_Texture, GIFT));
@@ -356,7 +356,9 @@ void update() {
                 player.setDead();
                 state = 2;
                 fout << "You died" << '\n';
-                std::cout << "You died" << '\n';            
+                std::cout << "You died" << '\n';  
+                fout << "Score: " << score << '\n';
+                std::cout << "Score: " << score << '\n';               
             }
         }
 }
@@ -442,11 +444,11 @@ void endScreen() {
         }
         foods.clear();
 
-        for (auto it = walls.begin(); it != walls.end(); ) {
-            delete *it;
-            it = walls.erase(it);
-        }
-        walls.clear();
+        // for (auto it = walls.begin(); it != walls.end(); ) {
+        //     delete *it;
+        //     it = walls.erase(it);
+        // }
+        // walls.clear();
         
         startPlaying = false;
     } else
@@ -527,6 +529,38 @@ void loadMaps() {
         walls.emplace_back(new Wall({896, 506}, brick_wall_Texture));
 
         break;
+    case 1:
+        player.setPos(300, 300);
+
+        walls.emplace_back(new Wall({0, 164}, brick_wall_Texture));
+        walls.emplace_back(new Wall({64, 164}, brick_wall_Texture));
+        walls.emplace_back(new Wall({128, 164}, brick_wall_Texture));
+        walls.emplace_back(new Wall({0, 228}, brick_wall_Texture));
+        walls.emplace_back(new Wall({64, 228}, brick_wall_Texture));
+        walls.emplace_back(new Wall({0, 292}, brick_wall_Texture));
+
+        walls.emplace_back(new Wall({0, 528}, brick_wall_Texture));
+        walls.emplace_back(new Wall({0, 592}, brick_wall_Texture));
+        walls.emplace_back(new Wall({64, 592}, brick_wall_Texture));
+        walls.emplace_back(new Wall({0, 656}, brick_wall_Texture));
+        walls.emplace_back(new Wall({64, 656}, brick_wall_Texture));
+        walls.emplace_back(new Wall({128, 656}, brick_wall_Texture));
+
+        walls.emplace_back(new Wall({1088, 164}, brick_wall_Texture));
+        walls.emplace_back(new Wall({1152, 164}, brick_wall_Texture));
+        walls.emplace_back(new Wall({1216, 164}, brick_wall_Texture));
+        walls.emplace_back(new Wall({1152, 228}, brick_wall_Texture));
+        walls.emplace_back(new Wall({1216, 228}, brick_wall_Texture));
+        walls.emplace_back(new Wall({1216, 292}, brick_wall_Texture));
+
+        walls.emplace_back(new Wall({1216, 528}, brick_wall_Texture));
+        walls.emplace_back(new Wall({1216, 592}, brick_wall_Texture));
+        walls.emplace_back(new Wall({1152, 592}, brick_wall_Texture));
+        walls.emplace_back(new Wall({1216, 656}, brick_wall_Texture));
+        walls.emplace_back(new Wall({1152, 656}, brick_wall_Texture));
+        walls.emplace_back(new Wall({1088, 656}, brick_wall_Texture));
+
+        
     default:
         break;
     }
