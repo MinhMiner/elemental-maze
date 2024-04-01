@@ -20,9 +20,9 @@ public:
 	void clear();
 	void render(Entity& p_entity);
 	void render(Player& p_player, bool movingLeft);
-	void render(float p_x, float p_y, SDL_Texture* p_tex);
-	void render(float p_x, float p_y, SDL_Texture* p_tex, double percent_w);
-	void render(float p_x, float p_y, const char* p_text, TTF_Font* p_font, SDL_Color p_textColor);
+	void render(float p_x, float p_y, SDL_Texture* p_tex, bool center = false);
+	void render(float p_x, float p_y, SDL_Texture* p_tex, double percent_w, bool center = false);
+	void render(float p_x, float p_y, const char* p_text, TTF_Font* p_font, SDL_Color p_textColor, bool center = false);
 	void display();
 private:
 	SDL_Window* window;

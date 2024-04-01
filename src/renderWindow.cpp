@@ -81,7 +81,7 @@ void RenderWindow::render(Player& p_player, bool movingLeft)
     SDL_RenderCopyEx(renderer, p_player.getTex(), &src, &dest, 0, NULL, flipType);
 }
 
-void RenderWindow::render(float p_x, float p_y, SDL_Texture* p_tex)
+void RenderWindow::render(float p_x, float p_y, SDL_Texture* p_tex, bool center)
 {
     SDL_Rect src;
     src.x = 0;
@@ -90,15 +90,21 @@ void RenderWindow::render(float p_x, float p_y, SDL_Texture* p_tex)
     SDL_QueryTexture(p_tex, NULL, NULL, &src.w, &src.h);
 
     SDL_Rect dest;
-    dest.x = p_x;
-    dest.y = p_y;
     dest.w = src.w;
     dest.h = src.h;
+
+    if (!center) {
+        dest.x = p_x;
+        dest.y = p_y;
+    } else {
+        dest.x = p_x - dest.w/2;
+        dest.y = p_y - dest.h/2;
+    }
 
     SDL_RenderCopy(renderer, p_tex, &src, &dest);
 }
 
-void RenderWindow::render(float p_x, float p_y, SDL_Texture* p_tex, double percent_w)
+void RenderWindow::render(float p_x, float p_y, SDL_Texture* p_tex, double percent_w, bool center)
 {
     SDL_Rect src;
     src.x = 0;
@@ -109,15 +115,21 @@ void RenderWindow::render(float p_x, float p_y, SDL_Texture* p_tex, double perce
     src.w = src.w * percent_w;
 
     SDL_Rect dest;
-    dest.x = p_x;
-    dest.y = p_y;
     dest.w = src.w;
     dest.h = src.h;
+
+    if (!center) {
+        dest.x = p_x;
+        dest.y = p_y;
+    } else {
+        dest.x = p_x - dest.w/2;
+        dest.y = p_y - dest.h/2;
+    }
 
     SDL_RenderCopy(renderer, p_tex, &src, &dest);
 }
 
-void RenderWindow::render(float p_x, float p_y, const char* p_text, TTF_Font* p_font, SDL_Color p_textColor)
+void RenderWindow::render(float p_x, float p_y, const char* p_text, TTF_Font* p_font, SDL_Color p_textColor, bool center)
 {
     SDL_Surface* surfaceMessage = TTF_RenderText_Blended(p_font, p_text, p_textColor);
     SDL_Texture* message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
@@ -129,10 +141,16 @@ void RenderWindow::render(float p_x, float p_y, const char* p_text, TTF_Font* p_
     src.h = surfaceMessage->h; 
 
     SDL_Rect dest;
-    dest.x = p_x;
-    dest.y = p_y;
     dest.w = src.w;
     dest.h = src.h;
+
+    if (!center) {
+        dest.x = p_x;
+        dest.y = p_y;
+    } else {
+        dest.x = p_x - dest.w/2;
+        dest.y = p_y - dest.h/2;
+    }
 
     SDL_RenderCopy(renderer, message, &src, &dest);
     SDL_FreeSurface(surfaceMessage);

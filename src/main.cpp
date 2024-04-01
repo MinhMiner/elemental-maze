@@ -71,7 +71,7 @@ TTF_Font* font128 = TTF_OpenFont("res/font/font.ttf", 128);
 SDL_Color white = {255, 255, 255};
 SDL_Color black = {0, 0, 0};
 
-int level = 0;
+int level = 2;
 int state = 0;	// state 0: title screen; state 1: play; state 2: end game
 
 bool gameRunning = true;
@@ -182,11 +182,11 @@ void titleScreen() {
     window.clear();
     window.render(0, 0, background_Texture);
 
-    window.render(305, 305, "Bark 'n Bombs", font128, black);
-	window.render(300, 300, "Bark 'n Bombs", font128, white);
+    window.render(645, 383, "Bark 'n Bombs", font128, black, true);
+	window.render(640, 378, "Bark 'n Bombs", font128, white, true);
 
-    window.render(455, 435, "Click to start", font64, white);
-	window.render(450, 430, "Click to start", font64, black);
+    window.render(645, 479, "Click to start", font64, white, true);
+	window.render(640, 474, "Click to start", font64, black, true);
 
     
 
@@ -237,13 +237,13 @@ void update() {
         int randomFoodSeed = generateFoodSeed(gen);
 
         if (!checkCollisions(randomXVal, randomYVal, 50, 50, walls) && sqrt(pow(player.getPos().x - randomXVal, 2) + pow(player.getPos().y - randomYVal, 2)) > 400) {
-            if (randomFoodSeed <= 10) {
+            if (randomFoodSeed <= 60) {
                 foods.emplace_back(new Food({randomXVal, randomYVal}, bone_Texture, BONE));
-            } else if (randomFoodSeed <= 50) {
+            } else if (randomFoodSeed <= 70) {
                 foods.emplace_back(new Food({randomXVal, randomYVal}, fish_Texture, FISH));
-            } else if (randomFoodSeed <= 55) {
+            } else if (randomFoodSeed <= 80) {
                 foods.emplace_back(new Food({randomXVal, randomYVal}, steak_Texture, STEAK));
-            } else if (randomFoodSeed <= 95) {
+            } else if (randomFoodSeed <= 90) {
                 foods.emplace_back(new Food({randomXVal, randomYVal}, chicken_Texture, CHICKEN));
             } else if (randomFoodSeed <= 100) {
                 foods.emplace_back(new Food({randomXVal, randomYVal}, gift_Texture, GIFT));
@@ -426,14 +426,14 @@ void graphics() {
         std::string foodCountString = "Food collected: " + std::to_string(player.getFoodCount());
         const char* foodCountCStr = foodCountString.c_str();
 
-        window.render(405, 205, foodCountCStr, font64, white);
-	    window.render(400, 200, foodCountCStr, font64, black);
+        window.render(645, 305, foodCountCStr, font64, white, true);
+	    window.render(640, 300, foodCountCStr, font64, black, true);
 
-        window.render(405, 305, "Game Over!", font128, black);
-	    window.render(400, 300, "Game Over!", font128, white);
+        window.render(645, 455, "Game Over!", font128, black, true);
+	    window.render(640, 450, "Game Over!", font128, white, true);
 
-        window.render(455, 435, "Click to retry!", font64, white);
-	    window.render(450, 430, "Click to retry!", font64, black);
+        window.render(645, 555, "Click to retry!", font64, white, true);
+	    window.render(640, 550, "Click to retry!", font64, black, true);
 
 
         window.display();
