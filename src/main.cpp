@@ -382,17 +382,17 @@ void graphics() {
         window.render(15, 15, scoreCStr, font64, black);
 	    window.render(10, 10, scoreCStr, font64, white);
 
-        window.render(700, 25, energy_bar_Texture, player.getEnergy()/player.getMaxEnergy());
-        window.render(700, 25, energy_bar_outline_Texture);
+        window.render(1000, 25, energy_bar_Texture, player.getEnergy()/player.getMaxEnergy());
+        window.render(1000, 25, energy_bar_outline_Texture);
 
         if (player.getEffectDuration(SHIELD) > 0)
-            window.render(500, 25, shield_Texture, player.getEffectDuration(SHIELD)/player.getEffectMaxDuration(SHIELD));
+            window.render(900, 25, shield_Texture, player.getEffectDuration(SHIELD)/player.getEffectMaxDuration(SHIELD));
 		
         if (player.getEffectDuration(DASH) > 0)
-            window.render(400, 25, dash_Texture, player.getEffectDuration(DASH)/player.getEffectMaxDuration(DASH));
+            window.render(800, 25, dash_Texture, player.getEffectDuration(DASH)/player.getEffectMaxDuration(DASH));
 
         if (player.getEffectDuration(SPEED) > 0)
-            window.render(300, 25, speed_Texture, player.getEffectDuration(SPEED)/player.getEffectMaxDuration(SPEED));
+            window.render(700, 25, speed_Texture, player.getEffectDuration(SPEED)/player.getEffectMaxDuration(SPEED));
 
         for (Wall* &w: walls) {
             window.render(*w);
