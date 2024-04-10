@@ -57,6 +57,23 @@ void RenderWindow::render(Entity& p_entity)
     SDL_RenderCopy(renderer, p_entity.getTex(), &src, &dest);
 }
 
+void RenderWindow::render(Button& p_button)
+{
+    SDL_Rect src;
+    src.x = p_button.getCurrentFrame().x;
+    src.y = p_button.getCurrentFrame().y;
+    src.w = p_button.getCurrentFrame().w;
+    src.h = p_button.getCurrentFrame().h;
+        
+    SDL_Rect dest;
+    dest.x = p_button.getPos().x;
+    dest.y = p_button.getPos().y;
+    dest.w = src.w;
+    dest.h = src.h;
+
+    SDL_RenderCopy(renderer, p_button.getTex(), &src, &dest);
+}
+
 void RenderWindow::render(Player& p_player, bool movingLeft)
 {
     SDL_Rect src;

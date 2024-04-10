@@ -6,6 +6,7 @@
 #include "Entity.h"
 #include "Player.h"
 #include "Map.h"
+#include "Button.h"
 
 const int WINDOW_WIDTH = 1280;
 const int WINDOW_HEIGHT = 720;
@@ -19,6 +20,7 @@ public:
 	void cleanUp();
 	void clear();
 	void render(Entity& p_entity);
+	void render(Button& p_button);
 	void render(Player& p_player, bool movingLeft);
 	void render(float p_x, float p_y, SDL_Texture* p_tex, bool center = false);
 	void render(float p_x, float p_y, SDL_Texture* p_tex, double percent_w, bool center = false);

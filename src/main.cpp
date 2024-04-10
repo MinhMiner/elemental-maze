@@ -55,6 +55,8 @@ SDL_Texture *gift_Texture = window.loadTexture("res/gfx/gift.png");
 SDL_Texture *speed_Texture = window.loadTexture("res/gfx/speed.png");
 SDL_Texture *dash_Texture = window.loadTexture("res/gfx/dash.png");
 SDL_Texture *shield_Texture = window.loadTexture("res/gfx/shield.png");
+SDL_Texture *start_Button_Texture = window.loadTexture("res/gfx/start_button.png");
+SDL_Texture *play_again_Button_Texture = window.loadTexture("res/gfx/play_again_button.png");
 
 TTF_Font* font32 = TTF_OpenFont("res/font/font.ttf", 32);
 TTF_Font* font64 = TTF_OpenFont("res/font/font.ttf", 64);
@@ -114,6 +116,13 @@ void game() {
 }
 
 void titleScreen() {
+    if (!startTitleScreen) {
+        buttons.emplace_back(new Button({490, 450}, start_Button_Texture, START_BUTTON));
+        startTitleScreen = true;
+    }
+    int mouseX, mouseY;
+    SDL_GetMouseState(&mouseX, &mouseY);
+
     while (SDL_PollEvent(&event))
     {
     	switch(event.type)
@@ -123,10 +132,13 @@ void titleScreen() {
                 break;
             case SDL_MOUSEBUTTONDOWN:
                 if (event.button.button == SDL_BUTTON_LEFT) {
-                    // int mouseX = event.button.x;
-                    // int mouseY = event.button.y;
-
-                    state = 1;
+                    keyMousePressed = true;
+                    // state = 1;
+                }
+                break;
+            case SDL_MOUSEBUTTONUP:
+                if (event.button.button == SDL_BUTTON_LEFT) {
+                    keyMousePressed = false;
                 }
                 break;
             default:
@@ -137,13 +149,20 @@ void titleScreen() {
     window.clear();
     window.render(0, 0, background_Texture);
 
-    window.render(645, 383, "Bark 'n Bombs", font128, black, true);
-	window.render(640, 378, "Bark 'n Bombs", font128, white, true);
+    window.render(645, 283, "Bark 'n Bombs", font128, black, true);
+	window.render(640, 278, "Bark 'n Bombs", font128, white, true);
 
-    window.render(645, 479, "Click to start", font64, white, true);
-	window.render(640, 474, "Click to start", font64, black, true);
+    // window.render(645, 479, "Click to start", font64, white, true);
+	// window.render(640, 474, "Click to start", font64, black, true);
 
-    
+    for (Button* b: buttons) {
+        window.render(*b);
+        b->update(mouseX, mouseY, keyMousePressed);
+
+        if (b->getType() == START_BUTTON && b->isClicked()) {
+            state = 1;
+        }
+    }
 
     window.display();
 }
@@ -152,6 +171,7 @@ void update() {
     totalTime += deltaTime;
 
     if (!startPlaying) {    // Reset điểm và thời gian lúc mới bắt đầu trò chơi
+        buttons.clear();
         fout << "START PLAYING-----------------------\n\n";
         player.setAlive();
         totalTime = 0.0;
@@ -377,6 +397,9 @@ void graphics() {
         for (Wall* &w: walls) {
             window.render(*w);
         }
+        for (Button* &b: buttons) {
+            window.render(*b);
+        }
 
         std::string foodCountString = "Food collected: " + std::to_string(player.getFoodCount());
         const char* foodCountCStr = foodCountString.c_str();
@@ -387,8 +410,8 @@ void graphics() {
         window.render(645, 455, "Game Over!", font128, black, true);
 	    window.render(640, 450, "Game Over!", font128, white, true);
 
-        window.render(645, 555, "Click to retry!", font64, white, true);
-	    window.render(640, 550, "Click to retry!", font64, black, true);
+        // window.render(645, 555, "Click to retry!", font64, white, true);
+	    // window.render(640, 550, "Click to retry!", font64, black, true);
 
 
         window.display();
@@ -396,6 +419,8 @@ void graphics() {
 }
 
 void endScreen() {
+    int mouseX, mouseY;
+    SDL_GetMouseState(&mouseX, &mouseY);
     if (startPlaying == true) {
         for (auto it = bombs.begin(); it != bombs.end(); ) {
             delete *it;
@@ -415,6 +440,7 @@ void endScreen() {
         // }
         // walls.clear();
         
+        buttons.emplace_back(new Button({490, 550}, play_again_Button_Texture, PLAY_AGAIN_BUTTON));
         startPlaying = false;
     } else
         while (SDL_PollEvent(&event))
@@ -429,12 +455,18 @@ void endScreen() {
                         // int mouseX = event.button.x;
                         // int mouseY = event.button.y;                     
 
-                        keyWPressed = false;
-                        keyAPressed = false;
-                        keySPressed = false;
-                        keyDPressed = false;
+                        // keyWPressed = false;
+                        // keyAPressed = false;
+                        // keySPressed = false;
+                        // keyDPressed = false;
 
-                        state = 1;
+                        // state = 1;
+                        keyMousePressed = true;
+                    }
+                    break;
+                case SDL_MOUSEBUTTONUP:
+                    if (event.button.button == SDL_BUTTON_LEFT) {
+                        keyMousePressed = false;
                     }
                     break;
                 default:
@@ -442,6 +474,17 @@ void endScreen() {
             }
         }
 
+    for (Button* b: buttons) {
+        b->update(mouseX, mouseY, keyMousePressed);
+
+        if (b->getType() == PLAY_AGAIN_BUTTON && b->isClicked()) {
+            keyWPressed = false;
+            keyAPressed = false;
+            keySPressed = false;
+            keyDPressed = false;
+            state = 1;
+        }
+    }
     graphics();
 }
 
@@ -476,7 +519,7 @@ void loadMaps() {
         player.setPos(608, 422);
         break;
     case 1:
-        player.setPos(200, 200);
+        player.setPos(608, 422);
         
         walls.emplace_back(new Wall({320, 314}, brick_wall_Texture));
         walls.emplace_back(new Wall({320, 378}, brick_wall_Texture));

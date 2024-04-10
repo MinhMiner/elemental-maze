@@ -14,12 +14,14 @@
 #include "Math.h"
 #include "Map.h"
 #include "Player.h"
+#include "Button.h"
 
-int level = 1;
+int level = 2;
 int state = 0;	// state 0: title screen; state 1: play; state 2: end game
 
 bool gameRunning = true;
 bool startPlaying = false;
+bool startTitleScreen = false;
 
 double deltaTime = 0;
 double totalTime = 0.0;
@@ -45,6 +47,7 @@ void endScreen();
 std::vector<Wall*> walls;
 std::vector<Bomb*> bombs;
 std::vector<Food*> foods;
+std::vector<Button*> buttons;
 
 std::chrono::system_clock::time_point tp = std::chrono::system_clock::now();
 std::mt19937 gen(tp.time_since_epoch().count());

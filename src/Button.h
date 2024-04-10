@@ -4,9 +4,14 @@
 
 #include "Math.h"
 
+enum buttonType {
+    START_BUTTON,
+    PLAY_AGAIN_BUTTON,
+};
+
 class Button {
     public:
-        Button(Vector2f p_pos, int p_w, int p_h, SDL_Texture *p_tex):pos(p_pos), tex(p_tex) {
+        Button(Vector2f p_pos, SDL_Texture *p_tex, buttonType p_id):pos(p_pos), tex(p_tex), id(p_id) {
             hovered = false;
             clicked = false;
 
@@ -14,18 +19,25 @@ class Button {
             currentFrame.y = 0;
 
             SDL_QueryTexture(p_tex, NULL, NULL, &currentFrame.w, &currentFrame.h);
+
+            currentFrame.h /= 2;
         }
+        
         ~Button() {}
         Vector2f getPos() { return pos; }
         void setPos(Vector2f p_pos) { pos = p_pos; }
-        bool isHovered() { return isHovered; }
-        bool isClicked() { return isClicked; }
+        SDL_Rect getCurrentFrame() { return currentFrame; }
+        SDL_Texture* getTex() { return tex; }
+        buttonType getType() { return id; }
+        bool isHovered() { return hovered; }
+        bool isClicked() { return clicked; }
         void update(const int &mouseX, const int &mouseY, const bool &keyMousePressed);
 
     private:
         Vector2f pos;
         SDL_Texture *tex;
         SDL_Rect currentFrame;
+        buttonType id;
         bool hovered;
         bool clicked;
 };
