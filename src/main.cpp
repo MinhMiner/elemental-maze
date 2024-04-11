@@ -404,11 +404,11 @@ void graphics() {
         std::string foodCountString = "Food collected: " + std::to_string(player.getFoodCount());
         const char* foodCountCStr = foodCountString.c_str();
 
-        window.render(645, 305, foodCountCStr, font64, white, true);
-	    window.render(640, 300, foodCountCStr, font64, black, true);
+        window.render(645, 255, foodCountCStr, font64, white, true);
+	    window.render(640, 250, foodCountCStr, font64, black, true);
 
-        window.render(645, 455, "Game Over!", font128, black, true);
-	    window.render(640, 450, "Game Over!", font128, white, true);
+        window.render(645, 355, "Game Over!", font128, black, true);
+	    window.render(640, 350, "Game Over!", font128, white, true);
 
         // window.render(645, 555, "Click to retry!", font64, white, true);
 	    // window.render(640, 550, "Click to retry!", font64, black, true);
