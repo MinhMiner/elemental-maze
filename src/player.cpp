@@ -177,7 +177,7 @@ bool Player::checkCollisions(float x, float y, std::vector<Bomb*> &bombs)
         if (b->getAge() < 950 || b->getAge() > 1000)
             continue;
 
-        int outerSafeZone = 20;
+        int outerSafeZone = 25;
 
         SDL_Rect temp;
         temp.x = b->getPos().x + outerSafeZone;

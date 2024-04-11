@@ -16,7 +16,7 @@
 #include "Player.h"
 #include "Button.h"
 
-int level = 2;
+int level = 1;
 int state = 0;	// state 0: title screen; state 1: play; state 2: end game
 
 bool gameRunning = true;

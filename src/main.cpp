@@ -41,6 +41,7 @@ bool init()
 
 bool SDLinit = init();
 
+SDL_Texture *title_screen_background_Texture = window.loadTexture("res/gfx/title_screen_background.png");
 SDL_Texture *background_Texture = window.loadTexture("res/gfx/background.png");
 SDL_Texture *player_Texture = window.loadTexture("res/gfx/player.png");
 SDL_Texture *brick_wall_Texture = window.loadTexture("res/gfx/brick_wall.png");
@@ -147,7 +148,7 @@ void titleScreen() {
     }
 
     window.clear();
-    window.render(0, 0, background_Texture);
+    window.render(0, 0, title_screen_background_Texture);
 
     window.render(645, 283, "Bark 'n Bombs", font128, black, true);
 	window.render(640, 278, "Bark 'n Bombs", font128, white, true);
