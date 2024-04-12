@@ -388,16 +388,10 @@ void graphics() {
     {
         window.clear();
 		window.render(0, 0, background_Texture);
-
-        std::string scoreString = "Score: " + std::to_string(score);
-        const char* scoreCStr = scoreString.c_str();
-
-        window.render(15, 15, scoreCStr, font64, black);
-	    window.render(10, 10, scoreCStr, font64, white);
 		
-        for (Wall* &w: walls) {
-            window.render(*w);
-        }
+        // for (Wall* &w: walls) {
+        //     window.render(*w);
+        // }
         for (Button* &b: buttons) {
             window.render(*b);
         }
@@ -405,15 +399,17 @@ void graphics() {
         std::string foodCountString = "Food collected: " + std::to_string(player.getFoodCount());
         const char* foodCountCStr = foodCountString.c_str();
 
-        window.render(645, 255, foodCountCStr, font64, white, true);
-	    window.render(640, 250, foodCountCStr, font64, black, true);
+        window.render(645, 255, "Game Over!", font128, black, true);
+	    window.render(640, 250, "Game Over!", font128, white, true);
 
-        window.render(645, 355, "Game Over!", font128, black, true);
-	    window.render(640, 350, "Game Over!", font128, white, true);
+        window.render(645, 385, foodCountCStr, font64, white, true);
+	    window.render(640, 380, foodCountCStr, font64, black, true);
 
-        // window.render(645, 555, "Click to retry!", font64, white, true);
-	    // window.render(640, 550, "Click to retry!", font64, black, true);
+        std::string scoreString = "Score: " + std::to_string(score);
+        const char* scoreCStr = scoreString.c_str();
 
+        window.render(645, 455, scoreCStr, font64, black, true);
+	    window.render(640, 450, scoreCStr, font64, white, true);
 
         window.display();
     }
