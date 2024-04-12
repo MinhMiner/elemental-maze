@@ -16,8 +16,14 @@
 #include "Player.h"
 #include "Button.h"
 
+enum stateID {
+    TITLE_SCREEN,
+    PLAY_SCREEN,
+    END_SCREEN
+};
+
 int level = 1;
-int state = 0;	// state 0: title screen; state 1: play; state 2: end game
+stateID state = TITLE_SCREEN;
 
 bool gameRunning = true;
 bool startPlaying = false;

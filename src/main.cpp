@@ -101,11 +101,11 @@ void game() {
 	currentTick = SDL_GetPerformanceCounter();
 	deltaTime = (double) ((currentTick - lastTick)*1000 / (double) SDL_GetPerformanceFrequency());
 
-	if (state == 0)
+	if (state == TITLE_SCREEN)
 	{
 		titleScreen();
 	}
-	else if (state == 1)
+	else if (state == PLAY_SCREEN)
 	{
 		update();
 		graphics();
@@ -134,7 +134,7 @@ void titleScreen() {
             case SDL_MOUSEBUTTONDOWN:
                 if (event.button.button == SDL_BUTTON_LEFT) {
                     keyMousePressed = true;
-                    // state = 1;
+                    // state = PLAY_SCREEN;
                 }
                 break;
             case SDL_MOUSEBUTTONUP:
@@ -161,7 +161,7 @@ void titleScreen() {
         b->update(mouseX, mouseY, keyMousePressed);
 
         if (b->getType() == START_BUTTON && b->isClicked()) {
-            state = 1;
+            state = PLAY_SCREEN;
         }
     }
 
@@ -337,7 +337,7 @@ void update() {
                 player.addEffect({INVINCIBLE, 1, 50});
             } else {
                 player.setDead();
-                state = 2;
+                state = END_SCREEN;
                 fout << "You died" << '\n';
                 std::cout << "You died" << '\n';  
                 fout << "Score: " << score << '\n';
@@ -347,7 +347,7 @@ void update() {
 }
 
 void graphics() {
-	if (state == 1) 
+	if (state == PLAY_SCREEN) 
 	{
 		window.clear();
 		window.render(0, 0, background_Texture);
@@ -457,7 +457,7 @@ void endScreen() {
                         // keySPressed = false;
                         // keyDPressed = false;
 
-                        // state = 1;
+                        // state = PLAY_SCREEN;
                         keyMousePressed = true;
                     }
                     break;
@@ -479,7 +479,7 @@ void endScreen() {
             keyAPressed = false;
             keySPressed = false;
             keyDPressed = false;
-            state = 1;
+            state = PLAY_SCREEN;
         }
     }
     graphics();
