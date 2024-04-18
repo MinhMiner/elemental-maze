@@ -18,7 +18,7 @@
 
 const int FPS = 120;
 
-RenderWindow window("Bark 'n Bombs", WINDOW_WIDTH, WINDOW_HEIGHT);
+
 
 SDL_Color white = {255, 255, 255};
 SDL_Color black = {0, 0, 0};
