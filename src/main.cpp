@@ -14,7 +14,7 @@
 #include "Map.h"
 #include "Player.h"
 
-#include "Config.h"
+#include "Game.h"
 
 std::ofstream fout("console.log");
 

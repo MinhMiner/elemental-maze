@@ -16,6 +16,8 @@
 #include "Player.h"
 #include "Button.h"
 
+#include "Config.h"
+
 enum stateID {
     TITLE_SCREEN,
     PLAY_SCREEN,

@@ -9,19 +9,14 @@
 
 #include <fstream>
 
-#include "RenderWindow.h"
-#include "Entity.h"
-#include "Math.h"
-#include "Map.h"
-#include "Player.h"
-#include "Game.h"
+// #include "RenderWindow.h"
+// #include "Entity.h"
+// #include "Math.h"
+// #include "Map.h"
+// #include "Player.h"
+// #include "Game.h"
 
 const int FPS = 120;
 
-
-
 SDL_Color white = {255, 255, 255};
 SDL_Color black = {0, 0, 0};
-
-
-
