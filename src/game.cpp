@@ -384,14 +384,11 @@ void graphics() {
 		
 		window.display();
 	} 
-    else if (state == 2)
+    else if (state == END_SCREEN)
     {
         window.clear();
 		window.render(0, 0, background_Texture);
 		
-        // for (Wall* &w: walls) {
-        //     window.render(*w);
-        // }
         for (Button* &b: buttons) {
             window.render(*b);
         }
