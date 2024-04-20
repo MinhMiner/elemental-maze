@@ -16,7 +16,7 @@
 #include "Player.h"
 #include "Button.h"
 
-#include "Config.h"
+// #include "Config.h"
 
 enum stateID {
     TITLE_SCREEN,
@@ -46,6 +46,11 @@ bool init()
 }
 
 bool SDLinit = init();
+
+const int FPS = 120;
+
+SDL_Color white = {255, 255, 255};
+SDL_Color black = {0, 0, 0};
 
 RenderWindow window("Bark 'n Bombs", WINDOW_WIDTH, WINDOW_HEIGHT);
 
