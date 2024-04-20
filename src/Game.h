@@ -23,7 +23,12 @@ enum stateID {
 };
 
 struct inputKeys {
-	
+	bool keyWPressed = false;
+	bool keyAPressed = false;
+	bool keySPressed = false;
+	bool keyDPressed = false;
+	bool keyMousePressed = false;
+	int mouseX, mouseY;
 };
 
 bool init();
@@ -77,12 +82,14 @@ extern int foodScore;
 extern double lastBombSpawned;
 extern double lastFoodSpawned;
 
-extern bool keyWPressed;
-extern bool keyAPressed;
-extern bool keySPressed;
-extern bool keyDPressed;
-extern bool keyMousePressed;
-extern int mouseX, mouseY;
+// extern bool keyWPressed;
+// extern bool keyAPressed;
+// extern bool keySPressed;
+// extern bool keyDPressed;
+// extern bool keyMousePressed;
+// extern int mouseX, mouseY;
+
+extern inputKeys inputQueue;
 
 void limitFPS();
 void updateDeltatime();

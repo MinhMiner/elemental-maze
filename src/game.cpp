@@ -70,12 +70,14 @@ int foodScore = 0;
 double lastBombSpawned = 0;
 double lastFoodSpawned = 0;
 
-bool keyWPressed = false;
-bool keyAPressed = false;
-bool keySPressed = false;
-bool keyDPressed = false;
-bool keyMousePressed = false;
-int mouseX, mouseY;
+// bool inputQueue.keyWPressed = false;
+// bool inputQueue.keyAPressed = false;
+// bool inputQueue.keySPressed = false;
+// bool inputQueue.keyDPressed = false;
+// bool inputQueue.keyMousePressed = false;
+// int inputQueue.mouseX, inputQueue.mouseY;
+
+inputKeys inputQueue;
 
 std::vector<Wall*> walls;
 std::vector<Bomb*> bombs;
@@ -136,7 +138,7 @@ void initState(stateID state) {
 }
 
 void getInput() {
-    SDL_GetMouseState(&mouseX, &mouseY);
+    SDL_GetMouseState(&inputQueue.mouseX, &inputQueue.mouseY);
 
     while (SDL_PollEvent(&event))
     {
@@ -147,11 +149,31 @@ void getInput() {
                 break;
             case SDL_MOUSEBUTTONDOWN:
                 if (event.button.button == SDL_BUTTON_LEFT)
-                    keyMousePressed = true;
+                    inputQueue.keyMousePressed = true;
                 break;
             case SDL_MOUSEBUTTONUP:
                 if (event.button.button == SDL_BUTTON_LEFT)
-                    keyMousePressed = false;
+                    inputQueue.keyMousePressed = false;
+                break;
+            case SDL_KEYDOWN:
+                if (event.key.keysym.sym == SDLK_w)
+                    inputQueue.keyWPressed = true;
+                else if (event.key.keysym.sym == SDLK_a)
+                    inputQueue.keyAPressed = true;
+                else if (event.key.keysym.sym == SDLK_s)
+                    inputQueue.keySPressed = true;
+                else if (event.key.keysym.sym == SDLK_d)
+                    inputQueue.keyDPressed = true;
+                break;
+            case SDL_KEYUP:
+                if (event.key.keysym.sym == SDLK_w)
+                    inputQueue.keyWPressed = false;
+                else if (event.key.keysym.sym == SDLK_a)
+                    inputQueue.keyAPressed = false;
+                else if (event.key.keysym.sym == SDLK_s)
+                    inputQueue.keySPressed = false;
+                else if (event.key.keysym.sym == SDLK_d)
+                    inputQueue.keyDPressed = false;
                 break;
             default:
                 break;
@@ -178,7 +200,7 @@ void titleScreen() {
 
     for (Button* b: buttons) {
         window.render(*b);
-        b->update(mouseX, mouseY, keyMousePressed);
+        b->update(inputQueue.mouseX, inputQueue.mouseY, inputQueue.keyMousePressed);
 
         if (b->getType() == START_BUTTON && b->isClicked()) {
             state = PLAY_SCREEN;
@@ -249,49 +271,7 @@ void update() {
         }
     }
     
-	while (SDL_PollEvent(&event))
-    {
-        int mouseX, mouseY;
-    	switch(event.type)
-    	{
-            case SDL_QUIT:
-                gameRunning = false;
-                break;
-            case SDL_KEYDOWN:
-                if (event.key.keysym.sym == SDLK_w)
-                    keyWPressed = true;
-                else if (event.key.keysym.sym == SDLK_a)
-                    keyAPressed = true;
-                else if (event.key.keysym.sym == SDLK_s)
-                    keySPressed = true;
-                else if (event.key.keysym.sym == SDLK_d)
-                    keyDPressed = true;
-                break;
-            case SDL_KEYUP:
-                if (event.key.keysym.sym == SDLK_w)
-                    keyWPressed = false;
-                else if (event.key.keysym.sym == SDLK_a)
-                    keyAPressed = false;
-                else if (event.key.keysym.sym == SDLK_s)
-                    keySPressed = false;
-                else if (event.key.keysym.sym == SDLK_d)
-                    keyDPressed = false;
-                break;
-            case SDL_MOUSEBUTTONDOWN:
-                mouseX = event.button.x;
-                mouseY = event.button.y;
-                keyMousePressed = true;
-
-                std::cout << "Mouse click at (" << mouseX << ", " << mouseY << ")\n";
-                fout << "Mouse click at (" << mouseX << ", " << mouseY << ")\n";
-                break;
-            case SDL_MOUSEBUTTONUP:
-                keyMousePressed = false;
-                break;
-            default:
-                break;
-    	}
-    }
+	getInput();
 
     for (auto it = bombs.begin(); it != bombs.end(); ) {
         (*it)->setAge(deltaTime);
@@ -340,14 +320,14 @@ void update() {
             foodCollected->setAge(15000);
     }
     
-    player.update(deltaTime, keyWPressed, keyDPressed, keySPressed, keyAPressed, walls);
+    player.update(deltaTime, inputQueue.keyWPressed, inputQueue.keyDPressed, inputQueue.keySPressed, inputQueue.keyAPressed, walls);
 
-    if (player.hasEffect(DASH) && keyMousePressed) {
+    if (player.hasEffect(DASH) && inputQueue.keyMousePressed) {
         player.updateEnergy(-200);
         player.addEffect({SPEED, 1, 150});
         player.addEffect({INVINCIBLE, 1, 250});
         player.removeEffect(DASH);
-        keyMousePressed = false;
+        inputQueue.keyMousePressed = false;
     }
 
     if (!player.hasEffect(INVINCIBLE))
@@ -436,8 +416,7 @@ void graphics() {
 }
 
 void endScreen() {
-    int mouseX, mouseY;
-    SDL_GetMouseState(&mouseX, &mouseY);
+    SDL_GetMouseState(&inputQueue.mouseX, &inputQueue.mouseY);
     if (startPlaying == true) {
         for (auto it = bombs.begin(); it != bombs.end(); ) {
             delete *it;
@@ -450,55 +429,20 @@ void endScreen() {
             it = foods.erase(it);
         }
         foods.clear();
-
-        // for (auto it = walls.begin(); it != walls.end(); ) {
-        //     delete *it;
-        //     it = walls.erase(it);
-        // }
-        // walls.clear();
         
         buttons.emplace_back(new Button({490, 550}, play_again_Button_Texture, PLAY_AGAIN_BUTTON));
         startPlaying = false;
     } else
-        while (SDL_PollEvent(&event))
-        {
-            switch(event.type)
-            {
-                case SDL_QUIT:
-                    gameRunning = false;
-                    break;
-                case SDL_MOUSEBUTTONDOWN:
-                    if (event.button.button == SDL_BUTTON_LEFT) {
-                        // int mouseX = event.button.x;
-                        // int mouseY = event.button.y;                     
-
-                        // keyWPressed = false;
-                        // keyAPressed = false;
-                        // keySPressed = false;
-                        // keyDPressed = false;
-
-                        // state = PLAY_SCREEN;
-                        keyMousePressed = true;
-                    }
-                    break;
-                case SDL_MOUSEBUTTONUP:
-                    if (event.button.button == SDL_BUTTON_LEFT) {
-                        keyMousePressed = false;
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
+        getInput();
 
     for (Button* b: buttons) {
-        b->update(mouseX, mouseY, keyMousePressed);
+        b->update(inputQueue.mouseX, inputQueue.mouseY, inputQueue.keyMousePressed);
 
         if (b->getType() == PLAY_AGAIN_BUTTON && b->isClicked()) {
-            keyWPressed = false;
-            keyAPressed = false;
-            keySPressed = false;
-            keyDPressed = false;
+            inputQueue.keyWPressed = false;
+            inputQueue.keyAPressed = false;
+            inputQueue.keySPressed = false;
+            inputQueue.keyDPressed = false;
             state = PLAY_SCREEN;
         }
     }
