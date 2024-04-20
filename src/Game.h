@@ -16,87 +16,70 @@
 #include "Player.h"
 #include "Button.h"
 
-// #include "Config.h"
-
 enum stateID {
     TITLE_SCREEN,
     PLAY_SCREEN,
     END_SCREEN
 };
 
-bool init()
-{
-	if (SDL_Init(SDL_INIT_VIDEO) != 0) {
-		std::cout << "SDL_Init has failed. Error: " << SDL_GetError() << std::endl;
-		return false;
-	}	
+bool init();
 
-	if (IMG_Init(IMG_INIT_PNG) == 0) {
-		std::cout << "IMG_init has failed. Error: " << SDL_GetError() << std::endl;
-		return false;
-	}
-		
-	if (TTF_Init() != 0) {
-		std::cout << "TTF_init has failed. Error: " << SDL_GetError() << std::endl;
-		return false;
-	}
-		
-	Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
-	return true;
-}
+extern std::ofstream fout;
 
-bool SDLinit = init();
+extern bool SDLinit;
 
-const int FPS = 120;
+extern const int FPS;;
 
-SDL_Color white = {255, 255, 255};
-SDL_Color black = {0, 0, 0};
+extern SDL_Color white;
+extern SDL_Color black;
 
-RenderWindow window("Bark 'n Bombs", WINDOW_WIDTH, WINDOW_HEIGHT);
+extern RenderWindow window;
 
-SDL_Texture *title_screen_background_Texture = window.loadTexture("res/gfx/title_screen_background.png");
-SDL_Texture *background_Texture = window.loadTexture("res/gfx/background.png");
-SDL_Texture *player_Texture = window.loadTexture("res/gfx/player.png");
-SDL_Texture *brick_wall_Texture = window.loadTexture("res/gfx/brick_wall.png");
-SDL_Texture *bomb_Texture = window.loadTexture("res/gfx/bomb.png");
-SDL_Texture *bone_Texture = window.loadTexture("res/gfx/bone.png");
-SDL_Texture *energy_bar_Texture = window.loadTexture("res/gfx/energy_bar.png");
-SDL_Texture *energy_bar_outline_Texture = window.loadTexture("res/gfx/energy_bar_outline.png");
-SDL_Texture *fish_Texture = window.loadTexture("res/gfx/fish.png");
-SDL_Texture *steak_Texture = window.loadTexture("res/gfx/steak.png");
-SDL_Texture *chicken_Texture = window.loadTexture("res/gfx/chicken.png");
-SDL_Texture *gift_Texture = window.loadTexture("res/gfx/gift.png");
-SDL_Texture *speed_Texture = window.loadTexture("res/gfx/speed.png");
-SDL_Texture *dash_Texture = window.loadTexture("res/gfx/dash.png");
-SDL_Texture *shield_Texture = window.loadTexture("res/gfx/shield.png");
-SDL_Texture *start_Button_Texture = window.loadTexture("res/gfx/start_button.png");
-SDL_Texture *play_again_Button_Texture = window.loadTexture("res/gfx/play_again_button.png");
+extern SDL_Texture *title_screen_background_Texture;
+extern SDL_Texture *background_Texture;
+extern SDL_Texture *player_Texture;
+extern SDL_Texture *brick_wall_Texture;
+extern SDL_Texture *bomb_Texture;
+extern SDL_Texture *bone_Texture;
+extern SDL_Texture *energy_bar_Texture;
+extern SDL_Texture *energy_bar_outline_Texture;
+extern SDL_Texture *fish_Texture;
+extern SDL_Texture *steak_Texture;
+extern SDL_Texture *chicken_Texture;
+extern SDL_Texture *gift_Texture;
+extern SDL_Texture *speed_Texture;
+extern SDL_Texture *dash_Texture;
+extern SDL_Texture *shield_Texture;
+extern SDL_Texture *start_Button_Texture;
+extern SDL_Texture *play_again_Button_Texture;
 
-TTF_Font* font32 = TTF_OpenFont("res/font/font.ttf", 32);
-TTF_Font* font64 = TTF_OpenFont("res/font/font.ttf", 64);
-TTF_Font* font128 = TTF_OpenFont("res/font/font.ttf", 128);
+extern TTF_Font* font32;
+extern TTF_Font* font64;
+extern TTF_Font* font128;
 
-int level = 1;
-stateID state = TITLE_SCREEN;
+extern int level;
+extern stateID state;
 
-Player player = Player({200, 200}, player_Texture);
+extern Player player;
 
-bool gameRunning = true;
-bool startPlaying = false;
-bool startTitleScreen = false;
+extern bool gameRunning;
+extern bool startPlaying;
+extern bool startTitleScreen;
 
-double deltaTime = 0;
-double totalTime = 0.0;
-int score = 0;
-int foodScore = 0;
-double lastBombSpawned = 0;
-double lastFoodSpawned = 0;
+extern double deltaTime;
+extern double totalTime;
+extern int score;
+extern int foodScore;
+extern double lastBombSpawned;
+extern double lastFoodSpawned;
 
-bool keyWPressed = false;
-bool keyAPressed = false;
-bool keySPressed = false;
-bool keyDPressed = false;
-bool keyMousePressed = false;
+extern bool keyWPressed;
+extern bool keyAPressed;
+extern bool keySPressed;
+extern bool keyDPressed;
+extern bool keyMousePressed;
+
+void limitFPS(const int &FPS, double &deltaTime);
 
 void loadMaps();
 
@@ -106,17 +89,17 @@ void update();
 void graphics();
 void endScreen();
 
-std::vector<Wall*> walls;
-std::vector<Bomb*> bombs;
-std::vector<Food*> foods;
-std::vector<Button*> buttons;
+extern std::vector<Wall*> walls;
+extern std::vector<Bomb*> bombs;
+extern std::vector<Food*> foods;
+extern std::vector<Button*> buttons;
 
-std::chrono::system_clock::time_point tp = std::chrono::system_clock::now();
-std::mt19937 gen(tp.time_since_epoch().count());
+extern std::chrono::system_clock::time_point tp;
+extern std::mt19937 gen;
 
 bool checkCollisions(float x, float y, float w, float h, std::vector<Wall*> &walls);
 
-SDL_Event event;
+extern SDL_Event event;
 
-Uint64 currentTick = SDL_GetPerformanceCounter();
-Uint64 lastTick = 0;
+extern Uint64 currentTick;
+extern Uint64 lastTick;
