@@ -75,16 +75,7 @@ bool keyAPressed = false;
 bool keySPressed = false;
 bool keyDPressed = false;
 bool keyMousePressed = false;
-
-void limitFPS(const int &FPS, double &deltaTime);
-
-void loadMaps();
-
-void game();
-void titleScreen();
-void update();
-void graphics();
-void endScreen();
+int mouseX, mouseY;
 
 std::vector<Wall*> walls;
 std::vector<Bomb*> bombs;
@@ -94,14 +85,12 @@ std::vector<Button*> buttons;
 std::chrono::system_clock::time_point tp = std::chrono::system_clock::now();
 std::mt19937 gen(tp.time_since_epoch().count());
 
-bool checkCollisions(float x, float y, float w, float h, std::vector<Wall*> &walls);
-
 SDL_Event event;
 
 Uint64 currentTick = SDL_GetPerformanceCounter();
 Uint64 lastTick = 0;
 
-void limitFPS(const int &FPS, double &deltaTime) {
+void limitFPS() {
     double targetFrameTime = 1000.0 / FPS;
     if (deltaTime < targetFrameTime) {
         Uint32 delayMilliseconds = (Uint32)(targetFrameTime - deltaTime);
@@ -110,9 +99,7 @@ void limitFPS(const int &FPS, double &deltaTime) {
 }
 
 void game() {
-    lastTick = currentTick;
-	currentTick = SDL_GetPerformanceCounter();
-	deltaTime = (double) ((currentTick - lastTick)*1000 / (double) SDL_GetPerformanceFrequency());
+    updateDeltatime();
 
 	if (state == TITLE_SCREEN)
 	{
@@ -129,12 +116,26 @@ void game() {
     }
 }
 
-void titleScreen() {
-    if (!startTitleScreen) {
+void updateDeltatime() {
+    lastTick = currentTick;
+	currentTick = SDL_GetPerformanceCounter();
+	deltaTime = (double) ((currentTick - lastTick)*1000 / (double) SDL_GetPerformanceFrequency());
+}
+
+void initState(stateID state) {
+    switch (state)
+    {
+    case TITLE_SCREEN:
         buttons.emplace_back(new Button({490, 450}, start_Button_Texture, START_BUTTON));
         startTitleScreen = true;
+        break;
+    
+    default:
+        break;
     }
-    int mouseX, mouseY;
+}
+
+void getInput() {
     SDL_GetMouseState(&mouseX, &mouseY);
 
     while (SDL_PollEvent(&event))
@@ -145,20 +146,26 @@ void titleScreen() {
                 gameRunning = false;
                 break;
             case SDL_MOUSEBUTTONDOWN:
-                if (event.button.button == SDL_BUTTON_LEFT) {
+                if (event.button.button == SDL_BUTTON_LEFT)
                     keyMousePressed = true;
-                    // state = PLAY_SCREEN;
-                }
                 break;
             case SDL_MOUSEBUTTONUP:
-                if (event.button.button == SDL_BUTTON_LEFT) {
+                if (event.button.button == SDL_BUTTON_LEFT)
                     keyMousePressed = false;
-                }
                 break;
             default:
                 break;
     	}
     }
+}
+
+void titleScreen() {
+    if (!startTitleScreen) {
+        initState(TITLE_SCREEN);
+    }
+
+    getInput();
+    
 
     window.clear();
     window.render(0, 0, title_screen_background_Texture);

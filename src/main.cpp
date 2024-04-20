@@ -1,13 +1,3 @@
-// #include <SDL2/SDL.h>
-// #include <SDL2/SDL_image.h>
-// #include <SDL2/SDL_ttf.h>
-// #include <SDL2/SDL_mixer.h>
-// #include <random>
-// #include <chrono>
-// #include <cmath>
-
-// #include <fstream>
-
 #include "RenderWindow.h"
 #include "Entity.h"
 #include "Math.h"
@@ -28,12 +18,7 @@ int main(int argc, char* args[]) {
 	while (gameRunning)
 	{
 		game();
-        limitFPS(FPS, deltaTime);
-        // double targetFrameTime = 1000.0 / FPS;
-        // if (deltaTime < targetFrameTime) {
-        //     Uint32 delayMilliseconds = (Uint32)(targetFrameTime - deltaTime);
-        //     SDL_Delay(delayMilliseconds);
-        // }
+        limitFPS();
 	}
 
 	window.cleanUp();

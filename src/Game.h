@@ -22,6 +22,10 @@ enum stateID {
     END_SCREEN
 };
 
+struct inputKeys {
+	
+};
+
 bool init();
 
 extern std::ofstream fout;
@@ -78,8 +82,12 @@ extern bool keyAPressed;
 extern bool keySPressed;
 extern bool keyDPressed;
 extern bool keyMousePressed;
+extern int mouseX, mouseY;
 
-void limitFPS(const int &FPS, double &deltaTime);
+void limitFPS();
+void updateDeltatime();
+void initState(stateID state);
+void getInput();
 
 void loadMaps();
 
