@@ -95,7 +95,7 @@ void limitFPS();
 void updateDeltatime();
 void initState(stateID state);
 void getInput();
-
+void buttonEvents();
 void loadMaps();
 
 void game();

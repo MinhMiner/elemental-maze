@@ -181,23 +181,31 @@ void getInput() {
     }
 }
 
-void titleScreen() {
-    if (!startTitleScreen) {
-        initState(TITLE_SCREEN);
-    }
-
-    getInput();
-    
-
-    graphics();
-
+void buttonEvents() {
     for (Button* b: buttons) {
         b->update(inputQueue.mouseX, inputQueue.mouseY, inputQueue.keyMousePressed);
 
         if (b->getType() == START_BUTTON && b->isClicked()) {
             state = PLAY_SCREEN;
         }
+        if (b->getType() == PLAY_AGAIN_BUTTON && b->isClicked()) {
+            inputQueue.keyWPressed = false;
+            inputQueue.keyAPressed = false;
+            inputQueue.keySPressed = false;
+            inputQueue.keyDPressed = false;
+            state = PLAY_SCREEN;
+        }
     }
+}
+
+void titleScreen() {
+    if (!startTitleScreen) {
+        initState(TITLE_SCREEN);
+    }
+
+    getInput();
+    graphics();
+    buttonEvents();
 }
 
 void update() {
@@ -428,17 +436,7 @@ void endScreen() {
     } else
         getInput();
 
-    for (Button* b: buttons) {
-        b->update(inputQueue.mouseX, inputQueue.mouseY, inputQueue.keyMousePressed);
-
-        if (b->getType() == PLAY_AGAIN_BUTTON && b->isClicked()) {
-            inputQueue.keyWPressed = false;
-            inputQueue.keyAPressed = false;
-            inputQueue.keySPressed = false;
-            inputQueue.keyDPressed = false;
-            state = PLAY_SCREEN;
-        }
-    }
+    buttonEvents();
     graphics();
 }
 
