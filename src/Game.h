@@ -82,6 +82,7 @@ void loadMaps();
 void spawnBomb(const double &delayBetweenBombs);
 void spawnFood(const double &delayBetweenFoods);
 void updateObjects();
+void playerCollectFoodEvent();
 
 void game();
 void titleScreen();

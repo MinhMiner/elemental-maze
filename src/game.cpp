@@ -288,24 +288,7 @@ void updateObjects() {
     }
 }
 
-void update() {
-    if (!startPlaying) {
-        initState(PLAY_SCREEN);
-    }
-
-    totalTime += deltaTime;
-    score = ((int) (totalTime / 1000)) * 10 + foodScore;
-
-    delayBetweenBombs = 300;
-    delayBetweenFoods = 3000;
-    
-    spawnBomb(delayBetweenBombs);
-    spawnFood(delayBetweenFoods);
-    
-	getInput();
-
-    updateObjects();
-
+void playerCollectFoodEvent() {
     Food *foodCollected = nullptr;
     if (player.checkCollisions(player.getPos().x, player.getPos().y, foods, foodCollected)) {
         if (foodCollected->getFoodType() == BONE) {
@@ -327,9 +310,30 @@ void update() {
             foodScore += 150;
             player.updateEnergy(-20000);
         }
-            player.collectedFood();
-            foodCollected->setAge(15000);
+        player.collectedFood();
+        foodCollected->setAge(15000);
     }
+}
+
+void update() {
+    if (!startPlaying) {
+        initState(PLAY_SCREEN);
+    }
+
+    totalTime += deltaTime;
+    score = ((int) (totalTime / 1000)) * 10 + foodScore;
+
+    delayBetweenBombs = 300;
+    delayBetweenFoods = 3000;
+    
+    spawnBomb(delayBetweenBombs);
+    spawnFood(delayBetweenFoods);
+    
+	getInput();
+
+    updateObjects();
+
+    playerCollectFoodEvent();
     
     player.update(deltaTime, inputQueue.keyWPressed, inputQueue.keyDPressed, inputQueue.keySPressed, inputQueue.keyAPressed, walls);
 
