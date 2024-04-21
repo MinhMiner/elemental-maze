@@ -189,25 +189,15 @@ void titleScreen() {
     getInput();
     
 
-    window.clear();
-    window.render(0, 0, title_screen_background_Texture);
-
-    window.render(645, 283, "Bark 'n Bombs", font128, black, true);
-	window.render(640, 278, "Bark 'n Bombs", font128, white, true);
-
-    // window.render(645, 479, "Click to start", font64, white, true);
-	// window.render(640, 474, "Click to start", font64, black, true);
+    graphics();
 
     for (Button* b: buttons) {
-        window.render(*b);
         b->update(inputQueue.mouseX, inputQueue.mouseY, inputQueue.keyMousePressed);
 
         if (b->getType() == START_BUTTON && b->isClicked()) {
             state = PLAY_SCREEN;
         }
     }
-
-    window.display();
 }
 
 void update() {
@@ -347,9 +337,19 @@ void update() {
 }
 
 void graphics() {
-	if (state == PLAY_SCREEN) 
+    window.clear();
+    if (state == TITLE_SCREEN) {
+        window.render(0, 0, title_screen_background_Texture);
+
+        window.render(645, 283, "Bark 'n Bombs", font128, black, true);
+        window.render(640, 278, "Bark 'n Bombs", font128, white, true);
+
+        for (Button* b: buttons) {
+            window.render(*b);
+        }
+    }
+	else if (state == PLAY_SCREEN) 
 	{
-		window.clear();
 		window.render(0, 0, background_Texture);
 
         std::string scoreString = "Score: " + std::to_string(score);
@@ -381,12 +381,9 @@ void graphics() {
         }
 
         window.render(player, player.isMovingLeft());
-		
-		window.display();
 	} 
     else if (state == END_SCREEN)
     {
-        window.clear();
 		window.render(0, 0, background_Texture);
 		
         for (Button* &b: buttons) {
@@ -407,9 +404,8 @@ void graphics() {
 
         window.render(645, 455, scoreCStr, font64, black, true);
 	    window.render(640, 450, scoreCStr, font64, white, true);
-
-        window.display();
     }
+    window.display();
 }
 
 void endScreen() {
