@@ -70,6 +70,9 @@ int foodScore = 0;
 double lastBombSpawned = 0;
 double lastFoodSpawned = 0;
 
+double delayBetweenBombs;
+double delayBetweenFoods;
+
 // bool inputQueue.keyWPressed = false;
 // bool inputQueue.keyAPressed = false;
 // bool inputQueue.keySPressed = false;
@@ -128,10 +131,25 @@ void initState(stateID state) {
     switch (state)
     {
     case TITLE_SCREEN:
+        buttons.clear();
         buttons.emplace_back(new Button({490, 450}, start_Button_Texture, START_BUTTON));
         startTitleScreen = true;
         break;
-    
+    case PLAY_SCREEN:
+        buttons.clear();
+        fout << "START PLAYING-----------------------\n\n";
+        player.setAlive();
+        totalTime = 0.0;
+        lastBombSpawned = 0.0;
+        lastFoodSpawned = 0.0;
+        score = 0;
+        foodScore = 0;
+        player.updateEnergy(-20000);
+        player.resetEffects();
+        player.resetFoodCount();
+        loadMaps();
+        startPlaying = true;
+        break;
     default:
         break;
     }
@@ -204,32 +222,12 @@ void titleScreen() {
     }
 
     getInput();
-    graphics();
     buttonEvents();
+    graphics();
 }
 
-void update() {
-    totalTime += deltaTime;
-
-    if (!startPlaying) {    // Reset điểm và thời gian lúc mới bắt đầu trò chơi
-        buttons.clear();
-        fout << "START PLAYING-----------------------\n\n";
-        player.setAlive();
-        totalTime = 0.0;
-        lastBombSpawned = 0.0;
-        lastFoodSpawned = 0.0;
-        score = 0;
-        foodScore = 0;
-        player.updateEnergy(-20000);
-        player.resetEffects();
-        player.resetFoodCount();
-        startPlaying = true;
-        loadMaps();
-    }
-
-    score = ((int) (totalTime / 1000)) * 10 + foodScore;
-
-    if ((totalTime - lastBombSpawned) >= 300) {
+void spawnBomb(const double &delayBetweenBombs) {
+    if ((totalTime - lastBombSpawned) >= delayBetweenBombs) {
         std::uniform_real_distribution<float> distributionX(0, WINDOW_WIDTH - 200);
         std::uniform_real_distribution<float> distributionY(164, WINDOW_HEIGHT - 200);
 
@@ -242,7 +240,10 @@ void update() {
             lastBombSpawned = totalTime;
         } 
     }
-    if ((totalTime - lastFoodSpawned) >= 3000) {
+}
+
+void spawnFood(const double &delayBetweenFoods) {
+    if ((totalTime - lastFoodSpawned) >= delayBetweenFoods) {
         std::uniform_real_distribution<float> distributionX(0, WINDOW_WIDTH - 64);
         std::uniform_real_distribution<float> distributionY(164, WINDOW_HEIGHT - 64);
 
@@ -268,6 +269,21 @@ void update() {
             lastFoodSpawned = totalTime;
         }
     }
+}
+
+void update() {
+    if (!startPlaying) {
+        initState(PLAY_SCREEN);
+    }
+
+    totalTime += deltaTime;
+    score = ((int) (totalTime / 1000)) * 10 + foodScore;
+
+    delayBetweenBombs = 300;
+    delayBetweenFoods = 3000;
+    
+    spawnBomb(delayBetweenBombs);
+    spawnFood(delayBetweenFoods);
     
 	getInput();
 

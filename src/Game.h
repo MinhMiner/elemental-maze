@@ -82,6 +82,9 @@ extern int foodScore;
 extern double lastBombSpawned;
 extern double lastFoodSpawned;
 
+extern double delayBetweenBombs;
+extern double delayBetweenFoods;
+
 // extern bool keyWPressed;
 // extern bool keyAPressed;
 // extern bool keySPressed;
@@ -97,6 +100,8 @@ void initState(stateID state);
 void getInput();
 void buttonEvents();
 void loadMaps();
+void spawnBomb(const double &delayBetweenBombs);
+void spawnFood(const double &delayBetweenFoods);
 
 void game();
 void titleScreen();
