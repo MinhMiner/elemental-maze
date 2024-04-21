@@ -68,6 +68,15 @@ void Player::resetEffects()
     effects.clear();
 }
 
+void Player::dash(inputKeys &inputQueue)
+{
+    updateEnergy(-200);
+    addEffect({SPEED, 1, 150});
+    addEffect({INVINCIBLE, 1, 250});
+    removeEffect(DASH);
+    inputQueue.keyMousePressed = false;
+}
+
 void Player::update(double deltaTime, const inputKeys &inputQueue, std::vector<Wall*> &walls)
 {
     double highestSpeed = 0.25;

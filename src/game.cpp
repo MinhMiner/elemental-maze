@@ -330,19 +330,13 @@ void update() {
     spawnFood(delayBetweenFoods);
     
 	getInput();
-
-    updateObjects();
-
-    playerCollectFoodEvent();
-    
     player.update(deltaTime, inputQueue, walls);
 
+    updateObjects();
+    playerCollectFoodEvent();
+
     if (player.hasEffect(DASH) && inputQueue.keyMousePressed) {
-        player.updateEnergy(-200);
-        player.addEffect({SPEED, 1, 150});
-        player.addEffect({INVINCIBLE, 1, 250});
-        player.removeEffect(DASH);
-        inputQueue.keyMousePressed = false;
+        player.dash(inputQueue);
     }
 
     if (!player.hasEffect(INVINCIBLE))

@@ -1,6 +1,7 @@
 #pragma once
 #include "Entity.h"
 #include "Map.h"
+#include "Utils.h"
 
 class Player : public Entity {
     public:
@@ -23,6 +24,7 @@ class Player : public Entity {
         bool isMovingLeft();
         double getEnergy();
         void updateEnergy(double deltaTime);
+        void dash(inputKeys &inputQueue);
         double getMaxEnergy();
         void collectedFood();
         void resetFoodCount();
