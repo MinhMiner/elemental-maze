@@ -271,6 +271,30 @@ void spawnFood(const double &delayBetweenFoods) {
     }
 }
 
+void updateObjects() {
+    for (auto it = bombs.begin(); it != bombs.end(); ) {
+        (*it)->setAge(deltaTime);
+
+        if ((*it)->shouldDestroy()) {
+            delete *it;
+            it = bombs.erase(it);
+        } else {
+            ++it;
+        }
+    }
+    
+    for (auto it = foods.begin(); it != foods.end(); ) {
+        (*it)->setAge(deltaTime);
+
+        if ((*it)->shouldDestroy()) {
+            delete *it;
+            it = foods.erase(it);
+        } else {
+            ++it;
+        }
+    }
+}
+
 void update() {
     if (!startPlaying) {
         initState(PLAY_SCREEN);
@@ -287,27 +311,7 @@ void update() {
     
 	getInput();
 
-    for (auto it = bombs.begin(); it != bombs.end(); ) {
-        (*it)->setAge(deltaTime);
-
-        if ((*it)->shouldDestroy()) {
-            delete *it;
-            it = bombs.erase(it);
-        } else {
-            ++it;
-        }
-    }
-
-    for (auto it = foods.begin(); it != foods.end(); ) {
-        (*it)->setAge(deltaTime);
-
-        if ((*it)->shouldDestroy()) {
-            delete *it;
-            it = foods.erase(it);
-        } else {
-            ++it;
-        }
-    }
+    updateObjects();
 
     Food *foodCollected = nullptr;
     if (player.checkCollisions(player.getPos().x, player.getPos().y, foods, foodCollected)) {
