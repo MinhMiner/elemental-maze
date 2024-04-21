@@ -335,7 +335,7 @@ void update() {
 
     playerCollectFoodEvent();
     
-    player.update(deltaTime, inputQueue.keyWPressed, inputQueue.keyDPressed, inputQueue.keySPressed, inputQueue.keyAPressed, walls);
+    player.update(deltaTime, inputQueue, walls);
 
     if (player.hasEffect(DASH) && inputQueue.keyMousePressed) {
         player.updateEnergy(-200);

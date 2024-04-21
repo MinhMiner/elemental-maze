@@ -68,7 +68,7 @@ void Player::resetEffects()
     effects.clear();
 }
 
-void Player::update(double deltaTime, bool keyWPressed, bool keyDPressed, bool keySPressed, bool keyAPressed, std::vector<Wall*> &walls)
+void Player::update(double deltaTime, const inputKeys &inputQueue, std::vector<Wall*> &walls)
 {
     double highestSpeed = 0.25;
     for (auto it = effects.begin(); it != effects.end(); ) {
@@ -106,13 +106,13 @@ void Player::update(double deltaTime, bool keyWPressed, bool keyDPressed, bool k
 
     setVelocity(0, 0);
 
-    if (keyWPressed)
+    if (inputQueue.keyWPressed)
         setVelocity(getVelocity().x, - speed * deltaTime);
-    if (keyDPressed)
+    if (inputQueue.keyDPressed)
         setVelocity(speed * deltaTime, getVelocity().y);
-    if (keySPressed)
+    if (inputQueue.keySPressed)
         setVelocity(getVelocity().x, speed * deltaTime);
-    if (keyAPressed)
+    if (inputQueue.keyAPressed)
         setVelocity(- speed * deltaTime, getVelocity().y);
 
     if (!checkCollisions(getPos().x + getVelocity().x, getPos().y, walls))
