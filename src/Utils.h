@@ -2,6 +2,34 @@
 
 #include <iostream>
 
+enum stateID {
+    TITLE_SCREEN,
+    PLAY_SCREEN,
+    END_SCREEN
+};
+
+enum buttonType {
+    START_BUTTON,
+    PLAY_AGAIN_BUTTON,
+};
+
+enum foodType {
+	BONE,
+	FISH,
+	STEAK,
+	CHICKEN,
+	GIFT
+};
+
+struct inputKeys {
+	bool keyWPressed = false;
+	bool keyAPressed = false;
+	bool keySPressed = false;
+	bool keyDPressed = false;
+	bool keyMousePressed = false;
+	int mouseX, mouseY;
+};
+
 enum effectType {
     SPEED,
     SHIELD,

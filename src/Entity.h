@@ -5,14 +5,6 @@
 #include <vector>
 #include "Math.h"
 
-enum foodType {
-	BONE,
-	FISH,
-	STEAK,
-	CHICKEN,
-	GIFT
-};
-
 class Entity {
 	public:
 		Entity();

@@ -16,28 +16,13 @@
 #include "Player.h"
 #include "Button.h"
 
-enum stateID {
-    TITLE_SCREEN,
-    PLAY_SCREEN,
-    END_SCREEN
-};
-
-struct inputKeys {
-	bool keyWPressed = false;
-	bool keyAPressed = false;
-	bool keySPressed = false;
-	bool keyDPressed = false;
-	bool keyMousePressed = false;
-	int mouseX, mouseY;
-};
-
 bool init();
 
 extern std::ofstream fout;
 
 extern bool SDLinit;
 
-extern const int FPS;;
+extern const int FPS;
 
 extern SDL_Color white;
 extern SDL_Color black;
@@ -85,12 +70,6 @@ extern double lastFoodSpawned;
 extern double delayBetweenBombs;
 extern double delayBetweenFoods;
 
-// extern bool keyWPressed;
-// extern bool keyAPressed;
-// extern bool keySPressed;
-// extern bool keyDPressed;
-// extern bool keyMousePressed;
-// extern int mouseX, mouseY;
 
 extern inputKeys inputQueue;
 

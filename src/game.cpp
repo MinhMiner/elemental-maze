@@ -201,7 +201,7 @@ void getInput() {
 
 void buttonEvents() {
     for (Button* b: buttons) {
-        b->update(inputQueue.mouseX, inputQueue.mouseY, inputQueue.keyMousePressed);
+        b->update(inputQueue);
 
         if (b->getType() == START_BUTTON && b->isClicked()) {
             state = PLAY_SCREEN;
@@ -282,7 +282,7 @@ void updateObjects() {
             ++it;
         }
     }
-    
+
     for (auto it = foods.begin(); it != foods.end(); ) {
         (*it)->setAge(deltaTime);
 

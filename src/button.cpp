@@ -1,13 +1,13 @@
 #include "Button.h"
 #include <iostream>
 
-void Button::update(const int &mouseX, const int &mouseY, const bool &keyMousePressed)
+void Button::update(const inputKeys &inputQueue)
 {
-    if (mouseX >= pos.x && mouseX <= pos.x + currentFrame.w &&
-        mouseY >= pos.y && mouseY <= pos.y + currentFrame.h) {
+    if (inputQueue.mouseX >= pos.x && inputQueue.mouseX <= pos.x + currentFrame.w &&
+        inputQueue.mouseY >= pos.y && inputQueue.mouseY <= pos.y + currentFrame.h) {
         hovered = true;
         currentFrame.y = currentFrame.h;
-        if (keyMousePressed) 
+        if (inputQueue.keyMousePressed) 
             clicked = true;
         else
             clicked = false;

@@ -4,10 +4,7 @@
 
 #include "Math.h"
 
-enum buttonType {
-    START_BUTTON,
-    PLAY_AGAIN_BUTTON,
-};
+
 
 class Button {
     public:
@@ -31,7 +28,7 @@ class Button {
         buttonType getType() { return id; }
         bool isHovered() { return hovered; }
         bool isClicked() { return clicked; }
-        void update(const int &mouseX, const int &mouseY, const bool &keyMousePressed);
+        void update(const inputKeys &inputQueue);
 
     private:
         Vector2f pos;
