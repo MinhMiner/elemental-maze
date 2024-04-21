@@ -3,7 +3,7 @@
 #include <SDL2/SDL_image.h>
 
 #include <vector>
-#include "Math.h"
+#include "Utils.h"
 
 class Entity {
 	public:

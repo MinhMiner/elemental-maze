@@ -73,13 +73,6 @@ double lastFoodSpawned = 0;
 double delayBetweenBombs;
 double delayBetweenFoods;
 
-// bool inputQueue.keyWPressed = false;
-// bool inputQueue.keyAPressed = false;
-// bool inputQueue.keySPressed = false;
-// bool inputQueue.keyDPressed = false;
-// bool inputQueue.keyMousePressed = false;
-// int inputQueue.mouseX, inputQueue.mouseY;
-
 inputKeys inputQueue;
 
 std::vector<Wall*> walls;

@@ -11,7 +11,7 @@
 
 #include "RenderWindow.h"
 #include "Entity.h"
-#include "Math.h"
+#include "Utils.h"
 #include "Map.h"
 #include "Player.h"
 #include "Button.h"
