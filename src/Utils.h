@@ -6,6 +6,7 @@ enum stateID {
     TITLE_SCREEN,
     PLAY_SCREEN,
     PAUSE_SCREEN,
+    SELECT_MAP_SCREEN,
     END_SCREEN
 };
 
@@ -13,6 +14,8 @@ enum buttonType {
     START_BUTTON,
     PLAY_AGAIN_BUTTON,
     SELECT_MAP_BUTTON,
+    MAP_1_BUTTON,
+    MAP_2_BUTTON,
     PAUSE_BUTTON
 };
 

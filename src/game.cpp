@@ -52,6 +52,8 @@ SDL_Texture *play_again_Button_Texture = window.loadTexture("res/gfx/play_again_
 SDL_Texture *select_map_Button_Texture = window.loadTexture("res/gfx/select_map_button.png");
 SDL_Texture *pause_Button_Texture = window.loadTexture("res/gfx/pause_button.png");
 SDL_Texture *pause_screen_overlay_Texture = window.loadTexture("res/gfx/pause_screen_overlay.png");
+SDL_Texture *map_1_Texture = window.loadTexture("res/gfx/map_1.png");
+SDL_Texture *map_2_Texture = window.loadTexture("res/gfx/map_2.png");
 
 TTF_Font* font32 = TTF_OpenFont("res/font/font.ttf", 32);
 TTF_Font* font64 = TTF_OpenFont("res/font/font.ttf", 64);
@@ -66,6 +68,7 @@ bool gameRunning = true;
 bool startPlaying = false;
 bool startTitleScreen = false;
 bool startEndScreen = false;
+bool startSelectMapScreen = false;
 
 double deltaTime = 0;
 double totalTime = 0.0;
@@ -109,13 +112,15 @@ void game() {
 	}
 	else if (state == PLAY_SCREEN)
 	{
-		update();
+		playScreen();
 	}
+    else if (state == SELECT_MAP_SCREEN)
+    {
+        selectMapScreen();
+    }
     else if (state == PAUSE_SCREEN)
     {
-        getInput();
-        buttonEvents();
-        graphics();
+        pauseScreen();
     }
     else if (state == END_SCREEN)
     {
@@ -137,6 +142,7 @@ void initState(stateID state) {
         buttons.emplace_back(new Button({490, 450}, start_Button_Texture, START_BUTTON));
         buttons.emplace_back(new Button({490, 570}, select_map_Button_Texture, SELECT_MAP_BUTTON));
         startTitleScreen = true;
+        inputQueue.keyMousePressed = false;
         break;
     case PLAY_SCREEN:
         buttons.clear();
@@ -153,6 +159,7 @@ void initState(stateID state) {
         player.resetFoodCount();
         loadMaps();
         startPlaying = true;
+        inputQueue.keyMousePressed = false;
         break;
     case END_SCREEN:
         buttons.clear();
@@ -160,6 +167,14 @@ void initState(stateID state) {
         foods.clear();
         buttons.emplace_back(new Button({490, 550}, play_again_Button_Texture, PLAY_AGAIN_BUTTON));
         startEndScreen = true;
+        inputQueue.keyMousePressed = false;
+        break;
+    case SELECT_MAP_SCREEN:
+        buttons.clear();
+        buttons.emplace_back(new Button({20, 150}, map_1_Texture, MAP_1_BUTTON));
+        buttons.emplace_back(new Button({660, 150}, map_2_Texture, MAP_2_BUTTON));
+        startSelectMapScreen = true;
+        inputQueue.keyMousePressed = false;
         break;
     default:
         break;
@@ -220,6 +235,7 @@ void buttonEvents() {
 
         if (b->getType() == START_BUTTON && b->isClicked()) {
             state = PLAY_SCREEN;
+            inputQueue.keyMousePressed = false;
             startTitleScreen = false;
         }
         if (b->getType() == PLAY_AGAIN_BUTTON && b->isClicked()) {
@@ -227,6 +243,7 @@ void buttonEvents() {
             inputQueue.keyAPressed = false;
             inputQueue.keySPressed = false;
             inputQueue.keyDPressed = false;
+            inputQueue.keyMousePressed = false;
             state = PLAY_SCREEN;
             startEndScreen = false;
         }
@@ -237,6 +254,23 @@ void buttonEvents() {
                 state = PLAY_SCREEN;
 
             inputQueue.keyMousePressed = false;
+        }
+        if (b->getType() == SELECT_MAP_BUTTON && b->isClicked()) {
+            state = SELECT_MAP_SCREEN;
+            inputQueue.keyMousePressed = false;
+            startTitleScreen = false;
+        }
+        if (b->getType() == MAP_1_BUTTON && b->isClicked()) {
+            level = 1;
+            state = PLAY_SCREEN;
+            inputQueue.keyMousePressed = false;
+            startSelectMapScreen = false;
+        }
+        if (b->getType() == MAP_2_BUTTON && b->isClicked()) {
+            level = 2;
+            state = PLAY_SCREEN;
+            inputQueue.keyMousePressed = false;
+            startSelectMapScreen = false;
         }
     }
 }
@@ -360,7 +394,7 @@ void checkPlayerGetBombed() {
     }
 }
 
-void update() {
+void playScreen() {
     if (!startPlaying) {
         initState(PLAY_SCREEN);
     }
@@ -391,6 +425,21 @@ void update() {
     graphics();
 }
 
+void pauseScreen() {
+    getInput();
+    buttonEvents();
+    graphics();
+}
+
+void selectMapScreen() {
+    if (!startSelectMapScreen)
+        initState(SELECT_MAP_SCREEN);
+
+    getInput();
+    buttonEvents();
+    graphics();
+}
+
 void graphics() {
     window.clear();
     if (state == TITLE_SCREEN) {
@@ -398,6 +447,16 @@ void graphics() {
 
         window.render(645, 283, "Bark 'n Bombs", font128, black, true);
         window.render(640, 278, "Bark 'n Bombs", font128, white, true);
+
+        for (Button* b: buttons) {
+            window.render(*b);
+        }
+    }
+    else if (state == SELECT_MAP_SCREEN) {
+        window.render(0, 0, title_screen_background_Texture);
+
+        window.render(645, 83, "Choose the map you want to play below", font32, black, true);
+        window.render(643, 81, "Choose the map you want to play below", font32, white, true);
 
         for (Button* b: buttons) {
             window.render(*b);

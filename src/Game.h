@@ -49,6 +49,8 @@ extern SDL_Texture *play_again_Button_Texture;
 extern SDL_Texture *select_map_Button_Texture;
 extern SDL_Texture *pause_Button_Texture;
 extern SDL_Texture *pause_screen_overlay_Texture;
+extern SDL_Texture *map_1_Texture;
+extern SDL_Texture *map_2_Texture;
 
 extern TTF_Font* font32;
 extern TTF_Font* font64;
@@ -63,6 +65,7 @@ extern bool gameRunning;
 extern bool startPlaying;
 extern bool startTitleScreen;
 extern bool startEndScreen;
+extern bool startSelectMapScreen;
 
 extern double deltaTime;
 extern double totalTime;
@@ -91,7 +94,9 @@ void checkPlayerGetBombed();
 
 void game();
 void titleScreen();
-void update();
+void playScreen();
+void pauseScreen();
+void selectMapScreen();
 void graphics();
 void endScreen();
 
