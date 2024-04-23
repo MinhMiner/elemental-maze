@@ -51,6 +51,7 @@ SDL_Texture *start_Button_Texture = window.loadTexture("res/gfx/start_button.png
 SDL_Texture *play_again_Button_Texture = window.loadTexture("res/gfx/play_again_button.png");
 SDL_Texture *select_map_Button_Texture = window.loadTexture("res/gfx/select_map_button.png");
 SDL_Texture *pause_Button_Texture = window.loadTexture("res/gfx/pause_button.png");
+SDL_Texture *home_Button_Texture = window.loadTexture("res/gfx/home_button.png");
 SDL_Texture *pause_screen_overlay_Texture = window.loadTexture("res/gfx/pause_screen_overlay.png");
 SDL_Texture *map_1_Texture = window.loadTexture("res/gfx/map_1.png");
 SDL_Texture *map_2_Texture = window.loadTexture("res/gfx/map_2.png");
@@ -59,7 +60,7 @@ TTF_Font* font32 = TTF_OpenFont("res/font/font.ttf", 32);
 TTF_Font* font64 = TTF_OpenFont("res/font/font.ttf", 64);
 TTF_Font* font128 = TTF_OpenFont("res/font/font.ttf", 128);
 
-int level = 2;
+int level = 1;
 stateID state = TITLE_SCREEN;
 
 Player player = Player({200, 200}, player_Texture);
@@ -165,7 +166,8 @@ void initState(stateID state) {
         buttons.clear();
         bombs.clear();
         foods.clear();
-        buttons.emplace_back(new Button({490, 550}, play_again_Button_Texture, PLAY_AGAIN_BUTTON));
+        buttons.emplace_back(new Button({490, 500}, play_again_Button_Texture, PLAY_AGAIN_BUTTON));
+        buttons.emplace_back(new Button({490, 610}, home_Button_Texture, HOME_BUTTON));
         startEndScreen = true;
         inputQueue.keyMousePressed = false;
         break;
@@ -245,6 +247,11 @@ void buttonEvents() {
             inputQueue.keyDPressed = false;
             inputQueue.keyMousePressed = false;
             state = PLAY_SCREEN;
+            startEndScreen = false;
+        }
+        if (b->getType() == HOME_BUTTON && b->isClicked()) {
+            inputQueue.keyMousePressed = false;
+            state = TITLE_SCREEN;
             startEndScreen = false;
         }
         if (b->getType() == PAUSE_BUTTON && b->isClicked()) {
@@ -566,9 +573,11 @@ void loadMaps() {
     switch (level)
     {
     case 0:
+        walls.clear();
         player.setPos(608, 422);
         break;
     case 1:
+        walls.clear();
         player.setPos(608, 422);
         
         walls.emplace_back(new Wall({320, 314}, brick_wall_Texture));
@@ -591,6 +600,7 @@ void loadMaps() {
 
         break;
     case 2:
+        walls.clear();
         player.setPos(608, 422);
 
         walls.emplace_back(new Wall({0, 164}, brick_wall_Texture));
