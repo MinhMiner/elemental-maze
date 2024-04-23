@@ -59,6 +59,7 @@ extern Player player;
 extern bool gameRunning;
 extern bool startPlaying;
 extern bool startTitleScreen;
+extern bool startEndScreen;
 
 extern double deltaTime;
 extern double totalTime;
@@ -83,6 +84,7 @@ void spawnBomb(const double &delayBetweenBombs);
 void spawnFood(const double &delayBetweenFoods);
 void updateObjects();
 void playerCollectFoodEvent();
+void checkPlayerGetBombed();
 
 void game();
 void titleScreen();

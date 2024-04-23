@@ -62,6 +62,7 @@ Player player = Player({200, 200}, player_Texture);
 bool gameRunning = true;
 bool startPlaying = false;
 bool startTitleScreen = false;
+bool startEndScreen = false;
 
 double deltaTime = 0;
 double totalTime = 0.0;
@@ -143,6 +144,12 @@ void initState(stateID state) {
         loadMaps();
         startPlaying = true;
         break;
+    case END_SCREEN:
+        bombs.clear();
+        foods.clear();
+        buttons.emplace_back(new Button({490, 550}, play_again_Button_Texture, PLAY_AGAIN_BUTTON));
+        startEndScreen = true;
+        break;
     default:
         break;
     }
@@ -198,6 +205,7 @@ void buttonEvents() {
 
         if (b->getType() == START_BUTTON && b->isClicked()) {
             state = PLAY_SCREEN;
+            startTitleScreen = false;
         }
         if (b->getType() == PLAY_AGAIN_BUTTON && b->isClicked()) {
             inputQueue.keyWPressed = false;
@@ -205,6 +213,7 @@ void buttonEvents() {
             inputQueue.keySPressed = false;
             inputQueue.keyDPressed = false;
             state = PLAY_SCREEN;
+            startEndScreen = false;
         }
     }
 }
@@ -315,6 +324,19 @@ void playerCollectFoodEvent() {
     }
 }
 
+void checkPlayerGetBombed() {
+    if (player.checkCollisions(player.getPos().x, player.getPos().y, bombs) || player.getEnergy() <= 0) {
+        if (player.hasEffect(SHIELD) && player.getEnergy() > 0) {
+            player.removeEffect(SHIELD);
+            player.addEffect({INVINCIBLE, 1, 50});
+        } else {
+            player.setDead();
+            state = END_SCREEN;
+            startPlaying = false;
+        }
+    }
+}
+
 void update() {
     if (!startPlaying) {
         initState(PLAY_SCREEN);
@@ -340,19 +362,7 @@ void update() {
     }
 
     if (!player.hasEffect(INVINCIBLE))
-        if (player.checkCollisions(player.getPos().x, player.getPos().y, bombs) || player.getEnergy() <= 0) {
-            if (player.hasEffect(SHIELD) && player.getEnergy() > 0) {
-                player.removeEffect(SHIELD);
-                player.addEffect({INVINCIBLE, 1, 50});
-            } else {
-                player.setDead();
-                state = END_SCREEN;
-                fout << "You died" << '\n';
-                std::cout << "You died" << '\n';  
-                fout << "Score: " << score << '\n';
-                std::cout << "Score: " << score << '\n';               
-            }
-        }
+        checkPlayerGetBombed();
 }
 
 void graphics() {
@@ -428,22 +438,8 @@ void graphics() {
 }
 
 void endScreen() {
-    SDL_GetMouseState(&inputQueue.mouseX, &inputQueue.mouseY);
-    if (startPlaying == true) {
-        for (auto it = bombs.begin(); it != bombs.end(); ) {
-            delete *it;
-            it = bombs.erase(it);
-        }
-        bombs.clear();
-
-        for (auto it = foods.begin(); it != foods.end(); ) {
-            delete *it;
-            it = foods.erase(it);
-        }
-        foods.clear();
-        
-        buttons.emplace_back(new Button({490, 550}, play_again_Button_Texture, PLAY_AGAIN_BUTTON));
-        startPlaying = false;
+    if (!startEndScreen) {
+        initState(END_SCREEN);
     } else
         getInput();
 
