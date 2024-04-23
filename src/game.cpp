@@ -51,6 +51,7 @@ SDL_Texture *start_Button_Texture = window.loadTexture("res/gfx/start_button.png
 SDL_Texture *play_again_Button_Texture = window.loadTexture("res/gfx/play_again_button.png");
 SDL_Texture *select_map_Button_Texture = window.loadTexture("res/gfx/select_map_button.png");
 SDL_Texture *pause_Button_Texture = window.loadTexture("res/gfx/pause_button.png");
+SDL_Texture *pause_screen_overlay_Texture = window.loadTexture("res/gfx/pause_screen_overlay.png");
 
 TTF_Font* font32 = TTF_OpenFont("res/font/font.ttf", 32);
 TTF_Font* font64 = TTF_OpenFont("res/font/font.ttf", 64);
@@ -109,9 +110,14 @@ void game() {
 	else if (state == PLAY_SCREEN)
 	{
 		update();
-		graphics();
-	} 
-    else 
+	}
+    else if (state == PAUSE_SCREEN)
+    {
+        getInput();
+        buttonEvents();
+        graphics();
+    }
+    else if (state == END_SCREEN)
     {
         endScreen();
     }
@@ -149,6 +155,7 @@ void initState(stateID state) {
         startPlaying = true;
         break;
     case END_SCREEN:
+        buttons.clear();
         bombs.clear();
         foods.clear();
         buttons.emplace_back(new Button({490, 550}, play_again_Button_Texture, PLAY_AGAIN_BUTTON));
@@ -218,6 +225,14 @@ void buttonEvents() {
             inputQueue.keyDPressed = false;
             state = PLAY_SCREEN;
             startEndScreen = false;
+        }
+        if (b->getType() == PAUSE_BUTTON && b->isClicked()) {
+            if (state != PAUSE_SCREEN)
+                state = PAUSE_SCREEN;
+            else
+                state = PLAY_SCREEN;
+
+            inputQueue.keyMousePressed = false;
         }
     }
 }
@@ -368,6 +383,8 @@ void update() {
 
     if (!player.hasEffect(INVINCIBLE))
         checkPlayerGetBombed();
+
+    graphics();
 }
 
 void graphics() {
@@ -382,7 +399,7 @@ void graphics() {
             window.render(*b);
         }
     }
-	else if (state == PLAY_SCREEN) 
+	else if (state == PLAY_SCREEN || state == PAUSE_SCREEN) 
 	{
 		window.render(0, 0, background_Texture);
 
@@ -418,6 +435,9 @@ void graphics() {
         }
 
         window.render(player, player.isMovingLeft());
+
+        if (state == PAUSE_SCREEN)
+            window.render(0, 0, pause_screen_overlay_Texture);
 	} 
     else if (state == END_SCREEN)
     {

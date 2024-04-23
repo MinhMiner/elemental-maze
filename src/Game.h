@@ -48,6 +48,7 @@ extern SDL_Texture *start_Button_Texture;
 extern SDL_Texture *play_again_Button_Texture;
 extern SDL_Texture *select_map_Button_Texture;
 extern SDL_Texture *pause_Button_Texture;
+extern SDL_Texture *pause_screen_overlay_Texture;
 
 extern TTF_Font* font32;
 extern TTF_Font* font64;
