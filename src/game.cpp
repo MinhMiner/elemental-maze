@@ -175,6 +175,7 @@ void initState(stateID state) {
         buttons.clear();
         buttons.emplace_back(new Button({20, 150}, map_1_Texture, MAP_1_BUTTON));
         buttons.emplace_back(new Button({660, 150}, map_2_Texture, MAP_2_BUTTON));
+        buttons.emplace_back(new Button({490, 500}, home_Button_Texture, HOME_BUTTON));
         startSelectMapScreen = true;
         inputQueue.keyMousePressed = false;
         break;
@@ -253,6 +254,7 @@ void buttonEvents() {
             inputQueue.keyMousePressed = false;
             state = TITLE_SCREEN;
             startEndScreen = false;
+            startSelectMapScreen = false;
         }
         if (b->getType() == PAUSE_BUTTON && b->isClicked()) {
             if (state != PAUSE_SCREEN)
