@@ -11,6 +11,8 @@ enum stateID {
 enum buttonType {
     START_BUTTON,
     PLAY_AGAIN_BUTTON,
+    SELECT_MAP_BUTTON,
+    PAUSE_BUTTON
 };
 
 enum foodType {

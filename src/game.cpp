@@ -49,6 +49,8 @@ SDL_Texture *dash_Texture = window.loadTexture("res/gfx/dash.png");
 SDL_Texture *shield_Texture = window.loadTexture("res/gfx/shield.png");
 SDL_Texture *start_Button_Texture = window.loadTexture("res/gfx/start_button.png");
 SDL_Texture *play_again_Button_Texture = window.loadTexture("res/gfx/play_again_button.png");
+SDL_Texture *select_map_Button_Texture = window.loadTexture("res/gfx/select_map_button.png");
+SDL_Texture *pause_Button_Texture = window.loadTexture("res/gfx/pause_button.png");
 
 TTF_Font* font32 = TTF_OpenFont("res/font/font.ttf", 32);
 TTF_Font* font64 = TTF_OpenFont("res/font/font.ttf", 64);
@@ -127,10 +129,12 @@ void initState(stateID state) {
     case TITLE_SCREEN:
         buttons.clear();
         buttons.emplace_back(new Button({490, 450}, start_Button_Texture, START_BUTTON));
+        buttons.emplace_back(new Button({490, 570}, select_map_Button_Texture, SELECT_MAP_BUTTON));
         startTitleScreen = true;
         break;
     case PLAY_SCREEN:
         buttons.clear();
+        buttons.emplace_back(new Button({1225, 25}, pause_Button_Texture, PAUSE_BUTTON));
         fout << "START PLAYING-----------------------\n\n";
         player.setAlive();
         totalTime = 0.0;
@@ -352,6 +356,7 @@ void update() {
     spawnFood(delayBetweenFoods);
     
 	getInput();
+    buttonEvents();
     player.update(deltaTime, inputQueue, walls);
 
     updateObjects();
@@ -403,6 +408,9 @@ void graphics() {
             window.render(*w);
         }
         for (Bomb* b: bombs) {
+            window.render(*b);
+        }
+        for (Button* b: buttons) {
             window.render(*b);
         }
         for (Food* f: foods) {
