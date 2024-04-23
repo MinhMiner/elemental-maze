@@ -57,7 +57,7 @@ TTF_Font* font32 = TTF_OpenFont("res/font/font.ttf", 32);
 TTF_Font* font64 = TTF_OpenFont("res/font/font.ttf", 64);
 TTF_Font* font128 = TTF_OpenFont("res/font/font.ttf", 128);
 
-int level = 1;
+int level = 2;
 stateID state = TITLE_SCREEN;
 
 Player player = Player({200, 200}, player_Texture);
@@ -193,6 +193,8 @@ void getInput() {
                     inputQueue.keySPressed = true;
                 else if (event.key.keysym.sym == SDLK_d)
                     inputQueue.keyDPressed = true;
+                else if (event.key.keysym.sym == SDLK_SPACE)
+                    inputQueue.keySpacePressed = true;   
                 break;
             case SDL_KEYUP:
                 if (event.key.keysym.sym == SDLK_w)
@@ -203,6 +205,8 @@ void getInput() {
                     inputQueue.keySPressed = false;
                 else if (event.key.keysym.sym == SDLK_d)
                     inputQueue.keyDPressed = false;
+                else if (event.key.keysym.sym == SDLK_SPACE)
+                    inputQueue.keySpacePressed = false;
                 break;
             default:
                 break;
@@ -377,7 +381,7 @@ void update() {
     updateObjects();
     playerCollectFoodEvent();
 
-    if (player.hasEffect(DASH) && inputQueue.keyMousePressed) {
+    if (player.hasEffect(DASH) && inputQueue.keySpacePressed) {
         player.dash(inputQueue);
     }
 

@@ -74,7 +74,7 @@ void Player::dash(inputKeys &inputQueue)
     addEffect({SPEED, 1, 150});
     addEffect({INVINCIBLE, 1, 250});
     removeEffect(DASH);
-    inputQueue.keyMousePressed = false;
+    inputQueue.keySpacePressed = false;
 }
 
 void Player::update(double deltaTime, const inputKeys &inputQueue, std::vector<Wall*> &walls)

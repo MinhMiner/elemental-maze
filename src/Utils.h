@@ -30,6 +30,7 @@ struct inputKeys {
 	bool keySPressed = false;
 	bool keyDPressed = false;
 	bool keyMousePressed = false;
+	bool keySpacePressed = false;
 	int mouseX, mouseY;
 };
 
