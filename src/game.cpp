@@ -531,8 +531,8 @@ void graphics() {
         std::string scoreString = "Score: " + std::to_string(score);
         const char* scoreCStr = scoreString.c_str();
 
-        window.render(645, 455, scoreCStr, font64, black, true);
-	    window.render(640, 450, scoreCStr, font64, white, true);
+        window.render(645, 455, scoreCStr, font64, white, true);
+	    window.render(640, 450, scoreCStr, font64, black, true);
     }
     window.display();
 }
