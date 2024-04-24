@@ -17,6 +17,8 @@ enum buttonType {
     SELECT_MAP_BUTTON,
     MAP_1_BUTTON,
     MAP_2_BUTTON,
+    MAP_3_BUTTON,
+    MAP_4_BUTTON,
     PAUSE_BUTTON
 };
 

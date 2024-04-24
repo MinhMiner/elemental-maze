@@ -55,6 +55,8 @@ SDL_Texture *home_Button_Texture = window.loadTexture("res/gfx/home_button.png")
 SDL_Texture *pause_screen_overlay_Texture = window.loadTexture("res/gfx/pause_screen_overlay.png");
 SDL_Texture *map_1_Texture = window.loadTexture("res/gfx/map_1.png");
 SDL_Texture *map_2_Texture = window.loadTexture("res/gfx/map_2.png");
+SDL_Texture *map_3_Texture = window.loadTexture("res/gfx/map_3.png");
+SDL_Texture *map_4_Texture = window.loadTexture("res/gfx/map_4.png");
 
 TTF_Font* font32 = TTF_OpenFont("res/font/font.ttf", 32);
 TTF_Font* font64 = TTF_OpenFont("res/font/font.ttf", 64);
@@ -173,9 +175,10 @@ void initState(stateID state) {
         break;
     case SELECT_MAP_SCREEN:
         buttons.clear();
-        buttons.emplace_back(new Button({20, 150}, map_1_Texture, MAP_1_BUTTON));
-        buttons.emplace_back(new Button({660, 150}, map_2_Texture, MAP_2_BUTTON));
-        buttons.emplace_back(new Button({490, 500}, home_Button_Texture, HOME_BUTTON));
+        buttons.emplace_back(new Button({20, 60}, map_1_Texture, MAP_1_BUTTON));
+        buttons.emplace_back(new Button({660, 60}, map_2_Texture, MAP_2_BUTTON));
+        buttons.emplace_back(new Button({20, 400}, map_3_Texture, MAP_3_BUTTON));
+        buttons.emplace_back(new Button({660, 400}, map_4_Texture, MAP_4_BUTTON));
         startSelectMapScreen = true;
         inputQueue.keyMousePressed = false;
         break;
@@ -277,6 +280,18 @@ void buttonEvents() {
         }
         if (b->getType() == MAP_2_BUTTON && b->isClicked()) {
             level = 2;
+            state = PLAY_SCREEN;
+            inputQueue.keyMousePressed = false;
+            startSelectMapScreen = false;
+        }
+        if (b->getType() == MAP_3_BUTTON && b->isClicked()) {
+            level = 3;
+            state = PLAY_SCREEN;
+            inputQueue.keyMousePressed = false;
+            startSelectMapScreen = false;
+        }
+        if (b->getType() == MAP_4_BUTTON && b->isClicked()) {
+            level = 4;
             state = PLAY_SCREEN;
             inputQueue.keyMousePressed = false;
             startSelectMapScreen = false;
@@ -464,8 +479,8 @@ void graphics() {
     else if (state == SELECT_MAP_SCREEN) {
         window.render(0, 0, title_screen_background_Texture);
 
-        window.render(645, 83, "Choose the map you want to play below", font32, black, true);
-        window.render(643, 81, "Choose the map you want to play below", font32, white, true);
+        window.render(645, 23, "Choose the map you want to play below", font32, black, true);
+        window.render(643, 21, "Choose the map you want to play below", font32, white, true);
 
         for (Button* b: buttons) {
             window.render(*b);
@@ -639,6 +654,85 @@ void loadMaps() {
         walls.emplace_back(new Wall({788, 410}, brick_wall_Texture));
         walls.emplace_back(new Wall({852, 410}, brick_wall_Texture));
         walls.emplace_back(new Wall({916, 410}, brick_wall_Texture));
+
+        break;
+    case 3:
+        walls.clear();
+        player.setPos(608, 222);
+
+        walls.emplace_back(new Wall({160, 255}, brick_wall_Texture));
+        walls.emplace_back(new Wall({224, 255}, brick_wall_Texture));
+        walls.emplace_back(new Wall({288, 255}, brick_wall_Texture));
+        walls.emplace_back(new Wall({352, 255}, brick_wall_Texture));
+        walls.emplace_back(new Wall({416, 255}, brick_wall_Texture));
+
+        walls.emplace_back(new Wall({160, 565}, brick_wall_Texture));
+        walls.emplace_back(new Wall({224, 565}, brick_wall_Texture));
+        walls.emplace_back(new Wall({288, 565}, brick_wall_Texture));
+        walls.emplace_back(new Wall({352, 565}, brick_wall_Texture));
+        walls.emplace_back(new Wall({416, 565}, brick_wall_Texture));
+
+        walls.emplace_back(new Wall({800, 255}, brick_wall_Texture));
+        walls.emplace_back(new Wall({864, 255}, brick_wall_Texture));
+        walls.emplace_back(new Wall({928, 255}, brick_wall_Texture));
+        walls.emplace_back(new Wall({992, 255}, brick_wall_Texture));
+        walls.emplace_back(new Wall({1056, 255}, brick_wall_Texture));
+
+        walls.emplace_back(new Wall({800, 565}, brick_wall_Texture));
+        walls.emplace_back(new Wall({864, 565}, brick_wall_Texture));
+        walls.emplace_back(new Wall({928, 565}, brick_wall_Texture));
+        walls.emplace_back(new Wall({992, 565}, brick_wall_Texture));
+        walls.emplace_back(new Wall({1056, 565}, brick_wall_Texture));
+
+        walls.emplace_back(new Wall({480, 410}, brick_wall_Texture));
+        walls.emplace_back(new Wall({544, 410}, brick_wall_Texture));
+        walls.emplace_back(new Wall({608, 410}, brick_wall_Texture));
+        walls.emplace_back(new Wall({672, 410}, brick_wall_Texture));
+        walls.emplace_back(new Wall({736, 410}, brick_wall_Texture));
+
+        break;
+    case 4:
+        walls.clear();
+        player.setPos(108, 422);
+
+        walls.emplace_back(new Wall({320, 410}, brick_wall_Texture));
+        walls.emplace_back(new Wall({384, 410}, brick_wall_Texture));
+        walls.emplace_back(new Wall({448, 410}, brick_wall_Texture));
+        walls.emplace_back(new Wall({512, 410}, brick_wall_Texture));
+        walls.emplace_back(new Wall({576, 410}, brick_wall_Texture));
+        walls.emplace_back(new Wall({640, 410}, brick_wall_Texture));
+        walls.emplace_back(new Wall({704, 410}, brick_wall_Texture));
+        walls.emplace_back(new Wall({768, 410}, brick_wall_Texture));
+        walls.emplace_back(new Wall({832, 410}, brick_wall_Texture));
+        walls.emplace_back(new Wall({896, 410}, brick_wall_Texture));
+        walls.emplace_back(new Wall({960, 410}, brick_wall_Texture));
+        walls.emplace_back(new Wall({1024, 410}, brick_wall_Texture));
+        walls.emplace_back(new Wall({1088, 410}, brick_wall_Texture));
+        walls.emplace_back(new Wall({1216, 410}, brick_wall_Texture));
+
+        walls.emplace_back(new Wall({320, 282}, brick_wall_Texture));
+        walls.emplace_back(new Wall({320, 346}, brick_wall_Texture));
+        walls.emplace_back(new Wall({320, 474}, brick_wall_Texture));
+        walls.emplace_back(new Wall({320, 538}, brick_wall_Texture));
+
+        walls.emplace_back(new Wall({704, 164}, brick_wall_Texture));
+        walls.emplace_back(new Wall({704, 228}, brick_wall_Texture));
+        walls.emplace_back(new Wall({704, 592}, brick_wall_Texture));
+        walls.emplace_back(new Wall({704, 656}, brick_wall_Texture));
+
+        walls.emplace_back(new Wall({1088, 218}, brick_wall_Texture));
+        walls.emplace_back(new Wall({1088, 282}, brick_wall_Texture));
+        walls.emplace_back(new Wall({1088, 346}, brick_wall_Texture));
+        walls.emplace_back(new Wall({1088, 474}, brick_wall_Texture));
+        walls.emplace_back(new Wall({1088, 538}, brick_wall_Texture));
+        walls.emplace_back(new Wall({1088, 602}, brick_wall_Texture));
+        
+        walls.emplace_back(new Wall({1216, 218}, brick_wall_Texture));
+        walls.emplace_back(new Wall({1216, 282}, brick_wall_Texture));
+        walls.emplace_back(new Wall({1216, 346}, brick_wall_Texture));
+        walls.emplace_back(new Wall({1216, 474}, brick_wall_Texture));
+        walls.emplace_back(new Wall({1216, 538}, brick_wall_Texture));
+        walls.emplace_back(new Wall({1216, 602}, brick_wall_Texture));
 
         break;
     default:

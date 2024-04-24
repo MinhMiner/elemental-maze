@@ -52,6 +52,8 @@ extern SDL_Texture *pause_Button_Texture;
 extern SDL_Texture *pause_screen_overlay_Texture;
 extern SDL_Texture *map_1_Texture;
 extern SDL_Texture *map_2_Texture;
+extern SDL_Texture *map_3_Texture;
+extern SDL_Texture *map_4_Texture;
 
 extern TTF_Font* font32;
 extern TTF_Font* font64;

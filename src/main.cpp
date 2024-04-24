@@ -31,5 +31,3 @@ int main(int argc, char* args[]) {
     fout.close();
 	return 0;
 }
-
-
