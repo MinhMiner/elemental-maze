@@ -55,6 +55,9 @@ extern SDL_Texture *map_2_Texture;
 extern SDL_Texture *map_3_Texture;
 extern SDL_Texture *map_4_Texture;
 
+extern Mix_Chunk* button_click_Sfx;
+extern Mix_Chunk* eat_Sfx;
+
 extern TTF_Font* font32;
 extern TTF_Font* font64;
 extern TTF_Font* font128;

@@ -58,6 +58,9 @@ SDL_Texture *map_2_Texture = window.loadTexture("res/gfx/map_2.png");
 SDL_Texture *map_3_Texture = window.loadTexture("res/gfx/map_3.png");
 SDL_Texture *map_4_Texture = window.loadTexture("res/gfx/map_4.png");
 
+Mix_Chunk* button_click_Sfx = Mix_LoadWAV("res/sfx/button_click.mp3");
+Mix_Chunk* eat_Sfx = Mix_LoadWAV("res/sfx/eat.mp3");
+
 TTF_Font* font32 = TTF_OpenFont("res/font/font.ttf", 32);
 TTF_Font* font64 = TTF_OpenFont("res/font/font.ttf", 64);
 TTF_Font* font128 = TTF_OpenFont("res/font/font.ttf", 128);
@@ -239,6 +242,10 @@ void buttonEvents() {
     for (Button* b: buttons) {
         b->update(inputQueue);
 
+        if (b->isClicked()) {
+            Mix_PlayChannel(-1, button_click_Sfx, 0);
+        }
+
         if (b->getType() == START_BUTTON && b->isClicked()) {
             state = PLAY_SCREEN;
             inputQueue.keyMousePressed = false;
@@ -402,6 +409,7 @@ void playerCollectFoodEvent() {
         }
         player.collectedFood();
         foodCollected->setAge(15000);
+        Mix_PlayChannel(-1, eat_Sfx, 0);
     }
 }
 
