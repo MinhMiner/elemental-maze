@@ -7,8 +7,8 @@
 Bark 'n Bombs là một tựa game thuộc thể loại Retro/Arcade Game. Người chơi sẽ điều khiển nhân vật là một con chó di chuyển xung quanh màn hình trò chơi. Trên màn hình sẽ có các chướng ngại vật cản đường, những quả bom được sinh ra ngẫu nhiên mà người chơi cần né tránh, các loại thức ăn khác nhau mà người chơi có thể thu thập để tăng điểm số của mình. Mục tiêu của trò chơi là điều khiển nhân vật sống càng lâu càng tốt!
 
 - [0. Cách tải game](#0-cách-tải-game)
-- [1. Bắt đầu game](#1bắt-đầu-game)
-- [2. Chọn bản đồ chơi](#2chọn-bản-đồ-chơi)
+- [1. Bắt đầu game](#1-bắt-đầu-game)
+- [2. Chọn bản đồ chơi](#2-chọn-bản-đồ-chơi)
 - [3. Các thành phần trong game:](#3-các-thành-phần-trong-game)
 - [4. Hướng dẫn chơi](#4-hướng-dẫn-chơi)
 - [5. Kết thúc trò chơi và điểm cao](#5-kết-thúc-trò-chơi-và-điểm-cao)
@@ -39,7 +39,7 @@ Khi đưa chuột vào một nút bất kỳ, nút đó sẽ sáng lên.
 Để bắt đầu chơi ngay lập tức, đưa chuột vào nút bấm Start và click chuột trái. Trò chơi sẽ được bắt đầu với bản đồ mặc định (Bản đồ thứ nhất - Map 1).
 
 Nếu người chơi bấm nút Select Map, game chuyển sang màn hình chọn bản đồ chơi.
-- [2. Chọn bản đồ chơi](#2chọn-bản-đồ-chơi)
+- [2. Chọn bản đồ chơi](#2-chọn-bản-đồ-chơi)
 Nếu người chơi bấm nút Best score, game chuyển sang màn hình hiển thị điểm số cao nhất của tất cả các bản đồ chơi được lưu trên máy tính.
 - [5. Kết thúc trò chơi và điểm cao](#5-kết-thúc-trò-chơi-và-điểm-cao)
 Nếu người chơi bấm nút dấu chấm hỏi ở trên góc trái màn hình, game chuyển sang màn hình hướng dẫn chơi.
@@ -65,15 +65,15 @@ Có tổng cộng 4 bản đồ chơi khác nhau và bạn có thể chọn bấ
 -    Chó (Người chơi) ![image](res/preview/player.png)
      : đây là nhân vật mà người chơi sẽ điều khiển
 
--    Thanh năng lượng ![image](res/preview/energy_bar.png)
+-    Thanh năng lượng ![image](res/preview/energy_bar.gif)
      : thanh năng lượng của người chơi sẽ liên tục giảm dần, nếu người chơi để thanh năng lượng giảm xuống cạn thì trò chơi sẽ kết thúc. Người chơi cần thu thập các vật phẩm thức ăn để hồi điểm năng lượng (Tối đa thanh năng lượng: 15000 điểm)
 
 - Hiệu ứng: Người chơi có thể thu thập các hiệu ứng này để thay đổi một số thuộc tính của nhân vật chú chó. Các biểu tượng của hiệu ứng xuất hiện ở bên trái thanh năng lượng và biến mất dần tượng trưng cho khoảng thời gian hiệu ứng còn tồn tại.
-    * Tăng tốc ![image](res/preview/speed.png) : Tăng tốc độ di chuyển của nhân vật trong một khoảng thời gian.
-    * Khiên ![image](res/preview/shield.png) : Bảo vệ nhân vật khỏi một quả bom. Khiên sẽ bị tiêu thụ sau khi nhân vật "đỡ" một quả bom nên hãy cẩn thận khi ở gần nhiều quả bom cùng một lúc.
-    * Né (Dash) ![image](res/preview/dash.png) : Khi kích hoạt kỹ năng né bằng nút SPACE trên bàn phím, nhân vật được đột ngột tăng tốc độ di chuyển lên rất cao và nhận hiệu ứng bất tử trong khoảng thời gian cực ngắn. Nếu sử dụng tốt, kỹ năng này rất hữu ích để thoát hiểm trong những tình huống bất ngờ. Kỹ năng được tiêu thụ sau khi sử dụng.
+    * Tăng tốc ![image](res/gfx/speed.png) : Tăng tốc độ di chuyển của nhân vật trong một khoảng thời gian.
+    * Khiên ![image](res/gfx/shield.png) : Bảo vệ nhân vật khỏi một quả bom. Khiên sẽ bị tiêu thụ sau khi nhân vật "đỡ" một quả bom nên hãy cẩn thận khi ở gần nhiều quả bom cùng một lúc.
+    * Né (Dash) ![image](res/gfx/dash.png) : Khi kích hoạt kỹ năng né bằng nút SPACE trên bàn phím, nhân vật được đột ngột tăng tốc độ di chuyển lên rất cao và nhận hiệu ứng bất tử trong khoảng thời gian cực ngắn. Nếu sử dụng tốt, kỹ năng này rất hữu ích để thoát hiểm trong những tình huống bất ngờ. Kỹ năng được tiêu thụ sau khi sử dụng.
 
-- Tường ![image](res/preview/brick_wall.png) : Chướng ngại vật chặn đường người chơi di chuyển. Ở mỗi bản đồ thì tường được bố trí với các bố cục khác nhau. Chúng đứng yên một chỗ và ngăn người chơi đi qua, cũng như ngăn chặn bom và các vật phẩm khác xuất hiện ở vị trí đó.
+- Tường ![image](res/gfx/brick_wall.png) : Chướng ngại vật chặn đường người chơi di chuyển. Ở mỗi bản đồ thì tường được bố trí với các bố cục khác nhau. Chúng đứng yên một chỗ và ngăn người chơi đi qua, cũng như ngăn chặn bom và các vật phẩm khác xuất hiện ở vị trí đó.
 
 - Bom ![image](res/preview/bomb.png) : Bom sẽ xuất hiện ngẫu nhiên trên bản đồ chơi sau những khoảng thời gian nhất định, và chúng sẽ tự động phát nổ sau 0,75s
 
@@ -82,11 +82,11 @@ Có tổng cộng 4 bản đồ chơi khác nhau và bạn có thể chọn bấ
 
 |                                                                             | Tên vật phẩm    | Phần thưởng khi thu thập                                                                                                   |
 |-----------------------------------------------------------------------------|--------------|------------------------------------------------------------------------------------------------------------------------------|
-| <img src="res/preview/bone.png" width=50>  | Xương	  | Tăng 10 điểm và hồi 3500 điểm năng lượng.                                                                                              |
-| <img src="res/preview/fish.png" width=44>    | Cá	   | Tăng 50 điểm và hồi 7000 điểm năng lượng, đồng thời nhận hiệu ứng Tăng tốc trong 2s                                                                    |
-| <img src="res/preview/steak.png" width=42>          | Bít tết	    | Tăng 75 điểm và hồi 10000 điểm năng lượng, đồng thời nhận hiệu ứng Khiên duy trì tối đa 10s.                                                                   |
-| <img src="res/preview/chicken.png" width=52>        | Thịt gà	    | Tăng 60 điểm và hồi 8000 điểm năng lượng, đồng thời nhận được khả năng né (Dash) duy trì tối đa 30s. |
-| <img src="res/preview/gift.png" width=56> | Hộp quà  | Tăng 150 điểm và hồi toàn bộ thanh năng lượng.                                                               |
+| <img src="res/gfx/bone.png" width=50>  | Xương	  | Tăng 10 điểm và hồi 3500 điểm năng lượng.                                                                                              |
+| <img src="res/gfx/fish.png" width=44>    | Cá	   | Tăng 50 điểm và hồi 7000 điểm năng lượng, đồng thời nhận hiệu ứng Tăng tốc trong 2s                                                                    |
+| <img src="res/gfx/steak.png" width=42>          | Bít tết	    | Tăng 75 điểm và hồi 10000 điểm năng lượng, đồng thời nhận hiệu ứng Khiên duy trì tối đa 10s.                                                                   |
+| <img src="res/gfx/chicken.png" width=52>        | Thịt gà	    | Tăng 60 điểm và hồi 8000 điểm năng lượng, đồng thời nhận được khả năng né (Dash) duy trì tối đa 30s. |
+| <img src="res/gfx/gift.png" width=56> | Hộp quà  | Tăng 150 điểm và hồi toàn bộ thanh năng lượng.                                                               |
 
 - Điểm (Score): Ở góc trái bên trên màn hình. Điểm được tính dựa vào số thời gian người chơi đã sống sót cùng với số lượng và loại thức ăn/vật phẩm mà người chơi đã thu thập.
 
@@ -155,6 +155,8 @@ Màn hình điểm cao nhất của các bản đồ chơi (Ví dụ):
 ![image](res/preview/best_score.png)
 </div>
 Có thể bấm nút quay lại ở góc trên bên trái màn hình để về màn hình tiêu đề
+
+!! Lưu ý: Bấm nút ![image](res/preview/reset.png) để xóa toàn bộ dữ liệu điểm cao trên máy. Hãy cẩn thận vì dữ liệu này không thể khôi phục sau khi xóa.
 
 ---
 
