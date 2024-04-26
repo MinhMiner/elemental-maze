@@ -16,11 +16,10 @@ CFLAGS = -std=c++17 -Wall -pedantic -MMD -MP
 OUTDIR = .
 DATADIR = ./data
 SUBDIR = semihost stream arg_parser
-ICONDIR =
+ICONDIR = res/gfx/bnb.o
 
 DIR_OBJ = ./obj
 DIR_SRC = ./obj
-
 
 rwildcard=$(foreach d,$(wildcard $(1:=/*)),$(call rwildcard,$d,$2) $(filter $(subst *,%,$2),$d))
 
