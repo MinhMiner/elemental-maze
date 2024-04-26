@@ -67,6 +67,7 @@ Mix_Chunk* gift_Sfx = Mix_LoadWAV("res/sfx/gift.mp3");
 Mix_Chunk* dash_Sfx = Mix_LoadWAV("res/sfx/dash.mp3");
 Mix_Chunk* shield_Sfx = Mix_LoadWAV("res/sfx/shield.mp3");
 Mix_Chunk* bgm_Sfx = Mix_LoadWAV("res/sfx/bgm.mp3");
+Mix_Chunk* game_over_Sfx = Mix_LoadWAV("res/sfx/game_over.mp3");
 
 TTF_Font* font32 = TTF_OpenFont("res/font/font.ttf", 32);
 TTF_Font* font64 = TTF_OpenFont("res/font/font.ttf", 64);
@@ -231,6 +232,7 @@ void initState(stateID state) {
         break;
     case SELECT_MAP_SCREEN:
         buttons.clear();
+        buttons.emplace_back(new Button({20, 5}, back_Button_Texture, BACK_BUTTON));
         buttons.emplace_back(new Button({20, 60}, map_1_Texture, MAP_1_BUTTON));
         buttons.emplace_back(new Button({660, 60}, map_2_Texture, MAP_2_BUTTON));
         buttons.emplace_back(new Button({20, 400}, map_3_Texture, MAP_3_BUTTON));
@@ -330,6 +332,7 @@ void buttonEvents() {
             inputQueue.keyMousePressed = false;
             state = TITLE_SCREEN;
             startBestScoreScreen = false;
+            startSelectMapScreen = false;
         }
         if (b->getType() == RESET_BUTTON && b->isClicked()) {
             inputQueue.keyMousePressed = false;
@@ -507,6 +510,7 @@ void checkPlayerGetBombed() {
             }
             state = END_SCREEN;
             startPlaying = false;
+            Mix_PlayChannel(-1, game_over_Sfx, 0);
         }
     }
 }
