@@ -49,12 +49,14 @@ SDL_Texture *start_Button_Texture = window.loadTexture("res/gfx/start_button.png
 SDL_Texture *play_again_Button_Texture = window.loadTexture("res/gfx/play_again_button.png");
 SDL_Texture *select_map_Button_Texture = window.loadTexture("res/gfx/select_map_button.png");
 SDL_Texture *pause_Button_Texture = window.loadTexture("res/gfx/pause_button.png");
+SDL_Texture *help_Button_Texture = window.loadTexture("res/gfx/help_button.png");
 SDL_Texture *home_Button_Texture = window.loadTexture("res/gfx/home_button.png");
 SDL_Texture *back_Button_Texture = window.loadTexture("res/gfx/back_button.png");
 SDL_Texture *reset_Button_Texture = window.loadTexture("res/gfx/reset_button.png");
 SDL_Texture *best_score_Button_Texture = window.loadTexture("res/gfx/best_score_button.png");
 SDL_Texture *pause_screen_overlay_Texture = window.loadTexture("res/gfx/pause_screen_overlay.png");
 SDL_Texture *best_score_background_Texture = window.loadTexture("res/gfx/best_score_background.png");
+SDL_Texture *help_screen_background_Texture = window.loadTexture("res/gfx/help_screen_background.png");
 SDL_Texture *map_1_Texture = window.loadTexture("res/gfx/map_1.png");
 SDL_Texture *map_2_Texture = window.loadTexture("res/gfx/map_2.png");
 SDL_Texture *map_3_Texture = window.loadTexture("res/gfx/map_3.png");
@@ -81,6 +83,7 @@ Player player = Player({200, 200}, player_Texture);
 bool gameRunning = true;
 bool startPlaying = false;
 bool startTitleScreen = false;
+bool startHelpScreen = false;
 bool startEndScreen = false;
 bool startSelectMapScreen = false;
 bool startBestScoreScreen = false;
@@ -169,6 +172,10 @@ void game() {
 	{
 		playScreen();
 	}
+    else if (state == HELP_SCREEN)
+    {
+        helpScreen();
+    }
     else if (state == SELECT_MAP_SCREEN)
     {
         selectMapScreen();
@@ -198,6 +205,7 @@ void initState(stateID state) {
     {
     case TITLE_SCREEN:
         buttons.clear();
+        buttons.emplace_back(new Button({20, 5}, help_Button_Texture, HELP_BUTTON));
         buttons.emplace_back(new Button({490, 380}, start_Button_Texture, START_BUTTON));
         buttons.emplace_back(new Button({490, 490}, select_map_Button_Texture, SELECT_MAP_BUTTON));
         buttons.emplace_back(new Button({490, 600}, best_score_Button_Texture, BEST_SCORE_BUTTON));
@@ -245,6 +253,23 @@ void initState(stateID state) {
         buttons.emplace_back(new Button({20, 5}, back_Button_Texture, BACK_BUTTON));
         buttons.emplace_back(new Button({1210, 5}, reset_Button_Texture, RESET_BUTTON));
         startBestScoreScreen = true;
+        inputQueue.keyMousePressed = false;
+        break;
+    case HELP_SCREEN:
+        buttons.clear();
+        buttons.emplace_back(new Button({20, 5}, back_Button_Texture, BACK_BUTTON));
+        totalTime = 0.0;
+        player.setPos(1100, 50);
+        player.updateEnergy(-20000);
+        player.resetEffects();
+        player.resetFoodCount();
+        foods.emplace_back(new Food({50, 325}, bone_Texture, BONE));
+        foods.emplace_back(new Food({150, 325}, fish_Texture, FISH));
+        foods.emplace_back(new Food({250, 325}, steak_Texture, STEAK));
+        foods.emplace_back(new Food({350, 325}, chicken_Texture, CHICKEN));
+        foods.emplace_back(new Food({450, 325}, gift_Texture, GIFT));
+        bombs.emplace_back(new Bomb({520, 425}, bomb_Texture));
+        startHelpScreen = true;
         inputQueue.keyMousePressed = false;
         break;
     default:
@@ -328,11 +353,17 @@ void buttonEvents() {
             startEndScreen = false;
             startSelectMapScreen = false;
         }
+        if (b->getType() == HELP_BUTTON && b->isClicked()) {
+            inputQueue.keyMousePressed = false;
+            state = HELP_SCREEN;
+            startTitleScreen = false;
+        }
         if (b->getType() == BACK_BUTTON && b->isClicked()) {
             inputQueue.keyMousePressed = false;
             state = TITLE_SCREEN;
             startBestScoreScreen = false;
             startSelectMapScreen = false;
+            startHelpScreen = false;
         }
         if (b->getType() == RESET_BUTTON && b->isClicked()) {
             inputQueue.keyMousePressed = false;
@@ -441,7 +472,8 @@ void spawnFood(const double &delayBetweenFoods) {
 
 void updateObjects() {
     for (auto it = bombs.begin(); it != bombs.end(); ) {
-        (*it)->setAge(deltaTime);
+        if (state != HELP_SCREEN)
+            (*it)->setAge(deltaTime);
 
         if ((*it)->shouldDestroy()) {
             delete *it;
@@ -452,7 +484,8 @@ void updateObjects() {
     }
 
     for (auto it = foods.begin(); it != foods.end(); ) {
-        (*it)->setAge(deltaTime);
+        if (state != HELP_SCREEN)
+            (*it)->setAge(deltaTime);
 
         if ((*it)->shouldDestroy()) {
             delete *it;
@@ -553,6 +586,26 @@ void pauseScreen() {
     graphics();
 }
 
+void helpScreen() {
+    if (!startHelpScreen)
+        initState(HELP_SCREEN);
+
+    player.updateEnergy(-15000);
+    getInput();
+    buttonEvents();
+
+    player.update(deltaTime, inputQueue, walls);
+    updateObjects();
+    playerCollectFoodEvent();
+
+    if (player.hasEffect(DASH) && inputQueue.keySpacePressed) {
+        player.dash(inputQueue);
+        Mix_PlayChannel(-1, dash_Sfx, 0);
+    }
+
+    graphics();
+}
+
 void selectMapScreen() {
     if (!startSelectMapScreen)
         initState(SELECT_MAP_SCREEN);
@@ -582,6 +635,30 @@ void graphics() {
         for (Button* b: buttons) {
             window.render(*b);
         }
+    }
+    else if (state == HELP_SCREEN) {
+        window.render(0, 0, help_screen_background_Texture);
+
+        if (player.getEffectDuration(SHIELD) > 0)
+            window.render(900, 25, shield_Texture, player.getEffectDuration(SHIELD)/player.getEffectMaxDuration(SHIELD));
+		
+        if (player.getEffectDuration(DASH) > 0)
+            window.render(800, 25, dash_Texture, player.getEffectDuration(DASH)/player.getEffectMaxDuration(DASH));
+
+        if (player.getEffectDuration(SPEED) > 0)
+            window.render(700, 25, speed_Texture, player.getEffectDuration(SPEED)/player.getEffectMaxDuration(SPEED));
+
+
+        for (Bomb* b: bombs) {
+            window.render(*b);
+        }
+        for (Button* b: buttons) {
+            window.render(*b);
+        }
+        for (Food* f: foods) {
+            window.render(*f);
+        }
+        window.render(player, player.isMovingLeft());
     }
     else if (state == SELECT_MAP_SCREEN) {
         window.render(0, 0, title_screen_background_Texture);
