@@ -18,8 +18,6 @@
 
 bool init();
 
-extern std::ofstream fout;
-
 extern bool SDLinit;
 
 extern const int FPS;
@@ -48,8 +46,12 @@ extern SDL_Texture *start_Button_Texture;
 extern SDL_Texture *play_again_Button_Texture;
 extern SDL_Texture *select_map_Button_Texture;
 extern SDL_Texture *home_Button_Texture;
+extern SDL_Texture *back_Button_Texture;
+extern SDL_Texture *reset_Button_Texture;
 extern SDL_Texture *pause_Button_Texture;
+extern SDL_Texture *best_score_Button_Texture;
 extern SDL_Texture *pause_screen_overlay_Texture;
+extern SDL_Texture *best_score_background_Texture;
 extern SDL_Texture *map_1_Texture;
 extern SDL_Texture *map_2_Texture;
 extern SDL_Texture *map_3_Texture;
@@ -72,6 +74,7 @@ extern bool startPlaying;
 extern bool startTitleScreen;
 extern bool startEndScreen;
 extern bool startSelectMapScreen;
+extern bool startBestScoreScreen;
 
 extern double deltaTime;
 extern double totalTime;
@@ -98,11 +101,14 @@ void updateObjects();
 void playerCollectFoodEvent();
 void checkPlayerGetBombed();
 
+void loadBestScores();
+void saveBestScores();
 void game();
 void titleScreen();
 void playScreen();
 void pauseScreen();
 void selectMapScreen();
+void bestScoreScreen();
 void graphics();
 void endScreen();
 
@@ -110,6 +116,8 @@ extern std::vector<Wall*> walls;
 extern std::vector<Bomb*> bombs;
 extern std::vector<Food*> foods;
 extern std::vector<Button*> buttons;
+
+extern int bestScores[4];
 
 extern std::chrono::system_clock::time_point tp;
 extern std::mt19937 gen;

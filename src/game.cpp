@@ -23,8 +23,6 @@ bool init()
 
 bool SDLinit = init();
 
-std::ofstream fout("console.log");
-
 const int FPS = 120;
 
 SDL_Color white = {255, 255, 255};
@@ -52,7 +50,11 @@ SDL_Texture *play_again_Button_Texture = window.loadTexture("res/gfx/play_again_
 SDL_Texture *select_map_Button_Texture = window.loadTexture("res/gfx/select_map_button.png");
 SDL_Texture *pause_Button_Texture = window.loadTexture("res/gfx/pause_button.png");
 SDL_Texture *home_Button_Texture = window.loadTexture("res/gfx/home_button.png");
+SDL_Texture *back_Button_Texture = window.loadTexture("res/gfx/back_button.png");
+SDL_Texture *reset_Button_Texture = window.loadTexture("res/gfx/reset_button.png");
+SDL_Texture *best_score_Button_Texture = window.loadTexture("res/gfx/best_score_button.png");
 SDL_Texture *pause_screen_overlay_Texture = window.loadTexture("res/gfx/pause_screen_overlay.png");
+SDL_Texture *best_score_background_Texture = window.loadTexture("res/gfx/best_score_background.png");
 SDL_Texture *map_1_Texture = window.loadTexture("res/gfx/map_1.png");
 SDL_Texture *map_2_Texture = window.loadTexture("res/gfx/map_2.png");
 SDL_Texture *map_3_Texture = window.loadTexture("res/gfx/map_3.png");
@@ -75,6 +77,7 @@ bool startPlaying = false;
 bool startTitleScreen = false;
 bool startEndScreen = false;
 bool startSelectMapScreen = false;
+bool startBestScoreScreen = false;
 
 double deltaTime = 0;
 double totalTime = 0.0;
@@ -93,6 +96,8 @@ std::vector<Bomb*> bombs;
 std::vector<Food*> foods;
 std::vector<Button*> buttons;
 
+int bestScores[4] = {0, 0, 0, 0};
+
 std::chrono::system_clock::time_point tp = std::chrono::system_clock::now();
 std::mt19937 gen(tp.time_since_epoch().count());
 
@@ -109,6 +114,43 @@ void limitFPS() {
     }
 }
 
+void loadBestScores() {
+    std::ifstream fin("res/dat/sc.dat");
+
+    if (!fin.is_open()) {
+        std::cerr << "sr.dat can't be opened\n";
+        return;
+    }
+
+    int temp = 0;
+    for (int i = 0; i < 4; i++)
+    {
+        fin >> temp;
+        if (temp < 0)
+            bestScores[i] = 0;
+        else
+            bestScores[i] = temp;
+    }
+
+    fin.close();
+}
+
+void saveBestScores() {
+    std::ofstream fout("res/dat/sc.dat");
+
+    if (!fout.is_open()) {
+        std::cerr << "sr.dat can't be opened\n";
+        return;
+    }
+
+    for (int i = 0; i < 4; i++)
+    {
+        fout << bestScores[i] << ' ';
+    }
+
+    fout.close();
+}
+
 void game() {
     updateDeltatime();
 
@@ -123,6 +165,10 @@ void game() {
     else if (state == SELECT_MAP_SCREEN)
     {
         selectMapScreen();
+    }
+    else if (state == BEST_SCORE_SCREEN)
+    {
+        bestScoreScreen();
     }
     else if (state == PAUSE_SCREEN)
     {
@@ -145,15 +191,15 @@ void initState(stateID state) {
     {
     case TITLE_SCREEN:
         buttons.clear();
-        buttons.emplace_back(new Button({490, 450}, start_Button_Texture, START_BUTTON));
-        buttons.emplace_back(new Button({490, 570}, select_map_Button_Texture, SELECT_MAP_BUTTON));
+        buttons.emplace_back(new Button({490, 380}, start_Button_Texture, START_BUTTON));
+        buttons.emplace_back(new Button({490, 490}, select_map_Button_Texture, SELECT_MAP_BUTTON));
+        buttons.emplace_back(new Button({490, 600}, best_score_Button_Texture, BEST_SCORE_BUTTON));
         startTitleScreen = true;
         inputQueue.keyMousePressed = false;
         break;
     case PLAY_SCREEN:
         buttons.clear();
         buttons.emplace_back(new Button({1225, 25}, pause_Button_Texture, PAUSE_BUTTON));
-        fout << "START PLAYING-----------------------\n\n";
         player.setAlive();
         totalTime = 0.0;
         lastBombSpawned = 0.0;
@@ -183,6 +229,13 @@ void initState(stateID state) {
         buttons.emplace_back(new Button({20, 400}, map_3_Texture, MAP_3_BUTTON));
         buttons.emplace_back(new Button({660, 400}, map_4_Texture, MAP_4_BUTTON));
         startSelectMapScreen = true;
+        inputQueue.keyMousePressed = false;
+        break;
+    case BEST_SCORE_SCREEN:
+        buttons.clear();
+        buttons.emplace_back(new Button({20, 5}, back_Button_Texture, BACK_BUTTON));
+        buttons.emplace_back(new Button({1210, 5}, reset_Button_Texture, RESET_BUTTON));
+        startBestScoreScreen = true;
         inputQueue.keyMousePressed = false;
         break;
     default:
@@ -266,6 +319,16 @@ void buttonEvents() {
             startEndScreen = false;
             startSelectMapScreen = false;
         }
+        if (b->getType() == BACK_BUTTON && b->isClicked()) {
+            inputQueue.keyMousePressed = false;
+            state = TITLE_SCREEN;
+            startBestScoreScreen = false;
+        }
+        if (b->getType() == RESET_BUTTON && b->isClicked()) {
+            inputQueue.keyMousePressed = false;
+            for (int i = 0; i < 4; i++)
+                bestScores[i] = 0;
+        }
         if (b->getType() == PAUSE_BUTTON && b->isClicked()) {
             if (state != PAUSE_SCREEN)
                 state = PAUSE_SCREEN;
@@ -276,6 +339,11 @@ void buttonEvents() {
         }
         if (b->getType() == SELECT_MAP_BUTTON && b->isClicked()) {
             state = SELECT_MAP_SCREEN;
+            inputQueue.keyMousePressed = false;
+            startTitleScreen = false;
+        }
+        if (b->getType() == BEST_SCORE_BUTTON && b->isClicked()) {
+            state = BEST_SCORE_SCREEN;
             inputQueue.keyMousePressed = false;
             startTitleScreen = false;
         }
@@ -420,6 +488,10 @@ void checkPlayerGetBombed() {
             player.addEffect({INVINCIBLE, 1, 50});
         } else {
             player.setDead();
+            if (score > bestScores[level - 1])  // bestScores use 0-index
+            {
+                bestScores[level - 1] = score;
+            }
             state = END_SCREEN;
             startPlaying = false;
         }
@@ -472,6 +544,15 @@ void selectMapScreen() {
     graphics();
 }
 
+void bestScoreScreen() {
+    if (!startBestScoreScreen)
+        initState(BEST_SCORE_SCREEN);
+
+    getInput();
+    buttonEvents();
+    graphics();
+}
+
 void graphics() {
     window.clear();
     if (state == TITLE_SCREEN) {
@@ -489,6 +570,40 @@ void graphics() {
 
         window.render(645, 23, "Choose the map you want to play below", font32, black, true);
         window.render(643, 21, "Choose the map you want to play below", font32, white, true);
+
+        for (Button* b: buttons) {
+            window.render(*b);
+        }
+    }
+    else if (state == BEST_SCORE_SCREEN) {
+        window.render(0, 0, best_score_background_Texture);
+
+        std::string scoreString0 = "Best: " + std::to_string(bestScores[0]);
+        const char* scoreCStr0 = scoreString0.c_str();
+
+        window.render(322, 312, scoreCStr0, font32, black, true);
+	    window.render(320, 310, scoreCStr0, font32, white, true);
+
+        std::string scoreString1 = "Best: " + std::to_string(bestScores[1]);
+        const char* scoreCStr1 = scoreString1.c_str();
+
+        window.render(962, 312, scoreCStr1, font32, black, true);
+	    window.render(960, 310, scoreCStr1, font32, white, true);
+
+        std::string scoreString2 = "Best: " + std::to_string(bestScores[2]);
+        const char* scoreCStr2 = scoreString2.c_str();
+
+        window.render(322, 652, scoreCStr2, font32, black, true);
+	    window.render(320, 650, scoreCStr2, font32, white, true);
+
+        std::string scoreString3 = "Best: " + std::to_string(bestScores[3]);
+        const char* scoreCStr3 = scoreString3.c_str();
+
+        window.render(962, 652, scoreCStr3, font32, black, true);
+	    window.render(960, 650, scoreCStr3, font32, white, true);
+
+        window.render(1115, 33, "Reset all", font32, black, true);
+        window.render(1113, 31, "Reset all", font32, white, true);
 
         for (Button* b: buttons) {
             window.render(*b);
