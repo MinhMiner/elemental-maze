@@ -40,8 +40,10 @@ Khi đưa chuột vào một nút bất kỳ, nút đó sẽ sáng lên.
 
 Nếu người chơi bấm nút Select Map, game chuyển sang màn hình chọn bản đồ chơi.
 - [2. Chọn bản đồ chơi](#2-chọn-bản-đồ-chơi)
+
 Nếu người chơi bấm nút Best score, game chuyển sang màn hình hiển thị điểm số cao nhất của tất cả các bản đồ chơi được lưu trên máy tính.
 - [5. Kết thúc trò chơi và điểm cao](#5-kết-thúc-trò-chơi-và-điểm-cao)
+
 Nếu người chơi bấm nút dấu chấm hỏi ở trên góc trái màn hình, game chuyển sang màn hình hướng dẫn chơi.
 - [4. Hướng dẫn chơi](#4-hướng-dẫn-chơi)
 
@@ -82,11 +84,11 @@ Có tổng cộng 4 bản đồ chơi khác nhau và bạn có thể chọn bấ
 
 |                                                                             | Tên vật phẩm    | Phần thưởng khi thu thập                                                                                                   |
 |-----------------------------------------------------------------------------|--------------|------------------------------------------------------------------------------------------------------------------------------|
-| <img src="res/gfx/bone.png" width=50>  | Xương	  | Tăng 10 điểm và hồi 3500 điểm năng lượng.                                                                                              |
-| <img src="res/gfx/fish.png" width=44>    | Cá	   | Tăng 50 điểm và hồi 7000 điểm năng lượng, đồng thời nhận hiệu ứng Tăng tốc trong 2s                                                                    |
-| <img src="res/gfx/steak.png" width=42>          | Bít tết	    | Tăng 75 điểm và hồi 10000 điểm năng lượng, đồng thời nhận hiệu ứng Khiên duy trì tối đa 10s.                                                                   |
-| <img src="res/gfx/chicken.png" width=52>        | Thịt gà	    | Tăng 60 điểm và hồi 8000 điểm năng lượng, đồng thời nhận được khả năng né (Dash) duy trì tối đa 30s. |
-| <img src="res/gfx/gift.png" width=56> | Hộp quà  | Tăng 150 điểm và hồi toàn bộ thanh năng lượng.                                                               |
+| <img src="res/gfx/bone.png" height=48>  | Xương	  | Tăng 10 điểm và hồi 3500 điểm năng lượng.                                                                                              |
+| <img src="res/gfx/fish.png" height=48>    | Cá	   | Tăng 50 điểm và hồi 7000 điểm năng lượng, đồng thời nhận hiệu ứng Tăng tốc trong 2s                                                                    |
+| <img src="res/gfx/steak.png" height=48>          | Bít tết	    | Tăng 75 điểm và hồi 10000 điểm năng lượng, đồng thời nhận hiệu ứng Khiên duy trì tối đa 10s.                                                                   |
+| <img src="res/gfx/chicken.png" height=48>        | Thịt gà	    | Tăng 60 điểm và hồi 8000 điểm năng lượng, đồng thời nhận được khả năng né (Dash) duy trì tối đa 30s. |
+| <img src="res/gfx/gift.png" height=48> | Hộp quà  | Tăng 150 điểm và hồi toàn bộ thanh năng lượng.                                                               |
 
 - Điểm (Score): Ở góc trái bên trên màn hình. Điểm được tính dựa vào số thời gian người chơi đã sống sót cùng với số lượng và loại thức ăn/vật phẩm mà người chơi đã thu thập.
 
@@ -144,7 +146,7 @@ Nếu chẳng may chú chó nằm trong khu vực bị nổ bom mà không có k
 
 <div style="text-align: center;">
 
-![image](res/preview/new_reccord.png)
+![image](res/preview/new_record.png)
 </div>
 
 Bạn có thể bấm nút Play Again để chơi lại hoặc nút Home để về màn hình tiêu đề
@@ -154,7 +156,7 @@ Màn hình điểm cao nhất của các bản đồ chơi (Ví dụ):
 
 ![image](res/preview/best_score.png)
 </div>
-Có thể bấm nút quay lại ở góc trên bên trái màn hình để về màn hình tiêu đề
+Có thể bấm nút quay lại ![image](res/preview/back.png) ở góc trên bên trái màn hình để về màn hình tiêu đề
 
 !! Lưu ý: Bấm nút ![image](res/preview/reset.png) để xóa toàn bộ dữ liệu điểm cao trên máy. Hãy cẩn thận vì dữ liệu này không thể khôi phục sau khi xóa.
 
