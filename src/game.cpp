@@ -61,7 +61,11 @@ SDL_Texture *map_3_Texture = window.loadTexture("res/gfx/map_3.png");
 SDL_Texture *map_4_Texture = window.loadTexture("res/gfx/map_4.png");
 
 Mix_Chunk* button_click_Sfx = Mix_LoadWAV("res/sfx/button_click.mp3");
-Mix_Chunk* eat_Sfx = Mix_LoadWAV("res/sfx/eat.mp3");
+Mix_Chunk* eat_bone_Sfx = Mix_LoadWAV("res/sfx/eat_bone.mp3");
+Mix_Chunk* eat_meat_Sfx = Mix_LoadWAV("res/sfx/eat_meat.mp3");
+Mix_Chunk* gift_Sfx = Mix_LoadWAV("res/sfx/gift.mp3");
+Mix_Chunk* dash_Sfx = Mix_LoadWAV("res/sfx/dash.mp3");
+Mix_Chunk* shield_Sfx = Mix_LoadWAV("res/sfx/shield.mp3");
 
 TTF_Font* font32 = TTF_OpenFont("res/font/font.ttf", 32);
 TTF_Font* font64 = TTF_OpenFont("res/font/font.ttf", 64);
@@ -461,25 +465,29 @@ void playerCollectFoodEvent() {
         if (foodCollected->getFoodType() == BONE) {
             foodScore += 10;
             player.updateEnergy(-3500);
+            Mix_PlayChannel(-1, eat_bone_Sfx, 0);
         } else if (foodCollected->getFoodType() == FISH) {
             foodScore += 50;
             player.updateEnergy(-7000);
             player.addEffect({SPEED, 0.35, 2000});
+            Mix_PlayChannel(-1, eat_meat_Sfx, 0);
         } else if (foodCollected->getFoodType() == STEAK) {
             foodScore += 75;
             player.updateEnergy(-10000);
             player.addEffect({SHIELD, 1, 10000});
+            Mix_PlayChannel(-1, eat_meat_Sfx, 0);
         } else if (foodCollected->getFoodType() == CHICKEN) {
             foodScore += 60;
             player.updateEnergy(-8000);
             player.addEffect({DASH, 1, 30000});
+            Mix_PlayChannel(-1, eat_meat_Sfx, 0);
         } else if (foodCollected->getFoodType() == GIFT) {
             foodScore += 150;
             player.updateEnergy(-20000);
+            Mix_PlayChannel(-1, gift_Sfx, 0);
         }
         player.collectedFood();
         foodCollected->setAge(15000);
-        Mix_PlayChannel(-1, eat_Sfx, 0);
     }
 }
 
@@ -488,6 +496,7 @@ void checkPlayerGetBombed() {
         if (player.hasEffect(SHIELD) && player.getEnergy() > 0) {
             player.removeEffect(SHIELD);
             player.addEffect({INVINCIBLE, 1, 50});
+            Mix_PlayChannel(-1, shield_Sfx, 0);
         } else {
             player.setDead();
             if (score > bestScores[level - 1])  // bestScores use 0-index
@@ -524,6 +533,7 @@ void playScreen() {
 
     if (player.hasEffect(DASH) && inputQueue.keySpacePressed) {
         player.dash(inputQueue);
+        Mix_PlayChannel(-1, dash_Sfx, 0);
     }
 
     if (!player.hasEffect(INVINCIBLE))
