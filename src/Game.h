@@ -75,6 +75,7 @@ extern bool startTitleScreen;
 extern bool startEndScreen;
 extern bool startSelectMapScreen;
 extern bool startBestScoreScreen;
+extern bool newRecord;
 
 extern double deltaTime;
 extern double totalTime;

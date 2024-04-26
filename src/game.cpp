@@ -78,6 +78,7 @@ bool startTitleScreen = false;
 bool startEndScreen = false;
 bool startSelectMapScreen = false;
 bool startBestScoreScreen = false;
+bool newRecord = false;
 
 double deltaTime = 0;
 double totalTime = 0.0;
@@ -210,6 +211,7 @@ void initState(stateID state) {
         player.resetEffects();
         player.resetFoodCount();
         loadMaps();
+        newRecord = false;
         startPlaying = true;
         inputQueue.keyMousePressed = false;
         break;
@@ -491,6 +493,7 @@ void checkPlayerGetBombed() {
             if (score > bestScores[level - 1])  // bestScores use 0-index
             {
                 bestScores[level - 1] = score;
+                newRecord = true;
             }
             state = END_SCREEN;
             startPlaying = false;
@@ -657,20 +660,19 @@ void graphics() {
             window.render(*b);
         }
 
-        std::string foodCountString = "Food collected: " + std::to_string(player.getFoodCount());
-        const char* foodCountCStr = foodCountString.c_str();
-
         window.render(645, 255, "Game Over!", font128, black, true);
 	    window.render(640, 250, "Game Over!", font128, white, true);
-
-        window.render(645, 385, foodCountCStr, font64, white, true);
-	    window.render(640, 380, foodCountCStr, font64, black, true);
 
         std::string scoreString = "Score: " + std::to_string(score);
         const char* scoreCStr = scoreString.c_str();
 
-        window.render(645, 455, scoreCStr, font64, white, true);
-	    window.render(640, 450, scoreCStr, font64, black, true);
+        window.render(645, 355, scoreCStr, font64, white, true);
+	    window.render(640, 350, scoreCStr, font64, black, true);
+
+        if (newRecord) {
+            window.render(645, 455, "New Record!!", font64, black, true);
+	        window.render(640, 450, "New Record!!", font64, white, true);
+        }
     }
     window.display();
 }
