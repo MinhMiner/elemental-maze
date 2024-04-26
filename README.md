@@ -156,9 +156,10 @@ Màn hình điểm cao nhất của các bản đồ chơi (Ví dụ):
 
 ![image](res/preview/best_score.png)
 </div>
-Có thể bấm nút quay lại ![image](res/preview/back.png) ở góc trên bên trái màn hình để về màn hình tiêu đề
 
-!! Lưu ý: Bấm nút ![image](res/preview/reset.png) để xóa toàn bộ dữ liệu điểm cao trên máy. Hãy cẩn thận vì dữ liệu này không thể khôi phục sau khi xóa.
+- Có thể bấm nút ![image](res/preview/back.png) ở góc trên bên trái màn hình để về màn hình tiêu đề
+
+- Lưu ý: Bấm nút ![image](res/preview/reset.png) để xóa toàn bộ dữ liệu điểm cao trên máy. Hãy cẩn thận vì dữ liệu này không thể khôi phục sau khi xóa.
 
 ---
 
