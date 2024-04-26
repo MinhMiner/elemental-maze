@@ -1,8 +1,8 @@
 # Bark 'n Bombs
 
-- Thử nghiệm game: [Đang cập nhật](https://youtu.be/???)
+- Thử nghiệm game: [https://youtu.be/-pXIpuo86LU](https://youtu.be/-pXIpuo86LU)
 
-[![Đang cập nhật](res/preview/thumbnail.png)](https://youtu.be/???)
+[![Demo game](res/preview/thumbnail.png)](https://youtu.be/-pXIpuo86LU)
 
 # Giới thiệu game
 
@@ -15,6 +15,7 @@ Bark 'n Bombs là một tựa game thuộc thể loại Retro/Arcade Game. Ngư�
 - [4. Hướng dẫn chơi](#4-hướng-dẫn-chơi)
 - [5. Kết thúc trò chơi và điểm cao](#5-kết-thúc-trò-chơi-và-điểm-cao)
 - [Về source code game](#về-source-code-game)
+- [Credit](#credit)
 
 # 0. Cách tải game
 
@@ -184,3 +185,38 @@ Màn hình điểm cao nhất của các bản đồ chơi (Ví dụ):
     * Folder gfx: Chứa các file đồ họa game, phần lớn được sử dụng bởi thư viện SDL2_image
     * Folder sfx: Chứa các file âm thanh game, được sử dụng bởi thư viện SDL2_mixer
     * Folder preview: Chứa các hình ảnh được sử dụng bởi file README.md này
+
+
+### Credit:
+
+Mình đã không thể làm toàn bộ mọi thứ trong project này.
+
+Rất cảm ơn nguồn của các tài liệu và hình ảnh mà mình đã sử dụng và tham khảo trong project game này:
+
+- Tham khảo code:
+    * class RenderWindow chuyên xử lý nhiều về mảng thư viện SDL2 và các thư viện liên quan như SDL2_image, SDL2_tff; một số kiến thức nền thường dùng trong lập trình game như Vector2f, deltaTime:
+        * [https://github.com/PolyMarsDev/Twini-Golf](https://github.com/PolyMarsDev/Twini-Golf)
+        * [https://www.youtube.com/@PolyMarsLIVE](https://www.youtube.com/@PolyMarsLIVE)
+- Hình ảnh:
+    * Quả bom: [https://stock.adobe.com/search/images?k=pixel+bomb&asset_id=484307353](https://stock.adobe.com/search/images?k=pixel+bomb&asset_id=484307353)
+    * Con chó: [https://opengameart.org/content/dog-sprites](https://opengameart.org/content/dog-sprites)
+    * Hoạt ảnh bom nổ: [https://gifer.com/en/3iCN](https://gifer.com/en/3iCN)
+    * Xương: [https://img.freepik.com/premium-vector/pixel-art-bone-isolated-vector-file_325981-13.jpg](https://img.freepik.com/premium-vector/pixel-art-bone-isolated-vector-file_325981-13.jpg)
+    * Cá: [https://www.deviantart.com/epictwannehz/art/MINECRAFT-Styled-Fish-303631565](https://www.deviantart.com/epictwannehz/art/MINECRAFT-Styled-Fish-303631565)
+    * Steak: [https://www.vecteezy.com/vector-art/27303610-pixel-art-illustration-steak-pixelated-steak-steak-meat-food-icon-pixelated-for-the-pixel-art-game-and-icon-for-website-and-video-game-old-school-retro](https://www.vecteezy.com/vector-art/27303610-pixel-art-illustration-steak-pixelated-steak-steak-meat-food-icon-pixelated-for-the-pixel-art-game-and-icon-for-website-and-video-game-old-school-retro)
+    * Thịt gà: [https://www.freepik.com/premium-vector/fried-chicken-pixel-art-style_22858376.htm](https://www.freepik.com/premium-vector/fried-chicken-pixel-art-style_22858376.htm)
+    * Hộp quà: [https://st4.depositphotos.com/3277955/28231/v/1600/depositphotos_282318544-stock-illustration-cardboard-gift-box-with-pink.jpg](https://st4.depositphotos.com/3277955/28231/v/1600/depositphotos_282318544-stock-illustration-cardboard-gift-box-with-pink.jpg)
+    * Icon hiệu ứng né: [https://static.wikia.nocookie.net/minecraft_gamepedia/images/c/ce/Speed_JE3_BE2.png/revision/latest?cb=20210224080116](https://static.wikia.nocookie.net/minecraft_gamepedia/images/c/ce/Speed_JE3_BE2.png/revision/latest?cb=20210224080116)
+    * Icon hiệu ứng khiên: [https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRaZjEr30xUG8orWV-EQ0eLz9IcGEw-tEy2aUfLr9Qr5A&s](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRaZjEr30xUG8orWV-EQ0eLz9IcGEw-tEy2aUfLr9Qr5A&s)
+    * Icon hiệu ứng tăng tốc: [https://static.wikia.nocookie.net/minecraft_gamepedia/images/7/7d/Jump_Boost_JE2_BE2.png/revision/latest?cb=20210224074810](https://static.wikia.nocookie.net/minecraft_gamepedia/images/7/7d/Jump_Boost_JE2_BE2.png/revision/latest?cb=20210224074810)
+- Âm thanh:
+    * Nút bấm: [https://www.myinstants.com/en/instant/minecraft-click/](https://www.myinstants.com/en/instant/minecraft-click/)
+    * Ăn xương: [https://pixabay.com/sound-effects/eating-sound-effect-36186/](https://pixabay.com/sound-effects/eating-sound-effect-36186/)
+    * Ăn thịt: [https://pixabay.com/sound-effects/search/meat/](https://pixabay.com/sound-effects/search/meat/)
+    * Kĩ năng né: [https://mixkit.co/free-sound-effects/game/](https://mixkit.co/free-sound-effects/game/)
+    * Khiên bị phá: [https://pixabay.com/sound-effects/search/shield/](https://pixabay.com/sound-effects/search/shield/)
+    * Thu thập hộp quà: [https://pixabay.com/sound-effects/search/power-up/](https://pixabay.com/sound-effects/search/power-up/)
+    * Thua cuộc: [https://www.myinstants.com/en/instant/super-mario-death-23969/](https://www.myinstants.com/en/instant/super-mario-death-23969/)
+    * Nhạc nền: [https://youtu.be/I380eM9YSms](https://youtu.be/I380eM9YSms)
+- Font chữ TTF:
+    * HYWenHei Font: [https://www.cufonfonts.com/font/hywenhei#](https://www.cufonfonts.com/font/hywenhei#)
