@@ -2,6 +2,8 @@
 
 - Thử nghiệm game: [Đang cập nhật](https://youtu.be/???)
 
+[![Đang cập nhật](res/preview/thumbnail.png)](https://youtu.be/???)
+
 # Giới thiệu game
 
 Bark 'n Bombs là một tựa game thuộc thể loại Retro/Arcade Game. Người chơi sẽ điều khiển nhân vật là một con chó di chuyển xung quanh màn hình trò chơi. Trên màn hình sẽ có các chướng ngại vật cản đường, những quả bom được sinh ra ngẫu nhiên mà người chơi cần né tránh, các loại thức ăn khác nhau mà người chơi có thể thu thập để tăng điểm số của mình. Mục tiêu của trò chơi là điều khiển nhân vật sống càng lâu càng tốt!
