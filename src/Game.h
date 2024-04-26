@@ -63,6 +63,7 @@ extern Mix_Chunk* eat_meat_Sfx;
 extern Mix_Chunk* gift_Sfx;
 extern Mix_Chunk* dash_Sfx;
 extern Mix_Chunk* shield_Sfx;
+extern Mix_Chunk* bgm_Sfx;
 
 extern TTF_Font* font32;
 extern TTF_Font* font64;

@@ -66,6 +66,7 @@ Mix_Chunk* eat_meat_Sfx = Mix_LoadWAV("res/sfx/eat_meat.mp3");
 Mix_Chunk* gift_Sfx = Mix_LoadWAV("res/sfx/gift.mp3");
 Mix_Chunk* dash_Sfx = Mix_LoadWAV("res/sfx/dash.mp3");
 Mix_Chunk* shield_Sfx = Mix_LoadWAV("res/sfx/shield.mp3");
+Mix_Chunk* bgm_Sfx = Mix_LoadWAV("res/sfx/bgm.mp3");
 
 TTF_Font* font32 = TTF_OpenFont("res/font/font.ttf", 32);
 TTF_Font* font64 = TTF_OpenFont("res/font/font.ttf", 64);

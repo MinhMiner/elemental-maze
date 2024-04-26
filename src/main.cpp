@@ -13,6 +13,7 @@ int main(int argc, char* args[]) {
     }
 
 	loadBestScores();
+	Mix_PlayChannel(-1, bgm_Sfx, -1);
 	while (gameRunning)
 	{
 		game();
