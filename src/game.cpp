@@ -214,6 +214,9 @@ void initState(stateID state) {
         break;
     case PLAY_SCREEN:
         buttons.clear();
+        walls.clear();
+        bombs.clear();
+        foods.clear();
         buttons.emplace_back(new Button({1225, 25}, pause_Button_Texture, PAUSE_BUTTON));
         player.setAlive();
         totalTime = 0.0;
@@ -257,6 +260,9 @@ void initState(stateID state) {
         break;
     case HELP_SCREEN:
         buttons.clear();
+        walls.clear();
+        bombs.clear();
+        foods.clear();
         buttons.emplace_back(new Button({20, 5}, back_Button_Texture, BACK_BUTTON));
         totalTime = 0.0;
         player.setPos(1100, 50);
